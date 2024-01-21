@@ -15,7 +15,7 @@ const title = "10.000+ Themes for shadcn/ui";
 const description =
   "Explore 10.000+ themes for shadcn/ui and easily copy them into your project. Or just create your own theme from scratch!";
 
-const ogImage = "https://ui.jln.dev/_static/og.png";
+const ogImage = "/_static/og.png";
 
 export const metadata: Metadata = {
   title,
