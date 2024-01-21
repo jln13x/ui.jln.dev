@@ -7,6 +7,7 @@ import { AppTheme } from "@/client/components/menu/app-theme";
 import { CopyCode } from "@/client/components/menu/copy-code";
 import { Customize } from "@/client/components/menu/customize";
 import { Explore } from "@/client/components/menu/explore";
+import { GitHub } from "@/client/components/menu/github";
 import { Random } from "@/client/components/menu/random";
 import { Save } from "@/client/components/menu/save";
 import { SavedThemes } from "@/client/components/menu/saved-themes";
@@ -30,6 +31,7 @@ const Menu = () => {
           <Separator orientation="vertical" className="bg-accent" />
           <AppTheme />
           <Xcom />
+          <GitHub />
           <Account />
         </div>
       </div>
