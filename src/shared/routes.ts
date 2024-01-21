@@ -5,5 +5,5 @@ export const routes = {
     terms: "/legal/terms",
     privacy: "/legal/privacy-policy",
   },
-  theme: (id: string) => `?theme=${id}`,
+  theme: (id: string) => `/theme/${id}`,
 } as const;

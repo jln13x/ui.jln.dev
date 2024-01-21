@@ -18,6 +18,7 @@ import { useSelectedTheme } from "@/client/lib/use-selected-theme";
 import { routes } from "@/shared/routes";
 import { api } from "@/trpc/react";
 
+import { useCopyToClipboard } from "@jlns/hooks";
 import { useSession } from "next-auth/react";
 import { toast } from "sonner";
 
@@ -25,6 +26,7 @@ export const ThemeBanner = () => {
   const sesh = useSession();
   const theme = useSelectedTheme();
   const setThemeConfig = useSetThemeConfig();
+  const { copy } = useCopyToClipboard();
 
   if (!theme) return null;
 
@@ -47,6 +49,37 @@ export const ThemeBanner = () => {
                 starred={theme.starred}
               />
             )}
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={async () => {
+                    const host = process.env.VERCEL_URL
+                      ? `https://${process.env.VERCEL_URL}`
+                      : "http://localhost:3000";
+
+                    const url = host + routes.theme(theme.id);
+
+                    await copy(url);
+                    toast("Copied theme URL to clipboard", {
+                      action: {
+                        label: "View",
+                        onClick: () => {
+                          window.open(url);
+                        },
+                      },
+                    });
+                  }}
+                >
+                  <Icons.Share className="mr-2 size-4" />
+                  Share
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Share this theme with others.</TooltipContent>
+            </Tooltip>
+
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button

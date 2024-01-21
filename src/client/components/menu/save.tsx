@@ -75,7 +75,7 @@ export const Save = () => {
           </MenuButton>
         </DrawerTrigger>
         <DrawerContent>
-          <RemoveScroll className="scrollbar-thin max-h-[80svh] overflow-auto p-4">
+          <RemoveScroll className="max-h-[80svh] overflow-auto p-4 scrollbar-thin">
             <DrawerHeader>
               <DrawerTitle>Save theme</DrawerTitle>
             </DrawerHeader>

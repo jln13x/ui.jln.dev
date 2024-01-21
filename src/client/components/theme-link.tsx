@@ -1,5 +1,7 @@
 "use client";
 
+import { usePathname, useRouter } from "next/navigation";
+
 import { Star } from "@/client/components/star";
 import { useSetThemeConfig } from "@/client/components/use-theme-config";
 import { hslToCssValue } from "@/client/lib/hsl-to-variable-value";
@@ -9,15 +11,16 @@ import { type DatabaseTheme } from "@/server/db/schema";
 import { type ThemeConfig } from "@/shared/theme-config";
 import { api } from "@/trpc/react";
 
-import { useUrlSearchParams } from "@jlns/hooks";
 import { isDefined } from "remeda";
 
 export const ThemeLink = ({ theme }: { theme: DatabaseTheme }) => {
   const setThemeConfig = useSetThemeConfig();
-  const { setSearchParam } = useUrlSearchParams();
 
   const utils = api.useUtils();
   const [, setSelectedThemeId] = useSelectedThemeId();
+
+  const router = useRouter();
+  const pathname = usePathname();
 
   return (
     <button
@@ -26,9 +29,13 @@ export const ThemeLink = ({ theme }: { theme: DatabaseTheme }) => {
         setThemeConfig(theme.config);
         setSelectedThemeId(theme.id);
         utils.theme.byId.setData({ id: theme.id }, theme);
-        setSearchParam("theme", theme.id, {
-          scroll: false,
-        });
+
+        if (pathname !== "/") {
+          router.push("/", {
+            scroll: false,
+          });
+          return;
+        }
       }}
     >
       <ColorPalette config={theme.config} />
