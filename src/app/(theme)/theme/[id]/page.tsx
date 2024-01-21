@@ -1,6 +1,7 @@
 import { type Metadata } from "next";
 import { redirect } from "next/navigation";
 
+import { HydrateTheme } from "@/client/components/hydrate-theme";
 import { ThemePage } from "@/client/components/theme-page";
 import { type Hsl } from "@/shared/theme-config";
 import { api } from "@/trpc/server";
@@ -63,20 +64,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 const Page = async (props: Props) => {
   const themeId = props.params.id;
-  console.log(themeId);
 
-  // const theme = await api.theme.byId.query({
-  //   id: themeId,
-  // });
+  const theme = await api.theme.byId.query({
+    id: themeId,
+  });
 
-  // if (!theme) {
-  //   return redirect("/");
-  // }
+  if (!theme) {
+    return redirect("/");
+  }
 
   return (
     <div className="relative">
       <ThemePage />
-      {/* {theme && <HydrateTheme theme={theme} />} */}
+      {theme && <HydrateTheme theme={theme} />}
     </div>
   );
 };
