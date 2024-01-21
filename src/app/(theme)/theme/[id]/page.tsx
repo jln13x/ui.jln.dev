@@ -47,7 +47,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const title = `${theme.name} - Theme for shadcn/ui`;
   const description = `Check out the theme "${theme.name}" for shadcn/ui and copy it into your project!. It consist of the colors ${primary}, ${secondary}, and ${accent}.`;
-  const ogImage = "/_static/og.png";
 
   return {
     title,
@@ -56,26 +55,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       description,
       title,
-      images: {
-        url: ogImage,
-        alt: title,
-        width: 1200,
-        height: 630,
-        type: "website",
-      },
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: {
-        url: ogImage,
-        alt: title,
-        width: 1200,
-        height: 630,
-        type: "website",
-      },
-    },
+    }
   };
 }
 
