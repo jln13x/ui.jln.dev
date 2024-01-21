@@ -52,6 +52,7 @@ const config = {
 
     // React
     "react/prop-types": "off",
+    "react/unknown-property": "off",
     "jsx-a11y/heading-has-content": "off",
     "jsx-a11y/anchor-has-content": "off",
   },
