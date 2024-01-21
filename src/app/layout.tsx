@@ -20,8 +20,8 @@ const ogImage = "https://ui.jln.dev/_static/og.png";
 export const metadata: Metadata = {
   title,
   description,
+  metadataBase: new URL("https://ui.jln.dev"),
   openGraph: {
-    url: "https://ui.jln.dev",
     type: "website",
     title,
     description,
