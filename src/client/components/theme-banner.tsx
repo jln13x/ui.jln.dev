@@ -56,9 +56,7 @@ export const ThemeBanner = () => {
                   variant="secondary"
                   size="sm"
                   onClick={async () => {
-                    const host = process.env.VERCEL_URL
-                      ? `https://${process.env.VERCEL_URL}`
-                      : "http://localhost:3000";
+                    const host = "https://ui.jln.dev";
 
                     const url = host + routes.theme(theme.id);
 
