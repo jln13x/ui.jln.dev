@@ -13,8 +13,6 @@ const publicRoutes: string[] = [
   "/api/trpc/(.*)",
   "/api/auth/(.*)",
   "/api/webhooks/(.*)",
-  "/api/uploadthing",
-  "/api/uploadthing/(.*)",
 ];
 
 export default auth((req) => {
