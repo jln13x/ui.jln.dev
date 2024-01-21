@@ -140,6 +140,7 @@ export const themeRouter = router({
   allPublic: publicProcedure
     .input(
       z.object({
+        sortBy: z.enum(["stars", "createdAt"]).optional(),
         cursor: z.number().nullish(),
       }),
     )
@@ -156,7 +157,11 @@ export const themeRouter = router({
         .where(eq(themes.isPublic, true))
         .limit(limit)
         .offset(offset)
-        .orderBy(desc(themes.createdAt))
+        .orderBy(
+          input.sortBy === "stars"
+            ? desc(sql`COUNT(${stars.themeId})`)
+            : desc(themes.createdAt),
+        )
         .groupBy(themes.id);
 
       return {
