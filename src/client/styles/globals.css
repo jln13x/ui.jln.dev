@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 277 45% 99%;
+    --foreground: 277 51% 3%;
+    --card: 277 45% 99%;
+    --card-foreground: 277 51% 3%;
+    --popover: 277 45% 99%;
+    --popover-foreground: 277 51% 3%;
+    --primary: 277 61% 57%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 277 1% 84%;
+    --secondary-foreground: 277 1% 24%;
+    --accent: 277 7% 77%;
+    --accent-foreground: 277 7% 17%;
+    --destructive: 19 87% 31%;
+    --destructive-foreground: 19 87% 91%;
+    --muted: 277 8% 91%;
+    --muted-foreground: 277 3% 36%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 277 61% 57%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 277 49% 1%;
+    --foreground: 277 26% 99%;
+    --card: 277 49% 1%;
+    --card-foreground: 277 26% 99%;
+    --popover: 277 49% 1%;
+    --popover-foreground: 277 26% 99%;
+    --primary: 277 61% 57%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 277 14% 15%;
+    --secondary-foreground: 277 14% 75%;
+    --accent: 277 22% 20%;
+    --accent-foreground: 277 22% 80%;
+    --destructive: 19 87% 57%;
+    --destructive-foreground: 0 0% 0%;
+    --muted: 277 8% 9%;
+    --muted-foreground: 277 3% 64%;
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --ring: 277 61% 57%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
+  }
+
+  html {
+    scrollbar-gutter: stable;
+  }
+
+  /* Copied from sonner */
+  :root {
+    --destructive: 0 100% 97%;
+    --destructive-foreground: 360 100% 45%;
+    --destructive-border: 359 100% 94%;
+
+    --warning: 49 100% 97%;
+    --warning-foreground: 31 92% 45%;
+    --warning-border: 49 91% 91%;
+
+    --info: 208 100% 97%;
+    --info-foreground: 210 92% 45%;
+    --info-border: 221 91% 91%;
+
+    --success: 143 85% 96%;
+    --success-foreground: 140 100% 27%;
+    --success-border: 145 92% 91%;
+  }
+
+  .dark {
+    --destructive: 358 76% 10%;
+    --destructive-foreground: 358 100% 81%;
+    --destructive-border: 357 89% 16%;
+
+    --warning: 64 100% 6%;
+    --warning-foreground: 46 87% 65%;
+    --warning-border: 60 100% 12%;
+
+    --info: 215 100% 6%;
+    --info-foreground: 216 87% 65%;
+    --info-border: 223 100% 12%;
+
+    --success: 150 100% 6%;
+    --success-foreground: 150 86% 65%;
+    --success-border: 147 100% 12%;
+  }
+}

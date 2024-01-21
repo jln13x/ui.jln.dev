@@ -1,0 +1,7 @@
+{
+  "Import Icons": {
+    "prefix": "ii",
+    "scope": "typescriptreact",
+    "body": ["import * as Icons from \"@/client/components/icons\""]
+  }
+}

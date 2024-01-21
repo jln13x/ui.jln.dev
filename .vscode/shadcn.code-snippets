@@ -1,0 +1,25 @@
+{
+  "Form Field": {
+    "prefix": "scnff",
+    "description": "Form Field",
+    "scope": "typescript,typescriptreact",
+    "body": [
+      "<FormField",
+      "  control={form.control}",
+      "  name=\"${2}\"",
+      "  render={({ field }) => (",
+      "    <FormItem>",
+      "      <FormLabel>${3}</FormLabel>",
+      "      <FormControl>",
+      "        <Input placeholder=\"${4}\" {...field} />",
+      "      </FormControl>",
+      "      <FormDescription>",
+      "        ${5}",
+      "      </FormDescription>",
+      "      <FormMessage />",
+      "    </FormItem>",
+      "  )}",
+      "/>"
+    ]
+  }
+}
