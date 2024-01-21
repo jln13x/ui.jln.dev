@@ -46,18 +46,35 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const accent = hslToHex(theme.config.light.accent);
 
   const title = `${theme.name} - Theme for shadcn/ui`;
-  const description = `The theme "${theme.name}" consist of the colors ${primary}, ${secondary}, and ${accent}.`;
+  const description = `Check out the theme "${theme.name}" for shadcn/ui and copy it into your project!. It consist of the colors ${primary}, ${secondary}, and ${accent}.`;
+  const ogImage = "/_static/og.png";
 
   return {
     title,
     description,
+    metadataBase: new URL("https://ui.jln.dev"),
     openGraph: {
       description,
       title,
+      images: {
+        url: ogImage,
+        alt: title,
+        width: 1200,
+        height: 630,
+        type: "website",
+      },
     },
     twitter: {
+      card: "summary_large_image",
       title,
       description,
+      images: {
+        url: ogImage,
+        alt: title,
+        width: 1200,
+        height: 630,
+        type: "website",
+      },
     },
   };
 }
