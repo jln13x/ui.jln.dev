@@ -56,7 +56,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={`${GeistSans.className} dark`}>
-      <body className="flex min-h-screen flex-col overflow-auto scrollbar-thin scrollbar-track-background scrollbar-thumb-accent">
+      <body className="flex min-h-screen flex-col overflow-hidden overflow-y-auto scrollbar-thin scrollbar-track-background scrollbar-thumb-accent">
         <SessionProvider session={session}>
           <TRPCReactProvider cookies={cookies().toString()}>
             <ClientProviders>{children}</ClientProviders>
