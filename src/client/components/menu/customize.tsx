@@ -77,7 +77,7 @@ const Content = () => {
         Customize Theme
       </p>
       <Alert variant="info" size="sm">
-        <p className="font-bold">Color Picker doesn't work?</p>
+        <p className="font-bold">Color Picker doesn&apos;t work?</p>
         <p className="text-xs">Toggle between Light and Dark mode to fix it.</p>
       </Alert>
       <div className="flex justify-center py-6">
