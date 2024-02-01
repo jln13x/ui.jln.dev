@@ -25,11 +25,11 @@ import {
 } from "@/client/components/use-theme-config";
 import { isMac } from "@/client/lib/is-mac";
 import { cssToTheme } from "@/client/lib/theme-to-styles";
+import { useResolvedTheme } from "@/client/lib/use-resolved-theme";
 import { createThemeConfig } from "@/shared/create-theme-config";
 import { type Theme } from "@/shared/theme-config";
 
 import { useIsMobile } from "@jlns/hooks";
-import { useTheme } from "next-themes";
 import { RemoveScroll } from "react-remove-scroll";
 import { toast } from "sonner";
 
@@ -186,7 +186,7 @@ const ThemeValue = ({
   themeKey: keyof Theme;
   label: string;
 }) => {
-  const { theme: appTheme } = useTheme();
+  const appTheme = useResolvedTheme();
 
   const activeTheme = useActiveTheme();
   const setConfig = useSetThemeConfig();
