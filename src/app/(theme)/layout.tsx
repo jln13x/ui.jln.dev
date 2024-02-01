@@ -5,7 +5,7 @@ import { ThemeBanner } from "@/client/components/theme-banner";
 
 const Layout = ({ children }: PropsWithChildren) => {
   return (
-    <div className="relative">
+    <div className="relative w-screen">
       <ThemeBanner />
       {children}
       <FloatingMenu />

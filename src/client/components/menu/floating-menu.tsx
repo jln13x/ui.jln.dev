@@ -16,12 +16,12 @@ import { Separator } from "@/client/components/ui/separator";
 
 const Menu = () => {
   return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-0 z-50 flex w-full px-2 pb-1 duration-300 animate-in slide-in-from-bottom-12 lg:justify-center lg:p-4 lg:pb-4">
+    <div className="pointer-events-none fixed inset-x-0 bottom-0 z-50 flex  overflow-hidden px-2 pb-1 duration-300 animate-in slide-in-from-bottom-12 lg:justify-center lg:p-4 lg:pb-4">
       <div className="flex w-full flex-col items-center gap-2">
         <div className="pointer-events-auto">
           <Random className="h-8 px-6 py-1.5 text-xs" />
         </div>
-        <div className="pointer-events-auto relative flex flex-shrink-0 items-center gap-2 rounded-md border border-accent bg-accent/40 p-2 shadow backdrop-blur-sm scrollbar-thin max-lg:w-full max-lg:overflow-x-auto">
+        <div className="pointer-events-auto max-sm:w-full mx-auto relative flex flex-shrink-0 items-center gap-2 rounded-md border border-accent bg-accent/40 p-2 shadow backdrop-blur-sm scrollbar-thin max-lg:w-fit overflow-x-hidden  max-lg:overflow-x-auto">
           <Customize />
           <CopyCode />
           <Save />

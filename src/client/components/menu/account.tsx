@@ -30,7 +30,7 @@ export const Account = () => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger asChild className="overflow-hidden">
         <MenuButton>
           <Icons.User className="size-4" />
           <span className="sr-only">Account</span>
