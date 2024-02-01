@@ -21,7 +21,7 @@ const Menu = () => {
         <div className="pointer-events-auto">
           <Random className="h-8 px-6 py-1.5 text-xs" />
         </div>
-        <div className="pointer-events-auto max-sm:w-full mx-auto relative flex flex-shrink-0 items-center gap-2 rounded-md border border-accent bg-accent/40 p-2 shadow backdrop-blur-sm scrollbar-thin max-lg:w-fit overflow-x-hidden  max-lg:overflow-x-auto">
+        <div className="pointer-events-auto relative mx-auto flex flex-shrink-0 items-center gap-2 rounded-md border border-accent bg-accent/40 p-2 shadow backdrop-blur-sm scrollbar-thin max-lg:overflow-x-auto max-sm:w-full">
           <Customize />
           <CopyCode />
           <Save />
@@ -32,7 +32,9 @@ const Menu = () => {
           <AppTheme />
           <Xcom />
           <GitHub />
-          <Account />
+          <div>
+            <Account />
+          </div>
         </div>
       </div>
     </div>
