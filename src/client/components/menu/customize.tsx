@@ -6,6 +6,7 @@ import { ColorPicker } from "@/client/components/color-picker";
 import * as Icons from "@/client/components/icons";
 import { MenuButton } from "@/client/components/menu/menu-button";
 import { ThemeSwitch } from "@/client/components/theme-switch";
+import { Alert } from "@/client/components/ui/alert";
 import { Button } from "@/client/components/ui/button";
 import {
   Drawer,
@@ -72,9 +73,13 @@ export const Customize = () => {
 const Content = () => {
   return (
     <Fragment>
-      <p className="text-lg font-semibold leading-none tracking-tight">
+      <p className="pb-4 text-lg font-semibold leading-none tracking-tight">
         Customize Theme
       </p>
+      <Alert variant="info" size="sm">
+        <p className="font-bold">Color Picker doesn't work?</p>
+        <p className="text-xs">Toggle between Light and Dark mode to fix it.</p>
+      </Alert>
       <div className="flex justify-center py-6">
         <ThemeSwitch />
       </div>
