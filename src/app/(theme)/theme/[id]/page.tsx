@@ -3,10 +3,13 @@ import { redirect } from "next/navigation";
 
 import { HydrateTheme } from "@/client/components/hydrate-theme";
 import { ThemePage } from "@/client/components/theme-page";
+import { db } from "@/server/db";
+import { themes } from "@/server/db/schema";
 import { type Hsl } from "@/shared/theme-config";
 import { api } from "@/trpc/server";
 
 import { Colord } from "colord";
+import { eq } from "drizzle-orm";
 
 type Props = {
   params: {
@@ -14,17 +17,15 @@ type Props = {
   };
 };
 
-// export async function generateStaticParams() {
-//   const allThemes = await db.query.themes.findMany({
-//     where: eq(themes.isPublic, true),
-//   });
+export async function generateStaticParams() {
+  const allThemes = await db.query.themes.findMany({
+    where: eq(themes.isPublic, true),
+  });
 
-//   return allThemes.map((theme) => ({
-//     id: theme.id,
-//   }));
-// }
-
-export const dynamic = "force-dynamic";
+  return allThemes.map((theme) => ({
+    id: theme.id,
+  }));
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const themeId = params.id;

@@ -9,7 +9,6 @@ type Props = {
     theme?: string;
   };
 };
-
 const Page = async (props: Props) => {
   const themeId = props.searchParams.theme;
 
