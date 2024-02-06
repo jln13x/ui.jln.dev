@@ -1,8 +1,5 @@
 // Big shoutout to https://x.com/shadcn/ for creating this component or is the inspiration for this component
 
-import Link from "next/link";
-
-import { Button } from "@/client/components/customizable/button";
 import { BadgeDemo } from "@/client/components/examples/badge";
 import { ButtonsDemo } from "@/client/components/examples/buttons";
 import { CommandDemo } from "@/client/components/examples/command";
@@ -23,34 +20,7 @@ import { cn } from "@/client/lib/cn";
 export const Cards = () => {
   return (
     <div>
-      <div className="mx-auto flex max-w-screen-md flex-col gap-2 pb-8 text-center text-sm">
-        <p>
-          This project is heavily inspired by{" "}
-          <Button
-            variant="link"
-            className="h-auto p-0 font-bold text-foreground transition-none"
-            asChild
-          >
-            <Link href="https://ui.shadcn.com/themes" target="_blank">
-              Themes
-            </Link>
-          </Button>{" "}
-          and is a place for the community to share their own themes.
-        </p>
-        <p>
-          Lets help{" "}
-          <Button
-            variant="link"
-            className="h-auto p-0 font-bold text-foreground transition-none"
-            asChild
-          >
-            <Link href="https://x.com/shadcn" target="_blank">
-              shadcn
-            </Link>
-          </Button>{" "}
-          to create even more awesome themes!
-        </p>
-      </div>
+      <div className="mx-auto flex max-w-screen-md flex-col gap-2 pb-8 text-center text-sm"></div>
       <div className="items-start gap-6 md:grid lg:grid-cols-2 xl:grid-cols-3">
         <div className="flex flex-col gap-6">
           <DemoContainer>

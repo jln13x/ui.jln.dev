@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Cards } from "@/client/components/examples/pages/cards/cards";
 import { Headline } from "@/client/components/headline";
 import { StyleProvider } from "@/client/components/style-provider";
+import { Button } from "@/client/components/ui/button";
 import { routes } from "@/shared/routes";
 
 export const ThemePage = () => {
@@ -11,10 +12,36 @@ export const ThemePage = () => {
       <div className="container min-h-screen pt-6 lg:pt-20">
         <Headline />
         <Cards />
-        <div className="flex justify-end gap-2 pb-40 pt-52 text-xs lg:pb-10">
-          <Link href={routes.legal.terms}>Terms</Link>
-          <Link href={routes.legal.privacy}>Privacy Policy</Link>
-        </div>
+        <footer>
+          <p className="pt-24 text-center">
+            This project is heavily inspired by{" "}
+            <Button
+              variant="link"
+              className="h-auto p-0 font-bold text-foreground transition-none"
+              asChild
+            >
+              <Link href="https://ui.shadcn.com/themes" target="_blank">
+                Themes
+              </Link>
+            </Button>
+            {" from "}
+            <Button
+              variant="link"
+              className="h-auto p-0 font-bold text-foreground transition-none"
+              asChild
+            >
+              <Link href="https://x.com/shadcn" target="_blank">
+                shadcn
+              </Link>
+            </Button>
+            .
+          </p>
+
+          <div className="flex justify-end gap-2 pb-40 pt-52 text-xs lg:pb-10">
+            <Link href={routes.legal.terms}>Terms</Link>
+            <Link href={routes.legal.privacy}>Privacy Policy</Link>
+          </div>
+        </footer>
       </div>
     </StyleProvider>
   );
