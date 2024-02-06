@@ -1,6 +1,6 @@
 import { themeRouter } from "@/server/api/routers/theme.router";
 import { userRouter } from "@/server/api/routers/user.router";
-import { router } from "@/server/api/trpc";
+import { createCallerFactory, router } from "@/server/api/trpc";
 
 export const appRouter = router({
   user: userRouter,
@@ -8,3 +8,5 @@ export const appRouter = router({
 });
 
 export type AppRouter = typeof appRouter;
+
+export const createCaller = createCallerFactory(appRouter);

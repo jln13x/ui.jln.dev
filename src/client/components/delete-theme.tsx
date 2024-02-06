@@ -16,7 +16,7 @@ import { type DatabaseTheme } from "@/server/db/schema";
 import { api } from "@/trpc/react";
 
 export const DeleteTheme = ({ theme }: { theme: DatabaseTheme }) => {
-  const { mutate, isLoading } = api.theme.delete.useMutation({
+  const { mutate, isPending: isLoading } = api.theme.delete.useMutation({
     onSuccess: () => {
       window.location.href = "/";
     },

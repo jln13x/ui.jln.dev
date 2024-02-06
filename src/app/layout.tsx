@@ -1,7 +1,6 @@
 import "@/client/styles/globals.css";
 
 import { type Metadata } from "next";
-import { cookies } from "next/headers";
 
 import { ClientProviders } from "@/client/components/client-providers";
 import { auth } from "@/server/auth/auth";
@@ -58,7 +57,7 @@ export default async function RootLayout({
     <html lang="en" className={`${GeistSans.className} dark`}>
       <body className="flex min-h-screen flex-col overflow-hidden overflow-y-auto scrollbar-thin scrollbar-track-background scrollbar-thumb-accent">
         <SessionProvider session={session}>
-          <TRPCReactProvider cookies={cookies().toString()}>
+          <TRPCReactProvider>
             <ClientProviders>{children}</ClientProviders>
           </TRPCReactProvider>
         </SessionProvider>

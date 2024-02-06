@@ -26,7 +26,7 @@ type Props = {
 export default async function Image(props: Props) {
   const themeId = props.params.id;
 
-  const theme = await api.theme.byId.query({
+  const theme = await api.theme.byId({
     id: themeId,
   });
 
