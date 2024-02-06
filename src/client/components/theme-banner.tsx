@@ -136,10 +136,12 @@ const StarTheme = ({
 
   const { mutate } = api.theme.toggleStar.useMutation({
     onMutate: () => {
+      void utils.theme.byId.cancel({ id: themeId });
       toggleStarred();
     },
     onSuccess: () => {
       void utils.theme.byId.invalidate({ id: themeId });
+      void utils.theme.allStarredFromUser.invalidate();
     },
     onError: (error) => {
       if (error.data?.code === "TOO_MANY_REQUESTS") {
