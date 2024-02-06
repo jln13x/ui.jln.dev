@@ -199,7 +199,13 @@ const StarredThemes = () => {
         ) : (
           <Fragment>
             {themes.map((theme) => (
-              <ThemeLink theme={theme} key={theme.id} />
+              <ThemeLink
+                theme={{
+                  ...theme,
+                  stars: undefined,
+                }}
+                key={theme.id}
+              />
             ))}
           </Fragment>
         )}

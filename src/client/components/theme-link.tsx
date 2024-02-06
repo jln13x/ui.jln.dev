@@ -17,13 +17,20 @@ import { isDefined } from "remeda";
 export const ThemeLink = ({ theme }: { theme: DatabaseTheme }) => {
   const utils = api.useUtils();
   const [, setSelectedThemeId] = useSelectedThemeId();
+
   return (
     <ThemeButton
       config={theme.config}
       name={theme.name}
       onClick={() => {
         setSelectedThemeId(theme.id);
-        utils.theme.byId.setData({ id: theme.id }, theme);
+        utils.theme.byId.setData(
+          { id: theme.id },
+          {
+            ...theme,
+            stars: theme.stars ?? 1,
+          },
+        );
       }}
     >
       {isDefined(theme.stars) && (
