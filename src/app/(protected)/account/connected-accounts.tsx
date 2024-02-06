@@ -9,7 +9,7 @@ import { authProviders } from "@/app/(auth)/auth-providers";
 import { api } from "@/trpc/server";
 
 export const ConnectedAccounts = async () => {
-  const accounts = await api.user.accounts.query();
+  const accounts = await api.user.accounts();
 
   const availableProviders = accounts.map((a) => a.provider);
 

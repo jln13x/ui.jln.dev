@@ -91,19 +91,20 @@ const Content = ({
 
   const utils = api.useUtils();
 
-  const { mutate, isLoading } = api.theme.changeVisiblity.useMutation({
-    onSuccess: (_, { isPublic }) => {
-      onSuccess();
-      toast.success(`Theme is now ${isPublic ? "public" : "private"}.`);
-      void utils.theme.byId.invalidate({ id: theme.id });
-      void utils.theme.allPublic.invalidate();
-    },
-    onError: (error) => {
-      if (error.data?.code === "TOO_MANY_REQUESTS") {
-        toast.error("Too many requests, please try again later");
-      }
-    },
-  });
+  const { mutate, isPending: isLoading } =
+    api.theme.changeVisiblity.useMutation({
+      onSuccess: (_, { isPublic }) => {
+        onSuccess();
+        toast.success(`Theme is now ${isPublic ? "public" : "private"}.`);
+        void utils.theme.byId.invalidate({ id: theme.id });
+        void utils.theme.allPublic.invalidate();
+      },
+      onError: (error) => {
+        if (error.data?.code === "TOO_MANY_REQUESTS") {
+          toast.error("Too many requests, please try again later");
+        }
+      },
+    });
 
   return (
     <div className="flex flex-col gap-2 px-4 py-6">

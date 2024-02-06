@@ -7,41 +7,16 @@ import { type AppRouter } from "@/server/api/root";
 import { getUrl, transformer } from "./shared";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import {
-  loggerLink,
-  TRPCClientError,
-  unstable_httpBatchStreamLink,
-} from "@trpc/client";
+import { loggerLink, unstable_httpBatchStreamLink } from "@trpc/client";
 import { createTRPCReact } from "@trpc/react-query";
-import { toast } from "sonner";
 
 export const api = createTRPCReact<AppRouter>();
 
-export function TRPCReactProvider(props: {
-  children: React.ReactNode;
-  cookies: string;
-}) {
-  const [queryClient] = useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          mutations: {
-            onError: (err) => {
-              if (err instanceof TRPCClientError) {
-                const error = err as TRPCClientError<AppRouter>;
-                if (error.data?.code === "TOO_MANY_REQUESTS") {
-                  toast.error("Too many requests, please try again later");
-                }
-              }
-            },
-          },
-        },
-      }),
-  );
+export function TRPCReactProvider(props: { children: React.ReactNode }) {
+  const [queryClient] = useState(() => new QueryClient());
 
   const [trpcClient] = useState(() =>
     api.createClient({
-      transformer,
       links: [
         loggerLink({
           enabled: (op) =>
@@ -49,10 +24,10 @@ export function TRPCReactProvider(props: {
             (op.direction === "down" && op.result instanceof Error),
         }),
         unstable_httpBatchStreamLink({
+          transformer,
           url: getUrl(),
           headers() {
             return {
-              cookie: props.cookies,
               "x-trpc-source": "react",
             };
           },
@@ -65,7 +40,7 @@ export function TRPCReactProvider(props: {
     <QueryClientProvider client={queryClient}>
       <api.Provider client={trpcClient} queryClient={queryClient}>
         {props.children}
-        <ReactQueryDevtools />
+        <ReactQueryDevtools buttonPosition="bottom-left" />
       </api.Provider>
     </QueryClientProvider>
   );

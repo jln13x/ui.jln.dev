@@ -15,13 +15,6 @@ export const createTRPCContext = async (opts: { headers: Headers }) => {
   };
 };
 
-/**
- * 2. INITIALIZATION
- *
- * This is where the tRPC API is initialized, connecting the context and transformer. We also parse
- * ZodErrors so that you get typesafety on the frontend if your procedure fails due to validation
- * errors on the backend.
- */
 export const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
   errorFormatter({ shape, error }) {
@@ -39,3 +32,5 @@ export const t = initTRPC.context<typeof createTRPCContext>().create({
 export const router = t.router;
 
 export const publicProcedure = t.procedure;
+
+export const createCallerFactory = t.createCallerFactory;

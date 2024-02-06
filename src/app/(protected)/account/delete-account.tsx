@@ -33,7 +33,7 @@ export const DeleteAccount = () => {
   const ctx = api.useUtils();
   const { signOut } = useAuth();
 
-  const { mutate, isLoading } = api.user.delete.useMutation({
+  const { mutate, isPending: isLoading } = api.user.delete.useMutation({
     onSuccess: () => {
       void ctx.invalidate();
       void signOut();

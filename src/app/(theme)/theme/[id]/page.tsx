@@ -29,7 +29,7 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const themeId = params.id;
 
-  const theme = await api.theme.byId.query({
+  const theme = await api.theme.byId({
     id: themeId,
   });
 
@@ -60,14 +60,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       card: "summary_large_image",
       title,
       description,
-    }
+    },
   };
 }
 
 const Page = async (props: Props) => {
   const themeId = props.params.id;
 
-  const theme = await api.theme.byId.query({
+  const theme = await api.theme.byId({
     id: themeId,
   });
 

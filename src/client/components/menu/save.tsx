@@ -44,10 +44,9 @@ import { type Theme } from "@/shared/theme-config";
 import { api } from "@/trpc/react";
 
 import { useIsMobile, useZodForm } from "@jlns/hooks";
-import colorNameList from "color-name-list";
 import { Colord } from "colord";
-import nearestColor from "nearest-color";
 import { useSession } from "next-auth/react";
+import { ofetch } from "ofetch";
 import { RemoveScroll } from "react-remove-scroll";
 import { toast } from "sonner";
 import {
@@ -55,6 +54,7 @@ import {
   animals,
   uniqueNamesGenerator,
 } from "unique-names-generator";
+import { z } from "zod";
 
 export const Save = () => {
   const [open, setOpen] = useState(false);
@@ -120,17 +120,7 @@ export const Save = () => {
   );
 };
 
-const colors: Record<string, string> = colorNameList.reduce(
-  (o, { name, hex }) => ({
-    ...o,
-    [name]: hex,
-  }),
-  {},
-);
-
-const getNearestedColor = nearestColor.from(colors);
-
-const createDefaultName = (theme: Theme | null) => {
+const createDefaultName = async (theme: Theme | null) => {
   if (!theme) return "";
 
   const primary = new Colord({
@@ -139,9 +129,17 @@ const createDefaultName = (theme: Theme | null) => {
     l: theme.primary.l,
   }).toHex();
 
-  const primaryNearestColor = getNearestedColor(primary)?.name ?? "";
+  const response = await ofetch<unknown>(
+    `https://api.color.pizza/v1/?values=${primary.replace("#", "")}`,
+  );
 
-  const dicts = [[primaryNearestColor]];
+  const { paletteTitle: primaryColorName } = z
+    .object({
+      paletteTitle: z.string(),
+    })
+    .parse(response);
+
+  const dicts = [[primaryColorName]];
 
   Math.random() > 0.5 ? dicts.push(animals) : dicts.unshift(adjectives);
 
@@ -159,13 +157,15 @@ const Content = ({ setOpen }: { setOpen?: (open: boolean) => void }) => {
 
   const form = useZodForm({
     schema: SaveThemeSchema,
-    defaultValues: {
-      name: createDefaultName(activeTheme),
-      isPublic: true,
+    defaultValues: async () => {
+      return {
+        name: await createDefaultName(activeTheme),
+        isPublic: true,
+      };
     },
   });
 
-  const { mutate, isLoading } = api.theme.save.useMutation({
+  const { mutate, isPending: isLoading } = api.theme.save.useMutation({
     onSuccess: ({ id }) => {
       toast.success("Theme saved");
 

@@ -10,16 +10,14 @@ type Props = {
   };
 };
 
-export const dynamic = "force-dynamic";
-export const maxDuration = 35;
-
 const Page = async (props: Props) => {
   const themeId = props.searchParams.theme;
+
   if (!themeId) {
     return <ThemePage />;
   }
 
-  const theme = await api.theme.byId.query({
+  const theme = await api.theme.byId({
     id: themeId,
   });
 
