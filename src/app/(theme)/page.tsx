@@ -11,7 +11,7 @@ type Props = {
 };
 
 export const dynamic = "force-dynamic";
-export const maxDuration = "30";
+export const maxDuration = 30;
 
 const Page = async (props: Props) => {
   const themeId = props.searchParams.theme;
