@@ -14,7 +14,11 @@ import { api } from "@/trpc/react";
 
 import { isDefined } from "remeda";
 
-export const ThemeLink = ({ theme }: { theme: DatabaseTheme }) => {
+export const ThemeLink = ({
+  theme,
+}: {
+  theme: Omit<DatabaseTheme, "stars"> & { stars?: number };
+}) => {
   const utils = api.useUtils();
   const [, setSelectedThemeId] = useSelectedThemeId();
 

@@ -126,7 +126,7 @@ export const themes = mysqlTable(
 );
 
 export type DatabaseTheme = typeof themes.$inferSelect & {
-  stars?: number;
+  stars: number;
   starred: boolean;
 };
 
