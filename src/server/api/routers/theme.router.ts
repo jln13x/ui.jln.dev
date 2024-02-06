@@ -123,6 +123,33 @@ export const themeRouter = router({
       };
     }),
 
+  allStarredFromUser: protectedProcedure
+    .input(
+      z.object({
+        cursor: z.number().nullish(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const limit = 50;
+      const offset = input.cursor ?? 0;
+
+      const themesFromUser = await ctx.db
+        .select({
+          ...getThemeSelect(ctx.session?.user?.id),
+        })
+        .from(themes)
+        .leftJoin(stars, eq(stars.themeId, themes.id))
+        .where(eq(stars.userId, ctx.session.user.id))
+        .limit(limit)
+        .offset(offset)
+        .groupBy(themes.id);
+
+      return {
+        themes: themesFromUser,
+        nextCursor: themesFromUser.length === limit ? offset + limit : null,
+      };
+    }),
+
   delete: protectedProcedure
     .input(
       z.object({

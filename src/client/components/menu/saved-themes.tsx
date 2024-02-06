@@ -19,6 +19,12 @@ import {
   PopoverTrigger,
 } from "@/client/components/ui/popover";
 import { Skeleton } from "@/client/components/ui/skeleton";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/client/components/ui/tabs";
 import { routes } from "@/shared/routes";
 import { api } from "@/trpc/react";
 
@@ -93,11 +99,25 @@ const Content = () => {
     <div>
       <div className="flex flex-col gap-1.5">
         <p className="text-lg font-semibold leading-none tracking-tight">
-          Saved themes
+          Your Themes
         </p>
-        <p className="text-sm text-muted-foreground">Themes you have saved.</p>
+        <p className="text-sm text-muted-foreground">
+          Themes you have saved or starred.
+        </p>
       </div>
-      <Themes />
+
+      <Tabs defaultValue="saved" className="pt-4">
+        <TabsList>
+          <TabsTrigger value="saved">Saved</TabsTrigger>
+          <TabsTrigger value="starred">Starred</TabsTrigger>
+        </TabsList>
+        <TabsContent value="saved">
+          <Themes />
+        </TabsContent>
+        <TabsContent value="starred">
+          <StarredThemes />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
@@ -125,6 +145,55 @@ const Themes = () => {
           <Fragment>
             {range(0, 10).map((i) => (
               <Skeleton className="h-28" key={`explore-skeleton-${i}`} />
+            ))}
+          </Fragment>
+        ) : (
+          <Fragment>
+            {themes.map((theme) => (
+              <ThemeLink theme={theme} key={theme.id} />
+            ))}
+          </Fragment>
+        )}
+      </div>
+
+      {hasNextPage && (
+        <Button
+          onClick={() => {
+            void fetchNextPage();
+          }}
+          disabled={isFetchingNextPage}
+          isLoading={isFetchingNextPage}
+        >
+          Load more
+        </Button>
+      )}
+    </div>
+  );
+};
+
+const StarredThemes = () => {
+  const { data, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } =
+    api.theme.allStarredFromUser.useInfiniteQuery(
+      {},
+      {
+        getNextPageParam: (lastPage) => lastPage.nextCursor,
+      },
+    );
+
+  const themes = data?.pages.flatMap((page) => page.themes) ?? [];
+
+  return (
+    <div className="flex flex-col gap-4 overflow-y-auto px-2 py-6">
+      {themes.length === 0 && !isLoading && (
+        <Alert variant="warning" size="sm">
+          You don&apos;t have any starred themes.
+        </Alert>
+      )}
+      <div className="grid w-full grid-cols-2 gap-6 lg:grid-cols-5">
+        {isLoading ? (
+          <Fragment>
+            {range(0, 10).map((i) => (
+              <Skeleton className="h-28" key={`starred-skeleton-${i}`} />
             ))}
           </Fragment>
         ) : (
