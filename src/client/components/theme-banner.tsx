@@ -13,8 +13,8 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/client/components/ui/tooltip";
-import { useSetThemeConfig } from "@/client/components/use-theme-config";
 import { useSelectedTheme } from "@/client/lib/use-selected-theme";
+import { useSetThemeConfig } from "@/client/lib/use-theme-config";
 import { routes } from "@/shared/routes";
 import { api } from "@/trpc/react";
 

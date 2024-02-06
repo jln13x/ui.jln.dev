@@ -1,7 +1,7 @@
 "use client";
 
-import { themeConfigAtom } from "@/client/components/use-theme-config";
 import { selectedThemeAtomId } from "@/client/lib/use-selected-theme";
+import { themeConfigAtom } from "@/client/lib/use-theme-config";
 import { type DatabaseTheme } from "@/server/db/schema";
 import { api } from "@/trpc/react";
 

@@ -37,7 +37,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/client/components/ui/tooltip";
-import { useThemeConfig } from "@/client/components/use-theme-config";
+import { useThemeConfig } from "@/client/lib/use-theme-config";
 import { routes } from "@/shared/routes";
 import { SaveThemeSchema } from "@/shared/save-theme-schema";
 import { api } from "@/trpc/react";

@@ -1,12 +1,13 @@
 "use client";
 
+import { type ReactNode } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
 import { Star } from "@/client/components/star";
-import { useSetThemeConfig } from "@/client/components/use-theme-config";
 import { hslToCssValue } from "@/client/lib/hsl-to-variable-value";
 import { useResolvedTheme } from "@/client/lib/use-resolved-theme";
 import { useSelectedThemeId } from "@/client/lib/use-selected-theme";
+import { useSetThemeConfig } from "@/client/lib/use-theme-config";
 import { type DatabaseTheme } from "@/server/db/schema";
 import { type ThemeConfig } from "@/shared/theme-config";
 import { api } from "@/trpc/react";
@@ -14,38 +15,23 @@ import { api } from "@/trpc/react";
 import { isDefined } from "remeda";
 
 export const ThemeLink = ({ theme }: { theme: DatabaseTheme }) => {
-  const setThemeConfig = useSetThemeConfig();
-
   const utils = api.useUtils();
   const [, setSelectedThemeId] = useSelectedThemeId();
-
-  const router = useRouter();
-  const pathname = usePathname();
-
   return (
-    <button
-      className="flex flex-col items-center gap-1 overflow-auto rounded-lg px-2 py-1 hover:bg-accent/60"
+    <ThemeButton
+      config={theme.config}
+      name={theme.name}
       onClick={() => {
-        setThemeConfig(theme.config);
         setSelectedThemeId(theme.id);
         utils.theme.byId.setData({ id: theme.id }, theme);
-
-        if (pathname !== "/") {
-          router.push("/", {
-            scroll: false,
-          });
-          return;
-        }
       }}
     >
-      <ColorPalette config={theme.config} />
-      <p className="line-clamp-1 text-center text-sm">{theme.name}</p>
       {isDefined(theme.stars) && (
         <span className="flex items-center gap-1 text-sm text-muted-foreground">
           {theme.stars} <Star filled={theme.starred} className="size-3" />
         </span>
       )}
-    </button>
+    </ThemeButton>
   );
 };
 
@@ -68,5 +54,42 @@ const ColorPalette = ({ config }: { config: ThemeConfig }) => {
         />
       ))}
     </div>
+  );
+};
+
+export const ThemeButton = ({
+  onClick,
+  config,
+  name,
+  children,
+}: {
+  onClick?: () => void;
+  config: ThemeConfig;
+  name: string;
+  children?: ReactNode;
+}) => {
+  const setThemeConfig = useSetThemeConfig();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  return (
+    <button
+      className="flex flex-col items-center gap-1 overflow-auto rounded-lg px-2 py-1 hover:bg-accent/60"
+      onClick={() => {
+        onClick?.();
+        setThemeConfig(config);
+
+        if (pathname !== "/") {
+          router.push("/", {
+            scroll: false,
+          });
+          return;
+        }
+      }}
+    >
+      <ColorPalette config={config} />
+      <p className="line-clamp-1 text-center text-sm">{name}</p>
+      {children}
+    </button>
   );
 };

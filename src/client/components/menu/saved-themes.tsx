@@ -87,7 +87,7 @@ const Saved = () => {
         </MenuButton>
       </PopoverTrigger>
 
-      <PopoverContent className="max-h-[50vh] w-screen max-w-screen-lg overflow-auto scrollbar-thin">
+      <PopoverContent className="max-h-[75vh] w-screen max-w-screen-lg overflow-auto scrollbar-thin">
         <Content />
       </PopoverContent>
     </Popover>
