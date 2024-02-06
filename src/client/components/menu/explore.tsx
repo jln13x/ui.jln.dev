@@ -4,7 +4,7 @@ import { Fragment } from "react";
 
 import * as Icons from "@/client/components/icons";
 import { MenuButton } from "@/client/components/menu/menu-button";
-import { ThemeLink } from "@/client/components/theme-link";
+import { ThemeButton, ThemeLink } from "@/client/components/theme-link";
 import { Button } from "@/client/components/ui/button";
 import {
   Drawer,
@@ -19,6 +19,13 @@ import {
 } from "@/client/components/ui/popover";
 import { RadioGroup, RadioGroupItem } from "@/client/components/ui/radio-group";
 import { Skeleton } from "@/client/components/ui/skeleton";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/client/components/ui/tabs";
+import { shadcnThemes } from "@/client/lib/shadcn-themes";
 import { api } from "@/trpc/react";
 
 import { useIsMobile } from "@jlns/hooks";
@@ -74,7 +81,18 @@ const Content = () => {
           Find themes from other users that have been shared with the community.
         </p>
       </div>
-      <Themes />
+      <Tabs>
+        <TabsList defaultValue="community">
+          <TabsTrigger value="community">Community</TabsTrigger>
+          <TabsTrigger value="shadcn">shadcn</TabsTrigger>
+        </TabsList>
+        <TabsContent value="community">
+          <Themes />
+        </TabsContent>
+        <TabsContent value="shadcn">
+          <ShadcnDefaultThemes />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
@@ -135,7 +153,7 @@ const Themes = () => {
         <div className="grid w-full grid-cols-2 gap-6 lg:grid-cols-5">
           {isLoading ? (
             <Fragment>
-              {range(0, 10).map((i) => (
+              {range(0, 5).map((i) => (
                 <Skeleton className="h-28" key={`explore-skeleton-${i}`} />
               ))}
             </Fragment>
@@ -158,6 +176,22 @@ const Themes = () => {
             Load more
           </Button>
         )}
+      </div>
+    </div>
+  );
+};
+
+const ShadcnDefaultThemes = () => {
+  return (
+    <div>
+      <div className="grid w-full grid-cols-2 gap-6 lg:grid-cols-5">
+        {shadcnThemes.map((theme) => (
+          <ThemeButton
+            config={theme.config}
+            name={theme.name}
+            key={theme.name}
+          />
+        ))}
       </div>
     </div>
   );

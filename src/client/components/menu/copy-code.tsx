@@ -26,8 +26,8 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/client/components/ui/tooltip";
-import { useThemeConfig } from "@/client/components/use-theme-config";
 import { themeToStyles } from "@/client/lib/theme-to-styles";
+import { useThemeConfig } from "@/client/lib/use-theme-config";
 import { type ThemeConfig } from "@/shared/theme-config";
 
 import { useCopyToClipboard, useIsMobile } from "@jlns/hooks";
@@ -77,7 +77,7 @@ export const CopyCode = () => {
         </DrawerTrigger>
 
         <DrawerContent>
-          <RemoveScroll className="scrollbar-thin max-h-[80svh] overflow-auto p-4">
+          <RemoveScroll className="max-h-[80svh] overflow-auto p-4 scrollbar-thin">
             <DrawerHeader>
               <DrawerTitle>{title}</DrawerTitle>
               <DrawerDescription>{description}</DrawerDescription>

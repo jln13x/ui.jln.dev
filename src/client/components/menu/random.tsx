@@ -7,9 +7,9 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/client/components/ui/tooltip";
-import { useSetThemeConfig } from "@/client/components/use-theme-config";
 import { cn } from "@/client/lib/cn";
 import { useSelectedThemeId } from "@/client/lib/use-selected-theme";
+import { useSetThemeConfig } from "@/client/lib/use-theme-config";
 
 export const Random = ({ className }: { className?: string }) => {
   const setThemeConfig = useSetThemeConfig();

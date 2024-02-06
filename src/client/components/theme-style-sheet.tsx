@@ -2,8 +2,8 @@
 
 import { useMemo } from "react";
 
-import { useThemeConfig } from "@/client/components/use-theme-config";
 import { themeToStyles } from "@/client/lib/theme-to-styles";
+import { useThemeConfig } from "@/client/lib/use-theme-config";
 
 // This weird approach is necessary to also style the portaled components
 export const ThemeStyleSheet = () => {

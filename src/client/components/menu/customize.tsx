@@ -19,13 +19,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/client/components/ui/popover";
-import {
-  useActiveTheme,
-  useSetThemeConfig,
-} from "@/client/components/use-theme-config";
 import { isMac } from "@/client/lib/is-mac";
 import { cssToTheme } from "@/client/lib/theme-to-styles";
 import { useResolvedTheme } from "@/client/lib/use-resolved-theme";
+import {
+  useActiveTheme,
+  useSetThemeConfig,
+} from "@/client/lib/use-theme-config";
 import { createThemeConfig } from "@/shared/create-theme-config";
 import { type Theme } from "@/shared/theme-config";
 
