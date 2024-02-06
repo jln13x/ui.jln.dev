@@ -37,15 +37,24 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/client/components/ui/tooltip";
-import { useThemeConfig } from "@/client/lib/use-theme-config";
+import { useActiveTheme, useThemeConfig } from "@/client/lib/use-theme-config";
 import { routes } from "@/shared/routes";
 import { SaveThemeSchema } from "@/shared/save-theme-schema";
+import { type Theme } from "@/shared/theme-config";
 import { api } from "@/trpc/react";
 
 import { useIsMobile, useZodForm } from "@jlns/hooks";
+import colorNameList from "color-name-list";
+import { Colord } from "colord";
+import nearestColor from "nearest-color";
 import { useSession } from "next-auth/react";
 import { RemoveScroll } from "react-remove-scroll";
 import { toast } from "sonner";
+import {
+  adjectives,
+  animals,
+  uniqueNamesGenerator,
+} from "unique-names-generator";
 
 export const Save = () => {
   const [open, setOpen] = useState(false);
@@ -111,11 +120,47 @@ export const Save = () => {
   );
 };
 
+const colors: Record<string, string> = colorNameList.reduce(
+  (o, { name, hex }) => ({
+    ...o,
+    [name]: hex,
+  }),
+  {},
+);
+
+const getNearestedColor = nearestColor.from(colors);
+
+const createDefaultName = (theme: Theme | null) => {
+  if (!theme) return "";
+
+  const primary = new Colord({
+    h: theme.primary.h,
+    s: theme.primary.s,
+    l: theme.primary.l,
+  }).toHex();
+
+  const primaryNearestColor = getNearestedColor(primary)?.name ?? "";
+
+  const dicts = [[primaryNearestColor]];
+
+  Math.random() > 0.5 ? dicts.push(animals) : dicts.unshift(adjectives);
+
+  return uniqueNamesGenerator({
+    separator: " ",
+    length: 2,
+    style: "capital",
+    dictionaries: dicts,
+  });
+};
+
 const Content = ({ setOpen }: { setOpen?: (open: boolean) => void }) => {
+  const config = useThemeConfig();
+  const activeTheme = useActiveTheme();
+
   const form = useZodForm({
     schema: SaveThemeSchema,
     defaultValues: {
-      name: "",
+      name: createDefaultName(activeTheme),
       isPublic: true,
     },
   });
@@ -127,8 +172,6 @@ const Content = ({ setOpen }: { setOpen?: (open: boolean) => void }) => {
       window.location.href = routes.theme(id);
     },
   });
-
-  const config = useThemeConfig();
 
   return (
     <div>
