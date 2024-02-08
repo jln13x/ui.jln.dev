@@ -106,7 +106,7 @@ const createForegroundDark = (hue: number): Hsl => {
   };
 };
 
-const createDestructive = () => {
+export const createDestructive = () => {
   return new Colord({
     h: faker.number.int({
       min: 0,
