@@ -86,6 +86,7 @@ export const ThemeButton = ({
   return (
     <button
       className="flex flex-col items-center gap-1 overflow-auto rounded-lg px-2 py-1 hover:bg-accent/60"
+      title={name}
       onClick={() => {
         onClick?.();
         setThemeConfig(config);

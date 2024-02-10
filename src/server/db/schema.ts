@@ -158,6 +158,7 @@ export const vscodeThemes = mysqlTable("vscodeThemes", {
     .primaryKey()
     .$defaultFn(() => createId()),
 
+  installs: int("installs").notNull(),
   themeId: varchar("themeId", { length: 255 }).notNull(),
   metadata: json("metadata").notNull().$type<VscodeTheme>(),
 });

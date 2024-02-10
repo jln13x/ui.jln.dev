@@ -1,108 +1,328 @@
 import { db } from "@/server/db";
-import { themes } from "@/server/db/schema";
+import { themes, vscodeThemes } from "@/server/db/schema";
+import { createId } from "@/server/db/utils/create-id";
 import { type Theme } from "@/shared/theme-config";
-import { type VscodeTheme } from "@/shared/vscode";
 
-import { Colord } from "colord";
-import { parse } from "csv-parse/sync";
-import { mapValues, omit, pickBy, pipe } from "remeda";
+import extensions from "./vscodethemes.json";
+import { faker } from "@faker-js/faker";
+import { Colord, colord, extend } from "colord";
+import a11yPlugin from "colord/plugins/a11y";
+import labPlugin from "colord/plugins/lab";
+import {
+  clamp,
+  filter,
+  isDefined,
+  map,
+  omit,
+  pipe,
+  sortBy,
+  take,
+  values,
+} from "remeda";
+import { z } from "zod";
 
-const parseFile = async <T>(file: string) => {
-  const input = await Bun.file(import.meta.dir + file).text();
+extend([a11yPlugin, labPlugin]);
 
-  return parse(input, {
-    columns: true,
-  }) as Array<T>;
-};
+await db.delete(vscodeThemes).execute();
 
-type ColorConfig = {
-  id: string;
-  extensionId: string;
-  path: string;
-  displayName: string;
-  slug: string;
-  activityBarBackground: string;
-  activityBarBorder: string;
-  activityBarForeground: string;
-  editorBackground: string;
-  editorForeground: string;
-  editorGroupHeaderTabsBackground: string;
-  editorGroupHeaderTabsBorder: string;
-  statusBarBackground: string;
-  statusBarForeground: string;
-  statusBarBorder: string;
-  tabActiveBackground: string;
-  tabActiveBorder: string;
-  tabActiveForeground: string;
-  tabBorder: string;
-  titleBarActiveBackground: string;
-  titleBarActiveForeground: string;
-  titleBarBorder: string;
-};
+for (const extension of Object.values(extensions)) {
+  const promises = Object.entries(extension.themes).map(
+    async ([name, theme]) => {
+      const transformedColors = pipe(theme, omit(["slug"]));
 
-const importedVscodeThemes = await parseFile<VscodeTheme>("/themes.csv");
-const importedColors = await parseFile<ColorConfig>("/editor.csv");
+      const colors = z
+        .object({
+          editorBackground: z.string(),
+          editorForeground: z.string(),
+          activityBarBackground: z.string(),
+          activityBarForeground: z.string(),
+          tabActiveBorder: z.string().nullable(),
+        })
+        .parse(transformedColors);
 
-const hexToHsl = (hex: string) => {
-  return new Colord(hex).toHsl();
-};
+      const isDarkTheme = new Colord(colors.editorBackground).isDark();
 
-for (const vscodeTheme of importedVscodeThemes) {
-  const colorConfig = importedColors.find(
-    (c) => vscodeTheme.id === c.extensionId,
+      const { primary, primaryForeground } = createPrimary(
+        colors.editorBackground,
+      );
+
+      const { accent, accentForeground } = identifyAccentColor(
+        colors.editorBackground,
+        pipe(
+          colors,
+          omit(["editorBackground", "editorForeground"]),
+          values,
+          filter(isDefined),
+        ),
+      );
+
+      const { secondary, secondaryForeground } = createSecondary(primary);
+
+      const background = new Colord(colors.editorBackground);
+      const foreground = new Colord(colors.editorForeground);
+
+      const card = background.darken(0.02);
+      const cardForeground = createContrast(card);
+
+      const { destructive, destructiveForeground } =
+        createDestructive(isDarkTheme);
+
+      const popover = card.darken(0.02);
+      const popoverForeground = createContrast(popover);
+
+      const { muted, mutedForeground } = createMuted(primary, isDarkTheme);
+
+      const cfg: Theme = {
+        background: background.toHsl(),
+        foreground: foreground.toHsl(),
+
+        primary: primary.toHsl(),
+        primaryForeground: primaryForeground.toHsl(),
+        ring: primary.toHsl(),
+
+        card: card.toHsl(),
+        cardForeground: cardForeground.toHsl(),
+
+        popover: popover.toHsl(),
+        popoverForeground: popoverForeground.toHsl(),
+
+        accent,
+        accentForeground,
+
+        secondary,
+        secondaryForeground,
+
+        muted,
+        mutedForeground,
+
+        destructive,
+        destructiveForeground,
+
+        border: background.isDark()
+          ? background.lighten(0.05).desaturate(0.1).toHsl()
+          : background.darken(0.05).desaturate(0.1).toHsl(),
+        input: background.isDark()
+          ? background.lighten(0.08).desaturate(0.1).toHsl()
+          : background.darken(0.08).desaturate(0.1).toHsl(),
+      };
+
+      const themeId = createId();
+
+      await db.insert(themes).values({
+        id: themeId,
+        name,
+        config: {
+          dark: cfg,
+          light: cfg,
+        },
+        userId: "system-vscode",
+        isPublic: true,
+      });
+
+      await db.insert(vscodeThemes).values({
+        themeId,
+        installs: extension.installs,
+        metadata: {
+          vscExtensionId: extension.vscExtensionId,
+        },
+      });
+    },
   );
 
-  if (!colorConfig) {
-    console.log(`No color config found for ${vscodeTheme.name}`);
-    continue;
+  await Promise.all(promises);
+}
+
+function createContrast(color: Colord) {
+  const isLight = color.isLight();
+  let opposite = color;
+
+  let i = 0;
+  while (opposite.contrast(color) < 6) {
+    opposite = isLight ? opposite.darken(0.2) : opposite.lighten(0.2);
+    if (i++ > 10) break;
+  }
+  return opposite;
+}
+
+function createSecondary(primary: Colord) {
+  const primaryHsl = primary.toHsl();
+
+  if (primary.isDark()) {
+    const secondary = colord({
+      h: primaryHsl.h,
+      s: clamp(30, {
+        max: primaryHsl.s - 10,
+      }),
+
+      l: 75,
+    });
+
+    const secondaryForeground = createContrast(secondary);
+
+    return {
+      secondary: secondary.toHsl(),
+      secondaryForeground: secondaryForeground.toHsl(),
+    };
   }
 
-  const colors = pipe(
-    colorConfig,
-    pickBy((v) => v.startsWith("#")),
-    omit(["id", "extensionId", "path", "displayName", "slug"] as const),
-    mapValues(hexToHsl),
+  const secondary = colord({
+    h: primaryHsl.h,
+    s: clamp(30, {
+      max: primaryHsl.s - 10,
+    }),
+
+    l: 25,
+  });
+
+  const secondaryForeground = createContrast(secondary);
+
+  return {
+    secondary: secondary.toHsl(),
+    secondaryForeground: secondaryForeground.toHsl(),
+  };
+}
+
+function createDestructive(isDark?: boolean) {
+  const destructiveLight = {
+    h: faker.number.int({
+      min: 0,
+      max: 10,
+    }),
+    s: faker.number.int({
+      min: 80,
+      max: 100,
+    }),
+    l: faker.number.int({
+      min: 20,
+      max: 45,
+    }),
+  };
+
+  if (isDark) {
+    const destructiveDark = {
+      h: destructiveLight.h,
+      s: destructiveLight.s,
+      l: faker.number.int({ min: 45, max: 60 }),
+    };
+
+    return {
+      destructive: destructiveDark,
+      destructiveForeground: createContrast(
+        new Colord(destructiveDark),
+      ).toHsl(),
+    };
+  }
+
+  return {
+    destructive: destructiveLight,
+    destructiveForeground: createContrast(new Colord(destructiveLight)).toHsl(),
+  };
+}
+
+function createMuted(base: Colord, isDark?: boolean) {
+  const { h } = base.toHsl();
+
+  const mutedBaseDeviations = {
+    s: 25,
+    l: 6,
+  };
+
+  const mutedForegroundBaseDeviations = {
+    s: 6,
+    l: 8,
+  };
+
+  if (isDark) {
+    const mutedDark = {
+      h,
+      s: mutedBaseDeviations.s,
+      l: 15 - mutedBaseDeviations.l,
+    };
+
+    const mutedForegroundDark = {
+      h: mutedDark.h,
+      s: mutedForegroundBaseDeviations.s,
+      l: 75 - mutedForegroundBaseDeviations.l,
+    };
+
+    return {
+      muted: mutedDark,
+      mutedForeground: mutedForegroundDark,
+    };
+  }
+
+  const mutedLight = {
+    h,
+    s: mutedBaseDeviations.s,
+    l: 85 + mutedBaseDeviations.l,
+  };
+
+  const mutedForegroundLight = {
+    h: mutedLight.h,
+    s: mutedForegroundBaseDeviations.s,
+    l: 25 + mutedForegroundBaseDeviations.l,
+  };
+
+  return {
+    muted: mutedLight,
+    mutedForeground: mutedForegroundLight,
+  };
+}
+
+function identifyAccentColor(base: string, colors: string[]) {
+  const baseColor = colord(base);
+
+  const [first, second] = pipe(
+    colors,
+    map((color) => {
+      return {
+        delta: baseColor.delta(color),
+        color,
+      };
+    }),
+    sortBy([(v) => v.delta, "desc"]),
+    take(2),
   );
 
-  const anyHsl = {
-    h: 0,
-    s: 0,
-    l: 0,
-  };
+  if (!first || !second) throw new Error("No accent colors found");
 
-  console.log(colorConfig);
+  const delta = first.delta - second.delta;
 
-  const cfg: Theme = {
-    background: colors.editorBackground,
-    foreground: colors.editorForeground,
-    primary: colors.tabActiveBackground,
-    primaryForeground: colors.tabActiveForeground,
-    card: colors.editorGroupHeaderTabsBackground,
-    cardForeground: colors.editorForeground,
-    accent: colors.activityBarForeground,
-    accentForeground: colors.activityBarBackground,
+  if (delta > 0.2) {
+    const accent = colord(first.color);
 
-    //
-    input: anyHsl,
-    border: anyHsl,
-    destructive: anyHsl,
-    destructiveForeground: anyHsl,
-    muted: colors.activityBarBackground,
-    mutedForeground: colors.activityBarForeground,
-    popover: anyHsl,
-    popoverForeground: anyHsl,
-    ring: anyHsl,
-    secondary: anyHsl,
-    secondaryForeground: anyHsl,
-  };
+    return {
+      accent: accent.toHsl(),
+      accentForeground: createContrast(accent).toHsl(),
+    };
+  }
 
-  const theme = await db.insert(themes).values({
-    name: vscodeTheme.name,
-    isPublic: true,
-    userId: "system-vscode",
-    config: {
-      dark: cfg,
-      light: cfg,
-    },
+  const firstColor = colord(first.color).toHsl();
+  const secondColor = colord(second.color).toHsl();
+
+  const accent = colord(
+    firstColor.s > secondColor.s ? firstColor : secondColor,
+  );
+
+  console.log({
+    firstColor,
+    secondColor,
   });
+
+  return {
+    accent: accent.toHsl(),
+    accentForeground: createContrast(accent).toHsl(),
+  };
+}
+function createPrimary(base: string) {
+  const baseClr = colord(base);
+
+  const primary = baseClr.isDark()
+    ? baseClr.lighten(0.25)
+    : baseClr.darken(0.25);
+
+  return {
+    primary,
+    primaryForeground: createContrast(primary),
+  };
 }

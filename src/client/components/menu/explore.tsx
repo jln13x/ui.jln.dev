@@ -1,16 +1,26 @@
 "use client";
 
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 
 import * as Icons from "@/client/components/icons";
 import { MenuButton } from "@/client/components/menu/menu-button";
 import { ThemeButton, ThemeLink } from "@/client/components/theme-link";
+import { Alert } from "@/client/components/ui/alert";
 import { Button } from "@/client/components/ui/button";
 import {
   Drawer,
   DrawerContent,
   DrawerTrigger,
 } from "@/client/components/ui/drawer";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/client/components/ui/form";
+import { Input } from "@/client/components/ui/input";
 import { Label } from "@/client/components/ui/label";
 import {
   Popover,
@@ -28,10 +38,11 @@ import {
 import { shadcnThemes } from "@/client/lib/shadcn-themes";
 import { api } from "@/trpc/react";
 
-import { useIsMobile } from "@jlns/hooks";
+import { useIsMobile, useZodForm } from "@jlns/hooks";
 import { atom, useAtom } from "jotai";
 import { RemoveScroll } from "react-remove-scroll";
 import { range } from "remeda";
+import { z } from "zod";
 
 export const Explore = () => {
   const isMobile = useIsMobile();
@@ -84,10 +95,14 @@ const Content = () => {
       <Tabs>
         <TabsList defaultValue="community">
           <TabsTrigger value="community">Community</TabsTrigger>
+          <TabsTrigger value="vscode">VSCode</TabsTrigger>
           <TabsTrigger value="shadcn">shadcn</TabsTrigger>
         </TabsList>
         <TabsContent value="community">
           <Themes />
+        </TabsContent>
+        <TabsContent value="vscode">
+          <VSCodeThemes />
         </TabsContent>
         <TabsContent value="shadcn">
           <ShadcnDefaultThemes />
@@ -192,6 +207,121 @@ const ShadcnDefaultThemes = () => {
             key={theme.name}
           />
         ))}
+      </div>
+    </div>
+  );
+};
+
+const VSCodeThemes = () => {
+  const [query, setQuery] = useState("");
+  const { data, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } =
+    api.theme.allPublicVscodeThemes.useInfiniteQuery(
+      {
+        query,
+      },
+      {
+        getNextPageParam: (lastPage) => lastPage.nextCursor,
+      },
+    );
+
+  const themes = data?.pages.flatMap((page) => page.themes) ?? [];
+
+  const form = useZodForm({
+    schema: z.object({
+      query: z.string(),
+    }),
+    defaultValues: {
+      query: "",
+    },
+  });
+
+  return (
+    <div>
+      <Form {...form}>
+        <form
+          className="flex gap-2"
+          onSubmit={form.handleSubmit(({ query }) => {
+            setQuery(query);
+          })}
+        >
+          <FormField
+            control={form.control}
+            name="query"
+            render={({ field }) => (
+              <FormItem className="max-w-60 flex-1">
+                <FormControl>
+                  <Input
+                    placeholder="Search for a theme..."
+                    {...field}
+                    className="h-10"
+                  />
+                </FormControl>
+                <FormDescription></FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit">
+            <Icons.Search className="size-4" />
+          </Button>
+        </form>
+      </Form>
+
+      {themes.length === 0 && !isLoading && (
+        <div className="pt-6">
+          <Alert
+            size="sm"
+            variant="warning"
+            className="flex items-center gap-6"
+          >
+            No themes found. Try searching for something else.
+            <Button
+              variant="secondary"
+              size="sm"
+              className="font-bold"
+              onClick={() => {
+                setQuery("");
+              }}
+            >
+              Reset search
+            </Button>
+          </Alert>
+        </div>
+      )}
+      <div className="flex flex-col gap-4 px-2 py-6">
+        <div className="grid w-full grid-cols-2 gap-6 lg:grid-cols-5">
+          {isLoading ? (
+            <Fragment>
+              {range(0, 5).map((i) => (
+                <Skeleton className="h-28" key={`explore-skeleton-${i}`} />
+              ))}
+            </Fragment>
+          ) : (
+            <Fragment>
+              {themes.map((theme) => (
+                <ThemeLink
+                  theme={{
+                    ...theme,
+                    stars: undefined,
+                    starred: false,
+                  }}
+                  key={theme.id}
+                />
+              ))}
+            </Fragment>
+          )}
+        </div>
+        {hasNextPage && (
+          <Button
+            onClick={() => {
+              void fetchNextPage();
+            }}
+            disabled={isFetchingNextPage}
+            isLoading={isFetchingNextPage}
+          >
+            Load more
+          </Button>
+        )}
       </div>
     </div>
   );
