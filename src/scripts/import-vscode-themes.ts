@@ -227,18 +227,26 @@ function createDestructive(isDark?: boolean) {
 
 function createMuted(base: Colord) {
   const muted = colord({
-    ...(base.isDark() ? base.lighten(0.06) : base.darken(0.06)).toHsl(),
-    s: 20,
+    ...(base.isDark() ? base.lighten(0.04) : base.darken(0.04)).toHsl(),
+    s: 12,
   });
 
-  const mutedForeground = createContrast(muted, 0.05);
+  const mutedForeground = createContrast(muted, 0.1);
+
+  const mutedHsl = muted.toHsl();
 
   return {
-    muted: muted.toHsl(),
-    mutedForeground: (base.isDark()
-      ? mutedForeground.darken(0.1)
-      : mutedForeground.lighten(0.1)
-    ).toHsl(),
+    muted: mutedHsl,
+    mutedForeground: {
+      ...mutedForeground.toHsl(),
+      l: base.isDark()
+        ? clamp(mutedHsl.l + 50, {
+            max: 80,
+          })
+        : clamp(mutedHsl.l - 60, {
+            min: 20,
+          }),
+    },
   };
 }
 
