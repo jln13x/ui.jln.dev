@@ -99,7 +99,7 @@ const Content = () => {
       <Tabs value={tab} onValueChange={setTab}>
         <TabsList defaultValue="community">
           <TabsTrigger value="community">Community</TabsTrigger>
-          <TabsTrigger value="vscode">VSCode</TabsTrigger>
+          <TabsTrigger value="vscode">VS Code</TabsTrigger>
           <TabsTrigger value="shadcn">shadcn</TabsTrigger>
         </TabsList>
         <TabsContent value="community">
