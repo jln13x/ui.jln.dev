@@ -23,8 +23,10 @@ export const Headline = () => {
 
       <div className="pt-6">
         <div className="flex flex-col items-center gap-1.5 text-sm text-muted-foreground">
-          <p>Found an awesome theme? Consider supporting me.</p>
-          <div className="flex items-center gap-2">
+          <p className="text-center">
+            Found an awesome theme? Consider supporting me.
+          </p>
+          <div className="flex items-center gap-2 max-sm:flex-col">
             <a
               href="https://x.com/jlndev"
               className="flex items-center gap-2 rounded border border-accent-foreground/20 bg-accent  px-4 py-0.5 text-sm text-accent-foreground"
