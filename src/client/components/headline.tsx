@@ -4,6 +4,8 @@ import { Logo } from "@/client/components/logo";
 import { Badge } from "@/client/components/ui/badge";
 import { cn } from "@/client/lib/cn";
 
+import { MousePointerClick } from "lucide-react";
+
 export const Headline = () => {
   return (
     <div className="flex flex-col items-center gap-2">
@@ -33,12 +35,15 @@ export const Headline = () => {
         Themes for shadcn/ui
       </h1>
 
-      <p className="">
-        Built by{" "}
-        <a href="https://x.com/jlndev" className="font-bold text-primary">
-          jlndev
-        </a>
-      </p>
+      <a
+        href="https://x.com/jlndev"
+        className="flex items-center gap-2 rounded border border-accent-foreground/20 bg-accent  px-4 py-0.5 text-sm text-accent-foreground"
+      >
+        <span>
+          Built by <span className="font-bold">jlndev</span>
+        </span>
+        <MousePointerClick className="size-4" />
+      </a>
     </div>
   );
 };
