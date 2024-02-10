@@ -1,7 +1,7 @@
 import { hslToVariableValue } from "@/client/lib/hsl-to-variable-value";
 import { type Hsl, type Theme } from "@/shared/theme-config";
 
-import { fromPairs, invert, mapKeys, mapValues } from "remeda";
+import { fromPairs, invert, keys } from "remeda";
 
 const variables: Record<keyof Theme, string> = {
   background: "background",
@@ -26,17 +26,13 @@ const variables: Record<keyof Theme, string> = {
 };
 
 export const themeToStyles = (theme: Theme) => {
-  const withKeys = mapKeys(theme, (key) => {
-    const variable = variables[key];
+  const order = keys.strict(variables);
 
-    return `--${variable}`;
+  const ordered = order.map((key) => {
+    return [`--${variables[key]}`, hslToVariableValue(theme[key])] as const;
   });
 
-  const values = mapValues(withKeys, (value) => {
-    return hslToVariableValue(value);
-  });
-
-  return values;
+  return fromPairs.strict(ordered);
 };
 
 export const cssToTheme = (styles: string) => {
