@@ -1,5 +1,7 @@
 import { ThemePage } from "@/client/components/theme-page";
 
+export const dynamic = "force-static";
+
 const Page = async () => {
   return (
     <div className="relative">
