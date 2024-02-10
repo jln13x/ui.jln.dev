@@ -14,11 +14,8 @@ export const Headline = () => {
         <div className="flex items-center gap-2 rounded-lg border bg-muted px-4 py-2">
           <Badge variant="success">New</Badge>
           <p>
-            Over{" "}
-            <span className="font-bold tabular-nums">
-              {Number(1000).toLocaleString()}
-            </span>{" "}
-            themes from VS Code have been added.
+            Over <span className="font-bold tabular-nums">1000</span> themes
+            from VS Code have been added.
           </p>
         </div>
       </div>
@@ -31,7 +28,7 @@ export const Headline = () => {
         )}
       >
         <span className="rounded-lg bg-primary px-2 py-1  tabular-nums text-primary-foreground lg:px-4 lg:py-2">
-          {Number(10000).toLocaleString()}+
+          10000+
         </span>
         Themes for shadcn/ui
       </h1>
