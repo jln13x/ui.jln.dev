@@ -284,7 +284,7 @@ function identifyPrimaryColor(base: string, colors: string[]) {
     take(2),
   );
 
-  if (!first || !second) throw new Error("No accent colors found");
+  if (!first || !second) throw new Error("No primary colors found");
 
   const delta = first.delta - second.delta;
 
@@ -313,8 +313,8 @@ function createAccent(base: string) {
   const baseClr = colord(base);
 
   const accent = baseClr.isDark()
-    ? baseClr.lighten(0.25)
-    : baseClr.darken(0.25);
+    ? baseClr.lighten(0.15)
+    : baseClr.darken(0.15);
 
   return {
     accent,
