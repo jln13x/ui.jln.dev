@@ -44,6 +44,8 @@ import { RemoveScroll } from "react-remove-scroll";
 import { range } from "remeda";
 import { z } from "zod";
 
+const exploreTab = atom<string>("community");
+
 export const Explore = () => {
   const isMobile = useIsMobile();
 
@@ -82,6 +84,8 @@ export const Explore = () => {
 };
 
 const Content = () => {
+  const [tab, setTab] = useAtom(exploreTab);
+
   return (
     <div>
       <div className="flex flex-col gap-1.5 pb-4">
@@ -92,7 +96,7 @@ const Content = () => {
           Find themes from other users that have been shared with the community.
         </p>
       </div>
-      <Tabs>
+      <Tabs value={tab} onValueChange={setTab}>
         <TabsList defaultValue="community">
           <TabsTrigger value="community">Community</TabsTrigger>
           <TabsTrigger value="vscode">VSCode</TabsTrigger>
