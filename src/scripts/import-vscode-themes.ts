@@ -62,15 +62,19 @@ for (const extension of Object.values(extensions)) {
       const foreground = new Colord(colors.editorForeground);
 
       const card = background.darken(0.02);
-      const cardForeground = createContrast(card);
+      const cardForeground = background.isDark()
+        ? foreground.lighten(0.05)
+        : foreground.darken(0.05);
 
       const { destructive, destructiveForeground } =
         createDestructive(isDarkTheme);
 
-      const popover = card.darken(0.02);
-      const popoverForeground = createContrast(popover);
+      const popover = card.darken(0.01);
+      const popoverForeground = card.isDark()
+        ? cardForeground.lighten(0.05)
+        : cardForeground.darken(0.05);
 
-      const { muted, mutedForeground } = createMuted(primary, isDarkTheme);
+      const { muted, mutedForeground } = createMuted(background);
 
       const cfg: Theme = {
         background: background.toHsl(),
@@ -132,13 +136,15 @@ for (const extension of Object.values(extensions)) {
   await Promise.all(promises);
 }
 
-function createContrast(color: Colord) {
+function createContrast(color: Colord, increment = 0.2) {
   const isLight = color.isLight();
   let opposite = color;
 
   let i = 0;
   while (opposite.contrast(color) < 6) {
-    opposite = isLight ? opposite.darken(0.2) : opposite.lighten(0.2);
+    opposite = isLight
+      ? opposite.darken(increment)
+      : opposite.lighten(increment);
     if (i++ > 10) break;
   }
   return opposite;
@@ -219,53 +225,20 @@ function createDestructive(isDark?: boolean) {
   };
 }
 
-function createMuted(base: Colord, isDark?: boolean) {
-  const { h } = base.toHsl();
+function createMuted(base: Colord) {
+  const muted = colord({
+    ...(base.isDark() ? base.lighten(0.06) : base.darken(0.06)).toHsl(),
+    s: 20,
+  });
 
-  const mutedBaseDeviations = {
-    s: 25,
-    l: 6,
-  };
-
-  const mutedForegroundBaseDeviations = {
-    s: 6,
-    l: 8,
-  };
-
-  if (isDark) {
-    const mutedDark = {
-      h,
-      s: mutedBaseDeviations.s,
-      l: 15 - mutedBaseDeviations.l,
-    };
-
-    const mutedForegroundDark = {
-      h: mutedDark.h,
-      s: mutedForegroundBaseDeviations.s,
-      l: 75 - mutedForegroundBaseDeviations.l,
-    };
-
-    return {
-      muted: mutedDark,
-      mutedForeground: mutedForegroundDark,
-    };
-  }
-
-  const mutedLight = {
-    h,
-    s: mutedBaseDeviations.s,
-    l: 85 + mutedBaseDeviations.l,
-  };
-
-  const mutedForegroundLight = {
-    h: mutedLight.h,
-    s: mutedForegroundBaseDeviations.s,
-    l: 25 + mutedForegroundBaseDeviations.l,
-  };
+  const mutedForeground = createContrast(muted, 0.05);
 
   return {
-    muted: mutedLight,
-    mutedForeground: mutedForegroundLight,
+    muted: muted.toHsl(),
+    mutedForeground: (base.isDark()
+      ? mutedForeground.darken(0.1)
+      : mutedForeground.lighten(0.1)
+    ).toHsl(),
   };
 }
 
