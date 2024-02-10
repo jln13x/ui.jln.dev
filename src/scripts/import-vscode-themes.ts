@@ -58,8 +58,11 @@ for (const extension of Object.values(extensions)) {
 
       const { secondary, secondaryForeground } = createSecondary(primary);
 
-      const background = new Colord(colors.editorBackground);
-      const foreground = new Colord(colors.editorForeground);
+      const background = colord(colors.editorBackground);
+      const foreground = createForeground(
+        background,
+        colord(colors.editorForeground),
+      );
 
       const card = background.darken(0.02);
       const cardForeground = background.isDark()
@@ -226,8 +229,11 @@ function createDestructive(isDark?: boolean) {
 }
 
 function createMuted(base: Colord) {
+  const hsl = (base.isDark() ? base.lighten(0.04) : base.darken(0.04)).toHsl();
+
   const muted = colord({
-    ...(base.isDark() ? base.lighten(0.04) : base.darken(0.04)).toHsl(),
+    h: hsl.h,
+    l: base.isDark() ? clamp(hsl.l, { min: 15 }) : clamp(hsl.l, { max: 90 }),
     s: 12,
   });
 
@@ -269,11 +275,18 @@ function identifyPrimaryColor(base: string, colors: string[]) {
 
   const delta = first.delta - second.delta;
 
-  if (delta > 0.2) {
-    const primary = colord(first.color);
+  const createPrimary = (primary: Colord) => {
+    return primary.isEqual(baseColor)
+      ? baseColor.isDark()
+        ? primary.lighten(0.3)
+        : primary.darken(0.3)
+      : primary;
+  };
 
+  if (delta > 0.2) {
+    const primary = createPrimary(colord(first.color));
     return {
-      primary: primary,
+      primary,
       primaryForeground: createContrast(primary),
     };
   }
@@ -281,12 +294,14 @@ function identifyPrimaryColor(base: string, colors: string[]) {
   const firstColor = colord(first.color).toHsl();
   const secondColor = colord(second.color).toHsl();
 
-  const primary = colord(
+  const primaryClr = colord(
     firstColor.s > secondColor.s ? firstColor : secondColor,
   );
 
+  const primary = createPrimary(primaryClr);
+
   return {
-    primary: primary,
+    primary,
     primaryForeground: createContrast(primary),
   };
 }
@@ -301,4 +316,14 @@ function createAccent(base: string) {
     accent,
     accentForeground: createContrast(accent),
   };
+}
+
+function createForeground(bg: Colord, fg: Colord) {
+  const contrast = bg.contrast(fg);
+
+  if (contrast > 5) {
+    return fg;
+  }
+
+  return createContrast(bg);
 }

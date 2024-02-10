@@ -302,14 +302,14 @@ const VSCodeThemes = () => {
             </Fragment>
           ) : (
             <Fragment>
-              {themes.map((theme) => (
+              {themes.map((theme, idx) => (
                 <ThemeLink
                   theme={{
                     ...theme,
                     stars: undefined,
                     starred: false,
                   }}
-                  key={theme.id}
+                  key={`${theme.id}-${idx}`}
                 />
               ))}
             </Fragment>
