@@ -42,11 +42,11 @@ for (const extension of Object.values(extensions)) {
 
       const isDarkTheme = new Colord(colors.editorBackground).isDark();
 
-      const { primary, primaryForeground } = createPrimary(
+      const { accent, accentForeground } = createAccent(
         colors.editorBackground,
       );
 
-      const { accent, accentForeground } = identifyAccentColor(
+      const { primary, primaryForeground } = identifyPrimaryColor(
         colors.editorBackground,
         pipe(
           colors,
@@ -86,8 +86,8 @@ for (const extension of Object.values(extensions)) {
         popover: popover.toHsl(),
         popoverForeground: popoverForeground.toHsl(),
 
-        accent,
-        accentForeground,
+        accent: accent.toHsl(),
+        accentForeground: accentForeground.toHsl(),
 
         secondary,
         secondaryForeground,
@@ -269,7 +269,7 @@ function createMuted(base: Colord, isDark?: boolean) {
   };
 }
 
-function identifyAccentColor(base: string, colors: string[]) {
+function identifyPrimaryColor(base: string, colors: string[]) {
   const baseColor = colord(base);
 
   const [first, second] = pipe(
@@ -289,40 +289,35 @@ function identifyAccentColor(base: string, colors: string[]) {
   const delta = first.delta - second.delta;
 
   if (delta > 0.2) {
-    const accent = colord(first.color);
+    const primary = colord(first.color);
 
     return {
-      accent: accent.toHsl(),
-      accentForeground: createContrast(accent).toHsl(),
+      primary: primary,
+      primaryForeground: createContrast(primary),
     };
   }
 
   const firstColor = colord(first.color).toHsl();
   const secondColor = colord(second.color).toHsl();
 
-  const accent = colord(
+  const primary = colord(
     firstColor.s > secondColor.s ? firstColor : secondColor,
   );
 
-  console.log({
-    firstColor,
-    secondColor,
-  });
-
   return {
-    accent: accent.toHsl(),
-    accentForeground: createContrast(accent).toHsl(),
+    primary: primary,
+    primaryForeground: createContrast(primary),
   };
 }
-function createPrimary(base: string) {
+function createAccent(base: string) {
   const baseClr = colord(base);
 
-  const primary = baseClr.isDark()
+  const accent = baseClr.isDark()
     ? baseClr.lighten(0.25)
     : baseClr.darken(0.25);
 
   return {
-    primary,
-    primaryForeground: createContrast(primary),
+    accent,
+    accentForeground: createContrast(accent),
   };
 }
