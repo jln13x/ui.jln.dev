@@ -46,8 +46,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const secondary = hslToHex(theme.config.light.secondary);
   const accent = hslToHex(theme.config.light.accent);
 
-  const title = `${theme.name} - Theme for shadcn/ui`;
-  const description = `Check out the theme "${theme.name}" for shadcn/ui and copy it into your project!. It consist of the colors ${primary}, ${secondary}, and ${accent}.`;
+  const title = `${theme.name} for shadcn/ui`;
+  const description = `${theme.name} is a theme for shadcn/ui. It consist of the colors ${primary}, ${secondary}, and ${accent}.`;
 
   return {
     title,
