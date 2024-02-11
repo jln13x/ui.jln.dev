@@ -10,9 +10,9 @@ import { Analytics } from "@vercel/analytics/react";
 import { GeistSans } from "geist/font/sans";
 import { SessionProvider } from "next-auth/react";
 
-const title = "10,000+ Themes for shadcn/ui";
+const title = "10000+ Themes for shadcn/ui";
 const description =
-  "Explore 10,000+ themes for shadcn/ui and easily copy them into your project. Or just create your own theme from scratch!";
+  "Explore 10000+ themes for shadcn/ui and easily copy them into your project. Or just create your own theme from scratch!";
 
 const ogImage = "/_static/og.png";
 

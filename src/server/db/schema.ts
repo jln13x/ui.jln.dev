@@ -1,5 +1,6 @@
 import { createId } from "@/server/db/utils/create-id";
 import { type ThemeConfig } from "@/shared/theme-config";
+import { type VscodeTheme } from "@/shared/vscode";
 
 import { type AdapterAccount } from "@auth/core/adapters";
 import { relations, sql } from "drizzle-orm";
@@ -150,3 +151,14 @@ export const starsRelations = relations(stars, ({ one }) => ({
   user: one(users, { fields: [stars.userId], references: [users.id] }),
   theme: one(themes, { fields: [stars.themeId], references: [themes.id] }),
 }));
+
+export const vscodeThemes = mysqlTable("vscodeThemes", {
+  id: varchar("id", { length: 255 })
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => createId()),
+
+  installs: int("installs").notNull(),
+  themeId: varchar("themeId", { length: 255 }).notNull(),
+  metadata: json("metadata").notNull().$type<VscodeTheme>(),
+});

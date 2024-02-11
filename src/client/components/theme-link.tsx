@@ -32,15 +32,17 @@ export const ThemeLink = ({
           { id: theme.id },
           {
             ...theme,
-            stars: theme.stars ?? 1,
+            stars: theme.stars ?? 0,
           },
         );
       }}
     >
       {isDefined(theme.stars) && (
-        <span className="flex items-center gap-1 text-sm text-muted-foreground">
-          {theme.stars} <Star filled={theme.starred} className="size-3" />
-        </span>
+        <div className="flex w-full justify-center">
+          <span className="flex items-center gap-1 text-sm text-muted-foreground">
+            {theme.stars} <Star filled={theme.starred} className="size-3" />
+          </span>
+        </div>
       )}
     </ThemeButton>
   );
@@ -85,7 +87,8 @@ export const ThemeButton = ({
 
   return (
     <button
-      className="flex flex-col items-center gap-1 overflow-auto rounded-lg px-2 py-1 hover:bg-accent/60"
+      className="flex flex-col gap-1 overflow-hidden rounded-lg px-2 py-1 hover:bg-accent/60"
+      title={name}
       onClick={() => {
         onClick?.();
         setThemeConfig(config);
@@ -98,8 +101,10 @@ export const ThemeButton = ({
         }
       }}
     >
-      <ColorPalette config={config} />
-      <p className="line-clamp-1 text-center text-sm">{name}</p>
+      <div className="flex w-full justify-center">
+        <ColorPalette config={config} />
+      </div>
+      <p className="w-full truncate text-sm">{name}</p>
       {children}
     </button>
   );

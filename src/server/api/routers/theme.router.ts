@@ -2,6 +2,7 @@ import { protectedProcedure } from "@/server/api/procedures/protected-procedure"
 import { publicProcedure, router } from "@/server/api/trpc";
 import { stars, themes } from "@/server/db/schema";
 import { createId } from "@/server/db/utils/create-id";
+import { getVscodeThemes } from "@/server/get-vscode-themes";
 import {
   changeVisiblityRateLimit,
   saveThemePublicRateLimit,
@@ -11,7 +12,7 @@ import { SaveThemeSchema } from "@/shared/save-theme-schema";
 import { ThemeConfigSchema } from "@/shared/theme-config";
 
 import { TRPCError } from "@trpc/server";
-import { and, desc, eq, or, sql } from "drizzle-orm";
+import { and, desc, eq, ne, or, sql } from "drizzle-orm";
 import { isDefined } from "remeda";
 import { z } from "zod";
 
@@ -181,7 +182,9 @@ export const themeRouter = router({
         })
         .from(themes)
         .leftJoin(stars, eq(stars.themeId, themes.id))
-        .where(eq(themes.isPublic, true))
+        .where(
+          and(eq(themes.isPublic, true), ne(themes.userId, "system-vscode")),
+        )
         .limit(limit)
         .offset(offset)
         .orderBy(
@@ -274,4 +277,27 @@ export const themeRouter = router({
 
     return res.count;
   }),
+
+  allPublicVscodeThemes: publicProcedure
+    .input(
+      z.object({
+        query: z.string().optional(),
+        cursor: z.number().nullish(),
+      }),
+    )
+    .query(async ({ input }) => {
+      const limit = 50;
+      const offset = input.cursor ?? 0;
+      const allPublicVscodeThemes = await getVscodeThemes({
+        limit,
+        offset,
+        query: input.query,
+      });
+
+      return {
+        themes: allPublicVscodeThemes,
+        nextCursor:
+          allPublicVscodeThemes.length === limit ? offset + limit : null,
+      };
+    }),
 });
