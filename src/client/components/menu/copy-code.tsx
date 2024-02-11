@@ -77,7 +77,7 @@ export const CopyCode = () => {
         </DrawerTrigger>
 
         <DrawerContent>
-          <RemoveScroll className="max-h-[80svh] overflow-auto p-4 scrollbar-thin">
+          <RemoveScroll className="flex max-h-[80svh] flex-col p-4">
             <DrawerHeader>
               <DrawerTitle>{title}</DrawerTitle>
               <DrawerDescription>{description}</DrawerDescription>
@@ -102,7 +102,7 @@ export const CopyCode = () => {
         </DialogTrigger>
         <TooltipContent>Copy current theme as code</TooltipContent>
       </Tooltip>
-      <DialogContent className="w-full max-w-screen-lg">
+      <DialogContent className="flex max-h-[95vh] w-[98vw] max-w-screen-lg flex-col">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
@@ -121,7 +121,7 @@ const Content = () => {
   const themeTemplate = configToCss(config);
 
   return (
-    <div className="relative grid h-full max-h-[768px] w-full overflow-auto rounded-md border bg-muted">
+    <div className="relative grid min-h-0 rounded-md border bg-muted">
       <Button
         className="absolute right-2 top-2"
         size="sm"
@@ -141,7 +141,7 @@ const Content = () => {
         )}
         Copy
       </Button>
-      <pre>
+      <pre className="h-full overflow-auto">
         <code className="block rounded px-2 py-3 font-mono text-xs lg:text-sm">
           {themeTemplate}
         </code>
