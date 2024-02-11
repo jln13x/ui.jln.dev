@@ -1,10 +1,8 @@
 "use client";
 
-import { useState } from "react";
-
+import { CopyButton } from "@/client/components/copy-button";
 import * as Icons from "@/client/components/icons";
 import { MenuButton } from "@/client/components/menu/menu-button";
-import { Button } from "@/client/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -30,7 +28,7 @@ import { themeToStyles } from "@/client/lib/theme-to-styles";
 import { useThemeConfig } from "@/client/lib/use-theme-config";
 import { type ThemeConfig } from "@/shared/theme-config";
 
-import { useCopyToClipboard, useIsMobile } from "@jlns/hooks";
+import { useIsMobile } from "@jlns/hooks";
 import { RemoveScroll } from "react-remove-scroll";
 import { toPairs } from "remeda";
 
@@ -116,31 +114,13 @@ export const CopyCode = () => {
 const Content = () => {
   const config = useThemeConfig();
 
-  const { copy } = useCopyToClipboard();
-  const [copied, setCopied] = useState(false);
   const themeTemplate = configToCss(config);
 
   return (
     <div className="relative grid h-full max-h-[768px] w-full overflow-auto rounded-md border bg-muted">
-      <Button
-        className="absolute right-2 top-2"
-        size="sm"
-        onClick={async () => {
-          await copy(themeTemplate);
-          setCopied(true);
-
-          setTimeout(() => {
-            setCopied(false);
-          }, 1000);
-        }}
-      >
-        {copied ? (
-          <Icons.Check className="mr-2 size-3" />
-        ) : (
-          <Icons.Copy className="mr-2 size-3" />
-        )}
-        Copy
-      </Button>
+      <div className="absolute right-2 top-2">
+        <CopyButton value={themeTemplate} />
+      </div>
       <pre>
         <code className="block rounded px-2 py-3 font-mono text-xs lg:text-sm">
           {themeTemplate}
