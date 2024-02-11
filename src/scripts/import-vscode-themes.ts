@@ -23,7 +23,7 @@ import { z } from "zod";
 
 extend([a11yPlugin, labPlugin]);
 
-await db.delete(vscodeThemes).execute();
+// await db.delete(vscodeThemes).execute();
 
 for (const extension of Object.values(extensions)) {
   const promises = Object.entries(extension.themes).map(
