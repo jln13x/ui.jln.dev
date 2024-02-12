@@ -276,13 +276,13 @@ const VSCodeThemes = () => {
           <Alert
             size="sm"
             variant="warning"
-            className="flex items-center gap-6"
+            className="flex items-center gap-x-6 gap-y-4 max-sm:flex-col max-sm:text-center"
           >
             No themes found. Try searching for something else.
             <Button
               variant="secondary"
               size="sm"
-              className="font-bold"
+              className="whitespace-nowrap font-bold"
               onClick={() => {
                 setQuery("");
               }}
