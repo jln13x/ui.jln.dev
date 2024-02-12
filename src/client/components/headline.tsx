@@ -3,6 +3,7 @@
 import * as Icons from "@/client/components/icons";
 import { Logo } from "@/client/components/logo";
 import { Badge } from "@/client/components/ui/badge";
+import { Button } from "@/client/components/ui/button";
 import { cn } from "@/client/lib/cn";
 
 import { Coffee } from "lucide-react";
@@ -11,12 +12,22 @@ export const Headline = () => {
   return (
     <div className="flex flex-col items-center gap-2">
       <div className="pb-4">
-        <div className="flex items-center gap-2 rounded-lg border bg-muted px-4 py-2 max-sm:text-sm">
+        <div className="flex items-center gap-2 rounded-lg border bg-muted px-4 py-2 max-sm:flex-col max-sm:text-center max-sm:text-sm">
           <Badge variant="success">New</Badge>
           <p>
             Over <span className="font-bold tabular-nums">1000</span> themes
             from VS Code have been added.
           </p>
+
+          <Button className="whitespace-nowrap" size="xs" asChild>
+            <a
+              href="https://twitter.com/jlndev/status/1757017446391664808"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Learn more
+            </a>
+          </Button>
         </div>
       </div>
 
