@@ -11,7 +11,7 @@ export const Headline = () => {
   return (
     <div className="flex flex-col items-center gap-2">
       <div className="pb-4">
-        <div className="flex items-center gap-2 rounded-lg border bg-muted px-4 py-2">
+        <div className="flex items-center gap-2 rounded-lg border bg-muted px-4 py-2 max-sm:text-sm">
           <Badge variant="success">New</Badge>
           <p>
             Over <span className="font-bold tabular-nums">1000</span> themes
