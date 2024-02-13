@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import { CopyButton } from "@/client/components/copy-button";
 import { Alert } from "@/client/components/customizable/alert";
 import { Support } from "@/client/components/headline";
@@ -33,7 +35,21 @@ import { keys } from "remeda";
 const Page = () => {
   return (
     <div>
-      <div className="container py-24">
+      <div className="border-b bg-muted py-3 text-muted-foreground">
+        <div className="container flex items-center justify-center gap-2 text-center text-sm">
+          <p>
+            Over <span className="font-medium">{" 10000 Themes "}</span>
+            for shadcn/ui available.
+          </p>
+          <Link
+            href="/"
+            className="rounded-lg bg-accent px-3 py-0.5 text-accent-foreground hover:bg-accent/80"
+          >
+            Explore themes
+          </Link>
+        </div>
+      </div>
+      <div className="container py-12">
         <div className="flex flex-col items-center gap-6">
           <Logo className="size-10" />
           <h1
