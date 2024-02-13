@@ -1,94 +1,101 @@
 "use client";
 
-import { useState } from "react";
-
 import { CopyButton } from "@/client/components/copy-button";
 import { Alert } from "@/client/components/customizable/alert";
 import { Support } from "@/client/components/headline";
 import { Logo } from "@/client/components/logo";
+import { ThemeSwitch } from "@/client/components/theme-switch";
 import { Alert as MyAlert } from "@/client/components/ui/alert";
+import { Badge } from "@/client/components/ui/badge";
+import { Button } from "@/client/components/ui/button";
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from "@/client/components/ui/tabs";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/client/components/ui/tooltip";
 import { cn } from "@/client/lib/cn";
 import { createContrast } from "@/client/lib/create-contrast";
 import { hslToVariableValue } from "@/client/lib/hsl-to-variable-value";
 
-import { colord } from "colord";
+import { colord, type HslaColor } from "colord";
+import { useAtom } from "jotai";
+import { atomWithStorage } from "jotai/utils";
+import { Info } from "lucide-react";
 import { keys } from "remeda";
 
 const Page = () => {
   return (
-    <div className="container py-24">
-      <div className="flex flex-col items-center gap-6">
-        <Logo className="size-10" />
-        <h1
-          className={cn(
-            "relative flex flex-wrap items-center justify-center gap-2 text-lg font-bold max-lg:text-center lg:text-5xl",
-          )}
-        >
-          Generate
-          <span className="rounded-lg bg-primary px-2 py-1  tabular-nums text-primary-foreground lg:px-4 lg:py-2">
-            Feedback Colors
-          </span>
-          for shadcn/ui
-        </h1>
+    <div>
+      <div className="container py-24">
+        <div className="flex flex-col items-center gap-6">
+          <Logo className="size-10" />
+          <h1
+            className={cn(
+              "relative flex flex-wrap items-center justify-center gap-2 text-lg font-bold max-lg:text-center lg:text-5xl",
+            )}
+          >
+            Generate
+            <span className="rounded-lg bg-primary px-2 py-1  tabular-nums text-primary-foreground lg:px-4 lg:py-2">
+              Feedback Colors
+            </span>
+            for shadcn/ui
+          </h1>
 
-        <div className="pt-6">
-          <Support />
+          <div className="pt-6">
+            <Support />
+          </div>
         </div>
-      </div>
 
-      <div className="flex flex-col gap-20">
-        <Generate />
-        <Tailwind />
-        <Styles />
-        <Variants />
+        <div className="flex flex-col gap-20">
+          <Generate />
+          <Tailwind />
+          <Styles />
+          <Variants />
+        </div>
       </div>
     </div>
   );
 };
 
 const Generate = () => {
+  const [, generate] = useColors();
+
   return (
     <div>
       <Step step={1} title="Generate Colors" />
+      <div className="flex justify-center py-4">
+        <ThemeSwitch />
+        <CopyButton value="123" />
+      </div>
 
-      <Feedback
-        name="Success"
-        range={{
-          h: { min: 90, max: 160 },
-          s: { min: 40, max: 100 },
-          l: { min: 40, max: 60 },
-        }}
-      />
-      <Feedback
-        name="Destructive"
-        range={{
-          h: { min: 0, max: 15 },
-          s: { min: 40, max: 100 },
-          l: { min: 20, max: 45 },
-        }}
-      />
-      <Feedback
-        name="Warning"
-        range={{
-          h: { min: 15, max: 55 },
-          s: { min: 40, max: 100 },
-          l: { min: 40, max: 60 },
-        }}
-      />
-      <Feedback
-        name="Info"
-        range={{
-          h: { min: 180, max: 240 },
-          s: { min: 40, max: 100 },
-          l: { min: 40, max: 60 },
-        }}
-      />
+      <div className="flex w-full flex-col gap-4">
+        <Feedback name="success" />
+        <Feedback name="destructive" />
+        <Feedback name="warning" />
+        <Feedback name="info" />
+        <div className="grid w-full grid-cols-4 gap-4">
+          <div className="col-start-4">
+            <Button
+              className="w-full"
+              variant="secondary"
+              onClick={() => {
+                generate("destructive");
+                generate("success");
+                generate("warning");
+                generate("info");
+              }}
+            >
+              Randomize All
+            </Button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
@@ -116,18 +123,20 @@ info: {
     <div>
       <Step step={2} title="Add to Tailwind Config" />
 
-      <MyAlert variant="warning" size="sm">
-        Make sure you followed the{" "}
-        <a
-          href="https://ui.shadcn.com/docs/installation/manual"
-          className="font-bold underline underline-offset-4"
-          target="_blank"
-          rel="noreferrer"
-        >
-          installation guide
-        </a>{" "}
-        for shadcn/ui.
-      </MyAlert>
+      <div className="py-2">
+        <MyAlert variant="warning" size="sm">
+          Make sure you followed the{" "}
+          <a
+            href="https://ui.shadcn.com/docs/installation/manual"
+            className="font-bold underline underline-offset-4"
+            target="_blank"
+            rel="noreferrer"
+          >
+            installation guide
+          </a>{" "}
+          for shadcn/ui.
+        </MyAlert>
+      </div>
 
       <p className="pb-4 pt-6">
         Add the colors to your config file. (Nested under theme ➡︎ extend ➡︎
@@ -154,8 +163,37 @@ info: {
 };
 
 const Styles = () => {
-  const light = `--destructive: 0 100% 50%`;
-  const dark = `--destructive: 0 100% 50%`;
+  const [colors] = useColors();
+
+  const space = `      `;
+
+  const pairs = Object.entries(colors);
+
+  const toOutput = (
+    key: string,
+    background: HslaColor,
+    foreground: HslaColor,
+  ) => {
+    return `${space}--${key}: ${hslToVariableValue(
+      background,
+    )};\n${space}--${key}-foreground: ${hslToVariableValue(foreground)};`;
+  };
+
+  const light = pairs
+    .map(([key, value]) =>
+      toOutput(
+        key,
+        value.colors.light.background,
+        value.colors.light.foreground,
+      ),
+    )
+    .join("\n");
+
+  const dark = pairs
+    .map(([key, value]) =>
+      toOutput(key, value.colors.dark.background, value.colors.dark.foreground),
+    )
+    .join("\n");
 
   const codeString = `@layer base {
     :root {
@@ -192,8 +230,8 @@ const Variants = () => {
 
   return (
     <div>
-      <Step step={4} title="Add Variants" />
-      <p className="pb-4">Add those variants to your component.</p>
+      <Step step={4} title="Optional: Add Variants" />
+      <p className="pb-4">Add new variants to your components.</p>
 
       <Tabs defaultValue="button">
         <TabsList>
@@ -268,61 +306,184 @@ const Step = ({ step, title }: { step: number; title: string }) => {
   );
 };
 
-const Feedback = ({
-  name,
-  range,
-}: {
-  name: string;
-  range: {
-    h: { min: number; max: number };
-    s: { min: number; max: number };
-    l: { min: number; max: number };
-  };
-}) => {
-  const [pair, setPair] = useState(generate());
+const ranges = {
+  destructive: {
+    light: {
+      h: { min: 0, max: 15 },
+      s: { min: 40, max: 100 },
+      l: { min: 20, max: 45 },
+    },
+    dark: {
+      h: { min: 0, max: 15 },
+      s: { min: 40, max: 100 },
+      l: { min: 20, max: 45 },
+    },
+  },
 
-  function generate() {
-    const base = colord({
-      h: randomNumberInRange(range.h.min, range.h.max),
-      s: randomNumberInRange(range.s.min, range.s.max),
-      l: randomNumberInRange(range.l.min, range.l.max),
-    });
+  success: {
+    light: {
+      h: { min: 90, max: 160 },
+      s: { min: 40, max: 100 },
+      l: { min: 40, max: 60 },
+    },
+    dark: {
+      h: { min: 90, max: 160 },
+      s: { min: 40, max: 100 },
+      l: { min: 40, max: 60 },
+    },
+  },
 
-    const foreground = createContrast(base);
+  warning: {
+    light: {
+      h: { min: 15, max: 55 },
+      s: { min: 40, max: 100 },
+      l: { min: 40, max: 60 },
+    },
+    dark: {
+      h: { min: 15, max: 55 },
+      s: { min: 40, max: 100 },
+      l: { min: 40, max: 60 },
+    },
+  },
 
-    return {
-      bg: base.toHsl(),
-      fg: foreground.toHsl(),
-    };
-  }
+  info: {
+    light: {
+      h: { min: 180, max: 240 },
+      s: { min: 40, max: 100 },
+      l: { min: 40, max: 60 },
+    },
+    dark: {
+      h: { min: 180, max: 240 },
+      s: { min: 40, max: 100 },
+      l: { min: 40, max: 60 },
+    },
+  },
+};
+
+type Feedback = keyof typeof ranges;
+
+const Feedback = ({ name }: { name: Feedback }) => {
+  const [colors, generate] = useColors();
+
+  const pair = colors[name].colors.light;
 
   return (
-    <div style={{}}>
-      <div className="flex items-center gap-2">
+    <div>
+      <div className="grid grid-cols-4 gap-4">
         <Alert
-          className="bg-[hsl(var(--bg))] text-[hsl(var(--fg))]"
+          className="col-span-3 bg-[hsl(var(--bg))] capitalize text-[hsl(var(--fg))]"
           style={{
             // @ts-expect-error idc
-            "--bg": hslToVariableValue(pair.bg),
-            "--fg": hslToVariableValue(pair.fg),
+            "--bg": hslToVariableValue(pair.background),
+            "--fg": hslToVariableValue(pair.foreground),
           }}
         >
           {name}
         </Alert>
-        <button
-          className="rounded-lg bg-background text-foreground invert"
-          onClick={() => setPair(generate())}
+        <Button
+          variant="outline"
+          className="h-full w-full gap-2 rounded-lg border text-foreground"
+          onClick={() => generate(name)}
         >
-          Generate
-        </button>
-        Contrast: {colord(pair.bg).contrast(colord(pair.fg))}
+          Randomize
+          <Tooltip>
+            <TooltipTrigger>
+              <Badge variant="secondary" className="flex items-center gap-2">
+                {colord(pair.background).contrast(colord(pair.foreground))}
+                <Info className="size-3" />
+              </Badge>
+            </TooltipTrigger>
+            <TooltipContent>
+              Contrast ratio:{" "}
+              {colord(pair.background).contrast(colord(pair.foreground))}
+            </TooltipContent>
+          </Tooltip>
+        </Button>
       </div>
     </div>
   );
 };
 
-const randomNumberInRange = (min: number, max: number) => {
+function randomNumberInRange(min: number, max: number) {
   return Math.random() * (max - min) + min;
+}
+
+const des = generate({
+  h: { min: 0, max: 15 },
+  s: { min: 40, max: 100 },
+  l: { min: 20, max: 45 },
+});
+
+const atom = atomWithStorage("colors", {
+  destructive: {
+    colors: {
+      light: des,
+      dark: des,
+    },
+    isLocked: false,
+  },
+  success: {
+    colors: {
+      light: des,
+      dark: des,
+    },
+    isLocked: false,
+  },
+  warning: {
+    colors: {
+      light: des,
+      dark: des,
+    },
+    isLocked: false,
+  },
+  info: {
+    colors: {
+      light: des,
+      dark: des,
+    },
+    isLocked: false,
+  },
+});
+
+const useColors = () => {
+  const [colors, setColors] = useAtom(atom);
+
+  const generateColor = (name: Feedback) => {
+    const range = ranges[name];
+    const pair = generate(range.light);
+
+    setColors((prev) => ({
+      ...prev,
+      [name]: {
+        colors: {
+          light: pair,
+          dark: pair,
+        },
+        isLocked: false,
+      },
+    }));
+  };
+
+  return [colors, generateColor] as const;
 };
+
+function generate(range: {
+  h: { min: number; max: number };
+  s: { min: number; max: number };
+  l: { min: number; max: number };
+}) {
+  const base = colord({
+    h: randomNumberInRange(range.h.min, range.h.max),
+    s: randomNumberInRange(range.s.min, range.s.max),
+    l: randomNumberInRange(range.l.min, range.l.max),
+  });
+
+  const foreground = createContrast(base);
+
+  return {
+    background: base.toHsl(),
+    foreground: foreground.toHsl(),
+  };
+}
 
 export default Page;
