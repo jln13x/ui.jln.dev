@@ -66,13 +66,14 @@ const Page = () => {
 
 const Generate = () => {
   const [, generate] = useColors();
+  const styles = useStyles();
 
   return (
     <div>
       <Step step={1} title="Generate Colors" />
-      <div className="flex justify-center py-4">
+      <div className="flex justify-between py-4">
         <ThemeSwitch />
-        <CopyButton value="123" />
+        <CopyButton value={styles} />
       </div>
 
       <div className="flex w-full flex-col gap-4">
@@ -164,48 +165,7 @@ info: {
 };
 
 const Styles = () => {
-  const [colors] = useColors();
-
-  const space = `      `;
-
-  const pairs = Object.entries(colors);
-
-  const toOutput = (
-    key: string,
-    background: HslaColor,
-    foreground: HslaColor,
-  ) => {
-    return `${space}--${key}: ${hslToVariableValue(
-      background,
-    )};\n${space}--${key}-foreground: ${hslToVariableValue(foreground)};`;
-  };
-
-  const light = pairs
-    .map(([key, value]) =>
-      toOutput(
-        key,
-        value.colors.light.background,
-        value.colors.light.foreground,
-      ),
-    )
-    .join("\n");
-
-  const dark = pairs
-    .map(([key, value]) =>
-      toOutput(key, value.colors.dark.background, value.colors.dark.foreground),
-    )
-    .join("\n");
-
-  const codeString = `@layer base {
-    :root {
-${light}
-    }
-  
-    .dark {
-${dark}
-    }
-  }
-`;
+  const codeString = useStyles();
 
   return (
     <div>
@@ -385,7 +345,7 @@ const Feedback = ({ name }: { name: Feedback }) => {
         </Alert>
         <div className="flex w-full items-center gap-2">
           <Button
-            variant="outline"
+            variant="secondary"
             className="h-full w-full gap-2 rounded-lg border text-foreground"
             onClick={() => generate(name)}
             disabled={locked}
@@ -393,7 +353,10 @@ const Feedback = ({ name }: { name: Feedback }) => {
             Randomize
             <Tooltip>
               <TooltipTrigger>
-                <Badge variant="secondary" className="flex items-center gap-2">
+                <Badge
+                  variant="outline"
+                  className="flex items-center gap-2 bg-muted text-muted-foreground"
+                >
                   {colord(pair.background).contrast(colord(pair.foreground))}
                   <Info className="size-3" />
                 </Badge>
@@ -405,21 +368,26 @@ const Feedback = ({ name }: { name: Feedback }) => {
             </Tooltip>
           </Button>
 
-          <Button
-            onClick={() => {
-              lock(name);
-            }}
-            variant="secondary"
-            className={cn("aspect-square h-full", {
-              "border border-r-primary": locked,
-            })}
-          >
-            {locked ? (
-              <Icons.Lock className="size-4" />
-            ) : (
-              <Icons.Unlock className="size-4" />
-            )}
-          </Button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                onClick={() => {
+                  lock(name);
+                }}
+                variant="outline"
+                className={cn("aspect-square h-full", {
+                  "border border-r-primary": locked,
+                })}
+              >
+                {locked ? (
+                  <Icons.Lock className="size-4" />
+                ) : (
+                  <Icons.Unlock className="size-4" />
+                )}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>{locked ? "Unlock" : "Lock"}</TooltipContent>
+          </Tooltip>
         </div>
       </div>
     </div>
@@ -523,5 +491,51 @@ function generate(range: {
     foreground: foreground.toHsl(),
   };
 }
+
+const useStyles = () => {
+  const [colors] = useColors();
+  const space = `      `;
+
+  const pairs = Object.entries(colors);
+
+  const toOutput = (
+    key: string,
+    background: HslaColor,
+    foreground: HslaColor,
+  ) => {
+    return `${space}--${key}: ${hslToVariableValue(
+      background,
+    )};\n${space}--${key}-foreground: ${hslToVariableValue(foreground)};`;
+  };
+
+  const light = pairs
+    .map(([key, value]) =>
+      toOutput(
+        key,
+        value.colors.light.background,
+        value.colors.light.foreground,
+      ),
+    )
+    .join("\n");
+
+  const dark = pairs
+    .map(([key, value]) =>
+      toOutput(key, value.colors.dark.background, value.colors.dark.foreground),
+    )
+    .join("\n");
+
+  const codeString = `@layer base {
+    :root {
+${light}
+    }
+  
+    .dark {
+${dark}
+    }
+  }
+`;
+
+  return codeString;
+};
 
 export default Page;
