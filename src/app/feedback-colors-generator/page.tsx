@@ -25,6 +25,7 @@ import {
 import { cn } from "@/client/lib/cn";
 import { createContrast } from "@/client/lib/create-contrast";
 import { hslToVariableValue } from "@/client/lib/hsl-to-variable-value";
+import { useResolvedTheme } from "@/client/lib/use-resolved-theme";
 
 import { colord, type HslaColor } from "colord";
 import { useAtom } from "jotai";
@@ -288,12 +289,12 @@ const ranges = {
     light: {
       h: { min: 0, max: 15 },
       s: { min: 40, max: 100 },
-      l: { min: 20, max: 45 },
+      l: { min: 20, max: 90 },
     },
     dark: {
       h: { min: 0, max: 15 },
       s: { min: 40, max: 100 },
-      l: { min: 20, max: 45 },
+      l: { min: 5, max: 25 },
     },
   },
 
@@ -301,25 +302,25 @@ const ranges = {
     light: {
       h: { min: 90, max: 160 },
       s: { min: 40, max: 100 },
-      l: { min: 40, max: 60 },
+      l: { min: 40, max: 90 },
     },
     dark: {
       h: { min: 90, max: 160 },
       s: { min: 40, max: 100 },
-      l: { min: 40, max: 60 },
+      l: { min: 5, max: 25 },
     },
   },
 
   warning: {
     light: {
-      h: { min: 15, max: 55 },
+      h: { min: 20, max: 55 },
       s: { min: 40, max: 100 },
-      l: { min: 40, max: 60 },
+      l: { min: 40, max: 90 },
     },
     dark: {
       h: { min: 15, max: 55 },
       s: { min: 40, max: 100 },
-      l: { min: 40, max: 60 },
+      l: { min: 5, max: 25 },
     },
   },
 
@@ -327,12 +328,12 @@ const ranges = {
     light: {
       h: { min: 180, max: 240 },
       s: { min: 40, max: 100 },
-      l: { min: 40, max: 60 },
+      l: { min: 40, max: 90 },
     },
     dark: {
       h: { min: 180, max: 240 },
       s: { min: 40, max: 100 },
-      l: { min: 40, max: 60 },
+      l: { min: 5, max: 25 },
     },
   },
 };
@@ -340,10 +341,13 @@ const ranges = {
 type Feedback = keyof typeof ranges;
 
 const Feedback = ({ name }: { name: Feedback }) => {
+  const theme = useResolvedTheme();
+
   const [colors, generate, lock] = useColors();
 
-  const pair = colors[name].colors.light;
+  if (!theme) return null;
 
+  const pair = colors[name].colors[theme];
   const locked = colors[name].isLocked;
 
   return (
@@ -453,10 +457,12 @@ const atom = atomWithStorage("colors", {
 
 const useColors = () => {
   const [colors, setColors] = useAtom(atom);
+  const theme = useResolvedTheme();
 
   const generateColor = (name: Feedback) => {
+    if (!theme) return;
     const range = ranges[name];
-    const pair = generate(range.light);
+    const pair = generate(range[theme]);
 
     const isLocked = colors[name].isLocked;
 
@@ -468,8 +474,8 @@ const useColors = () => {
       ...prev,
       [name]: {
         colors: {
-          light: pair,
-          dark: pair,
+          ...prev[name].colors,
+          [theme]: pair,
         },
         isLocked: false,
       },
