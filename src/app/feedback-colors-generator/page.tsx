@@ -3,6 +3,7 @@
 import { CopyButton } from "@/client/components/copy-button";
 import { Alert } from "@/client/components/customizable/alert";
 import { Support } from "@/client/components/headline";
+import * as Icons from "@/client/components/icons";
 import { Logo } from "@/client/components/logo";
 import { ThemeSwitch } from "@/client/components/theme-switch";
 import { Alert as MyAlert } from "@/client/components/ui/alert";
@@ -363,9 +364,11 @@ const ranges = {
 type Feedback = keyof typeof ranges;
 
 const Feedback = ({ name }: { name: Feedback }) => {
-  const [colors, generate] = useColors();
+  const [colors, generate, lock] = useColors();
 
   const pair = colors[name].colors.light;
+
+  const locked = colors[name].isLocked;
 
   return (
     <div>
@@ -380,25 +383,44 @@ const Feedback = ({ name }: { name: Feedback }) => {
         >
           {name}
         </Alert>
-        <Button
-          variant="outline"
-          className="h-full w-full gap-2 rounded-lg border text-foreground"
-          onClick={() => generate(name)}
-        >
-          Randomize
-          <Tooltip>
-            <TooltipTrigger>
-              <Badge variant="secondary" className="flex items-center gap-2">
+        <div className="flex w-full items-center gap-2">
+          <Button
+            variant="outline"
+            className="h-full w-full gap-2 rounded-lg border text-foreground"
+            onClick={() => generate(name)}
+            disabled={locked}
+          >
+            Randomize
+            <Tooltip>
+              <TooltipTrigger>
+                <Badge variant="secondary" className="flex items-center gap-2">
+                  {colord(pair.background).contrast(colord(pair.foreground))}
+                  <Info className="size-3" />
+                </Badge>
+              </TooltipTrigger>
+              <TooltipContent>
+                Contrast ratio:{" "}
                 {colord(pair.background).contrast(colord(pair.foreground))}
-                <Info className="size-3" />
-              </Badge>
-            </TooltipTrigger>
-            <TooltipContent>
-              Contrast ratio:{" "}
-              {colord(pair.background).contrast(colord(pair.foreground))}
-            </TooltipContent>
-          </Tooltip>
-        </Button>
+              </TooltipContent>
+            </Tooltip>
+          </Button>
+
+          <Button
+            onClick={() => {
+              lock(name);
+            }}
+            variant="secondary"
+            className={cn("aspect-square h-full", {
+              "border border-r-primary": locked,
+            })}
+          >
+            {locked ? (
+              <Icons.Lock className="size-4" />
+            ) : (
+              <Icons.Unlock className="size-4" />
+            )}
+          </Button>
+        </div>
       </div>
     </div>
   );
@@ -452,6 +474,12 @@ const useColors = () => {
     const range = ranges[name];
     const pair = generate(range.light);
 
+    const isLocked = colors[name].isLocked;
+
+    if (isLocked) {
+      return;
+    }
+
     setColors((prev) => ({
       ...prev,
       [name]: {
@@ -464,7 +492,17 @@ const useColors = () => {
     }));
   };
 
-  return [colors, generateColor] as const;
+  const lock = (name: Feedback) => {
+    setColors((prev) => ({
+      ...prev,
+      [name]: {
+        ...prev[name],
+        isLocked: !prev[name].isLocked,
+      },
+    }));
+  };
+
+  return [colors, generateColor, lock] as const;
 };
 
 function generate(range: {

@@ -52,6 +52,7 @@ import {
   StarsIcon,
   SunIcon,
   Trash2Icon,
+  UnlockIcon,
   UserIcon,
   XIcon,
 } from "lucide-react";
@@ -98,6 +99,7 @@ const Flag = FlagIcon;
 const Globe = GlobeIcon;
 const Loader = Loader2Icon;
 const Lock = LockIcon;
+const Unlock = UnlockIcon;
 const Mail = MailIcon;
 const Minus = MinusIcon;
 const Plus = PlusIcon;
@@ -167,6 +169,7 @@ export {
   Star,
   System,
   Trash,
+  Unlock,
   User,
   X,
   Xcom,
