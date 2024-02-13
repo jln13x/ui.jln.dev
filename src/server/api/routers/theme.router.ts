@@ -1,5 +1,6 @@
 import { protectedProcedure } from "@/server/api/procedures/protected-procedure";
 import { publicProcedure, router } from "@/server/api/trpc";
+import { db } from "@/server/db";
 import { stars, themes } from "@/server/db/schema";
 import { createId } from "@/server/db/utils/create-id";
 import { getVscodeThemes } from "@/server/get-vscode-themes";
@@ -12,24 +13,19 @@ import { SaveThemeSchema } from "@/shared/save-theme-schema";
 import { ThemeConfigSchema } from "@/shared/theme-config";
 
 import { TRPCError } from "@trpc/server";
-import { and, desc, eq, ne, or, sql } from "drizzle-orm";
-import { isDefined } from "remeda";
+import { and, count, desc, eq, ne, or, sql } from "drizzle-orm";
+import { omit } from "remeda";
 import { z } from "zod";
 
-const getThemeSelect = (userId?: string) => ({
+const themeSelect = {
   id: themes.id,
   userId: themes.userId,
   name: themes.name,
   config: themes.config,
   createdAt: themes.createdAt,
   isPublic: themes.isPublic,
-  stars: sql`COUNT(${stars.themeId})`.mapWith(Number).as("stars"),
-  starred: isDefined(userId)
-    ? sql`MAX(CASE WHEN ${stars.userId} = ${userId} THEN 1 ELSE 0 END)`
-        .mapWith((val) => Boolean(Number(val)))
-        .as("starred")
-    : sql`0`.mapWith((val) => Boolean(Number(val))).as("starred"),
-});
+  stars: count(stars.themeId).as("stars"),
+};
 
 export const themeRouter = router({
   save: protectedProcedure
@@ -73,12 +69,10 @@ export const themeRouter = router({
       }),
     )
     .query(async ({ ctx, input }) => {
-      const result = await ctx.db
-        .select({
-          ...getThemeSelect(ctx.session?.user?.id),
-        })
+      const themeQuery = await ctx.db
+        .select(themeSelect)
         .from(themes)
-        .leftJoin(stars, eq(stars.themeId, themes.id))
+        .leftJoin(stars, and(eq(stars.themeId, themes.id)))
         .where(
           and(
             eq(themes.id, input.id),
@@ -92,9 +86,22 @@ export const themeRouter = router({
         )
         .groupBy(themes.id);
 
-      const theme = result.at(0);
+      const starredByUserQuery = getStarredByUserQuery(ctx.session?.user.id);
 
-      return theme;
+      const [theme, starredByUser] = await Promise.all([
+        themeQuery.at(0),
+        starredByUserQuery,
+      ]);
+
+      if (!theme) return null;
+
+      return {
+        ...theme,
+        starred:
+          ctx.session?.user.id && starredByUser
+            ? starredByUser.includes(`${theme.id}___${ctx.session.user.id}`)
+            : false,
+      };
     }),
 
   allFromUser: protectedProcedure
@@ -108,9 +115,7 @@ export const themeRouter = router({
       const offset = input.cursor ?? 0;
 
       const themesFromUser = await ctx.db
-        .select({
-          ...getThemeSelect(ctx.session?.user?.id),
-        })
+        .select(themeSelect)
         .from(themes)
         .leftJoin(stars, eq(stars.themeId, themes.id))
         .where(eq(themes.userId, ctx.session.user.id))
@@ -119,7 +124,10 @@ export const themeRouter = router({
         .groupBy(themes.id);
 
       return {
-        themes: themesFromUser,
+        themes: themesFromUser.map((theme) => ({
+          ...theme,
+          starred: false,
+        })),
         nextCursor: themesFromUser.length === limit ? offset + limit : null,
       };
     }),
@@ -135,18 +143,24 @@ export const themeRouter = router({
       const offset = input.cursor ?? 0;
 
       const themesFromUser = await ctx.db
-        .select({
-          ...getThemeSelect(ctx.session?.user?.id),
-        })
+        .select(omit(themeSelect, ["stars"]))
         .from(themes)
-        .leftJoin(stars, eq(stars.themeId, themes.id))
-        .where(eq(stars.userId, ctx.session.user.id))
+        .innerJoin(
+          stars,
+          and(
+            eq(stars.themeId, themes.id),
+            eq(stars.userId, ctx.session.user.id),
+          ),
+        )
         .limit(limit)
         .offset(offset)
         .groupBy(themes.id);
 
       return {
-        themes: themesFromUser,
+        themes: themesFromUser.map((theme) => ({
+          ...theme,
+          starred: true,
+        })),
         nextCursor: themesFromUser.length === limit ? offset + limit : null,
       };
     }),
@@ -176,10 +190,8 @@ export const themeRouter = router({
       const limit = 50;
       const offset = input.cursor ?? 0;
 
-      const publicThemes = await ctx.db
-        .select({
-          ...getThemeSelect(ctx.session?.user?.id),
-        })
+      const publicThemesQuery = ctx.db
+        .select(themeSelect)
         .from(themes)
         .leftJoin(stars, eq(stars.themeId, themes.id))
         .where(
@@ -188,14 +200,25 @@ export const themeRouter = router({
         .limit(limit)
         .offset(offset)
         .orderBy(
-          input.sortBy === "stars"
-            ? desc(sql`COUNT(${stars.themeId})`)
-            : desc(themes.createdAt),
+          input.sortBy === "stars" ? desc(sql`stars`) : desc(themes.createdAt),
         )
         .groupBy(themes.id);
 
+      const starredByUserQuery = getStarredByUserQuery(ctx.session?.user.id);
+
+      const [publicThemes, starredByUser] = await Promise.all([
+        publicThemesQuery,
+        starredByUserQuery,
+      ]);
+
       return {
-        themes: publicThemes,
+        themes: publicThemes.map((theme) => ({
+          ...theme,
+          starred:
+            ctx.session?.user.id && starredByUser
+              ? starredByUser.includes(`${theme.id}___${ctx.session.user.id}`)
+              : false,
+        })),
         nextCursor: publicThemes.length === limit ? offset + limit : null,
       };
     }),
@@ -301,3 +324,16 @@ export const themeRouter = router({
       };
     }),
 });
+
+const getStarredByUserQuery = (userId?: string) => {
+  if (!userId) return null;
+
+  return db
+    .select({
+      themeId: stars.themeId,
+      userId: stars.userId,
+    })
+    .from(stars)
+    .where(eq(stars.userId, userId))
+    .then((r) => r.flatMap((r) => [r.themeId, r.userId].join("___")));
+};

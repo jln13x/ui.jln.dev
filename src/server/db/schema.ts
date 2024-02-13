@@ -120,9 +120,13 @@ export const themes = mysqlTable(
     isPublic: boolean("isPublic").default(true).notNull(),
   },
   (theme) => ({
-    nameIdx: index("name_idx").on(theme.name),
     userIdIdx: index("userId_idx").on(theme.userId),
     isPublicIdx: index("isPublic_idx").on(theme.isPublic),
+    userIdIsPublicCreatedAtIdx: index("userId_isPublic_createdAt_idx").on(
+      theme.userId,
+      theme.isPublic,
+      theme.createdAt,
+    ),
   }),
 );
 
@@ -144,6 +148,8 @@ export const stars = mysqlTable(
   },
   (star) => ({
     compoundKey: primaryKey(star.userId, star.themeId),
+    themeIdIdx: index("themeId_idx").on(star.themeId),
+    userIdIdx: index("userId_idx").on(star.userId),
   }),
 );
 
