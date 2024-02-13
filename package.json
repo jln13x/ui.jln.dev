@@ -122,6 +122,7 @@
     "@typescript-eslint/parser": "^6.17.0",
     "@vercel/analytics": "^1.1.1",
     "autoprefixer": "^10.4.16",
+    "csv-parse": "^5.5.3",
     "dotenv": "^16.3.1",
     "dotenv-cli": "^7.3.0",
     "drizzle-kit": "^0.20.9",

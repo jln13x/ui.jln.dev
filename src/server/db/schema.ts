@@ -1,5 +1,6 @@
 import { createId } from "@/server/db/utils/create-id";
 import { type ThemeConfig } from "@/shared/theme-config";
+import { type VscodeTheme } from "@/shared/vscode";
 
 import { type AdapterAccount } from "@auth/core/adapters";
 import { relations, sql } from "drizzle-orm";
@@ -122,6 +123,11 @@ export const themes = mysqlTable(
     nameIdx: index("name_idx").on(theme.name),
     userIdIdx: index("userId_idx").on(theme.userId),
     isPublicIdx: index("isPublic_idx").on(theme.isPublic),
+    userIdIsPublicCreatedAtIdx: index("userId_isPublic_createdAt_idx").on(
+      theme.userId,
+      theme.isPublic,
+      theme.createdAt,
+    ),
   }),
 );
 
@@ -143,6 +149,8 @@ export const stars = mysqlTable(
   },
   (star) => ({
     compoundKey: primaryKey(star.userId, star.themeId),
+    themeIdIdx: index("themeId_idx").on(star.themeId),
+    userIdIdx: index("userId_idx").on(star.userId),
   }),
 );
 
@@ -150,3 +158,14 @@ export const starsRelations = relations(stars, ({ one }) => ({
   user: one(users, { fields: [stars.userId], references: [users.id] }),
   theme: one(themes, { fields: [stars.themeId], references: [themes.id] }),
 }));
+
+export const vscodeThemes = mysqlTable("vscodeThemes", {
+  id: varchar("id", { length: 255 })
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => createId()),
+
+  installs: int("installs").notNull(),
+  themeId: varchar("themeId", { length: 255 }).notNull(),
+  metadata: json("metadata").notNull().$type<VscodeTheme>(),
+});
