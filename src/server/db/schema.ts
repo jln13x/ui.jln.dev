@@ -120,6 +120,7 @@ export const themes = mysqlTable(
     isPublic: boolean("isPublic").default(true).notNull(),
   },
   (theme) => ({
+    nameIdx: index("name_idx").on(theme.name),
     userIdIdx: index("userId_idx").on(theme.userId),
     isPublicIdx: index("isPublic_idx").on(theme.isPublic),
     userIdIsPublicCreatedAtIdx: index("userId_isPublic_createdAt_idx").on(
