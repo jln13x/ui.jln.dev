@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo, useState } from "react";
 import Link from "next/link";
 
 import { CopyButton } from "@/client/components/copy-button";
@@ -11,6 +12,8 @@ import { ThemeSwitch } from "@/client/components/theme-switch";
 import { Alert as MyAlert } from "@/client/components/ui/alert";
 import { Badge } from "@/client/components/ui/badge";
 import { Button } from "@/client/components/ui/button";
+import { Label } from "@/client/components/ui/label";
+import { Switch } from "@/client/components/ui/switch";
 import {
   Tabs,
   TabsContent,
@@ -24,14 +27,17 @@ import {
 } from "@/client/components/ui/tooltip";
 import { cn } from "@/client/lib/cn";
 import { createContrast } from "@/client/lib/create-contrast";
-import { hslToVariableValue } from "@/client/lib/hsl-to-variable-value";
+import {
+  hslToCssValue,
+  hslToVariableValue,
+} from "@/client/lib/hsl-to-variable-value";
 import { useResolvedTheme } from "@/client/lib/use-resolved-theme";
 
 import { colord, type HslaColor } from "colord";
 import { useAtom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { Info } from "lucide-react";
-import { keys } from "remeda";
+import { keys, mapValues, range } from "remeda";
 
 const Page = () => {
   return (
@@ -82,8 +88,15 @@ const Page = () => {
 };
 
 const Generate = () => {
-  const [, generate] = useColors();
+  const theme = useResolvedTheme();
+  const { setColors } = useColors();
   const styles = useStyles();
+
+  const [checked, setChecked] = useState(true);
+
+  if (!theme) return null;
+
+  const oppositeTheme = theme === "light" ? "dark" : "light";
 
   return (
     <div>
@@ -100,21 +113,147 @@ const Generate = () => {
         <Feedback name="info" />
         <div className="grid w-full grid-cols-4 gap-4">
           <div className="col-start-4">
-            <Button
-              className="w-full"
-              variant="secondary"
-              onClick={() => {
-                generate("destructive");
-                generate("success");
-                generate("warning");
-                generate("info");
-              }}
-            >
-              Randomize All
-            </Button>
+            <div className="flex flex-col gap-1">
+              <Button
+                className="w-full"
+                variant="secondary"
+                onClick={() => {
+                  const colors = randomizeAll();
+
+                  setColors(() => ({
+                    destructive: {
+                      colors: colors.destructive,
+                      isLocked: false,
+                    },
+                    success: {
+                      colors: colors.success,
+                      isLocked: false,
+                    },
+                    warning: {
+                      colors: colors.warning,
+                      isLocked: false,
+                    },
+                    info: {
+                      colors: colors.info,
+                      isLocked: false,
+                    },
+                  }));
+                }}
+              >
+                Randomize All
+              </Button>
+              <div className="flex items-center gap-1">
+                <Switch
+                  id="randomize-all"
+                  checked={checked}
+                  onCheckedChange={setChecked}
+                />
+                <Label htmlFor="randomize-all">
+                  Overwrite {oppositeTheme} theme
+                </Label>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+      <Examples />
+    </div>
+  );
+};
+
+const Examples = () => {
+  const theme = useResolvedTheme();
+  const { setColors } = useColors();
+
+  const examples = useMemo(() => {
+    if (!theme) return null;
+    return range(0, 500).map(() => {
+      const destructive = {
+        light: generate(ranges.destructive.light),
+        dark: generate(ranges.destructive.dark),
+      };
+
+      const success = {
+        light: generate(ranges.success.light),
+        dark: generate(ranges.success.dark),
+      };
+
+      const warning = {
+        light: generate(ranges.warning.light),
+        dark: generate(ranges.warning.dark),
+      };
+
+      const info = {
+        light: generate(ranges.info.light),
+        dark: generate(ranges.info.dark),
+      };
+
+      return {
+        destructive,
+        success,
+        warning,
+        info,
+      };
+    });
+  }, [theme]);
+
+  if (!examples || !theme) return null;
+
+  return (
+    <div className="flex flex-wrap justify-center gap-4 py-8">
+      {examples.map((example, index) => (
+        <button
+          className="flex h-16 items-center rounded-lg px-4 py-2 hover:bg-accent"
+          key={index}
+          onClick={() => {
+            setColors({
+              destructive: {
+                colors: example.destructive,
+                isLocked: false,
+              },
+              success: {
+                colors: example.success,
+                isLocked: false,
+              },
+              warning: {
+                colors: example.warning,
+                isLocked: false,
+              },
+              info: {
+                colors: example.info,
+                isLocked: false,
+              },
+            });
+          }}
+        >
+          <div
+            className="h-full w-8 flex-1 rounded border"
+            style={{
+              backgroundColor: hslToCssValue(
+                example.destructive[theme].background,
+              ),
+            }}
+          ></div>
+          <div
+            className="h-full w-8 flex-1 rounded border"
+            style={{
+              backgroundColor: hslToCssValue(example.success[theme].background),
+            }}
+          ></div>
+          <div
+            className="h-full w-8 flex-1 rounded border"
+            style={{
+              backgroundColor: hslToCssValue(example.warning[theme].background),
+            }}
+          ></div>
+          <div
+            className="h-full w-8 flex-1 rounded border"
+            style={{
+              backgroundColor: hslToCssValue(example.info[theme].background),
+            }}
+          />
+        </button>
+      ))}
     </div>
   );
 };
@@ -343,7 +482,7 @@ type Feedback = keyof typeof ranges;
 const Feedback = ({ name }: { name: Feedback }) => {
   const theme = useResolvedTheme();
 
-  const [colors, generate, lock] = useColors();
+  const { colors, generateColor: generate, lock } = useColors();
 
   if (!theme) return null;
 
@@ -492,7 +631,7 @@ const useColors = () => {
     }));
   };
 
-  return [colors, generateColor, lock] as const;
+  return { colors, generateColor, lock, setColors };
 };
 
 function generate(range: {
@@ -514,8 +653,58 @@ function generate(range: {
   };
 }
 
+function randomizeAll() {
+  const destructive = ranges.destructive;
+  const lightBaseSaturation = randomNumberInRange(
+    destructive.light.s.min,
+    destructive.light.s.max,
+  );
+  const lightBaseLightness = randomNumberInRange(
+    destructive.light.l.min,
+    destructive.light.l.max,
+  );
+
+  const darkBaseSaturation = randomNumberInRange(
+    destructive.dark.s.min,
+    destructive.dark.s.max,
+  );
+  const darkBaseLightness = randomNumberInRange(
+    destructive.dark.l.min,
+    destructive.dark.l.max,
+  );
+
+  return mapValues(ranges, (value, key) => {
+    const light = colord({
+      h: randomNumberInRange(value.light.h.min, value.light.h.max),
+      s: lightBaseSaturation,
+      l: lightBaseLightness,
+    });
+
+    const lightForeground = createContrast(light);
+
+    const dark = colord({
+      h: randomNumberInRange(value.dark.h.min, value.dark.h.max),
+      s: darkBaseSaturation,
+      l: darkBaseLightness,
+    });
+
+    const darkForeground = createContrast(dark);
+
+    return {
+      light: {
+        background: light.toHsl(),
+        foreground: lightForeground.toHsl(),
+      },
+      dark: {
+        background: dark.toHsl(),
+        foreground: darkForeground.toHsl(),
+      },
+    };
+  });
+}
+
 const useStyles = () => {
-  const [colors] = useColors();
+  const { colors } = useColors();
   const space = `      `;
 
   const pairs = Object.entries(colors);
