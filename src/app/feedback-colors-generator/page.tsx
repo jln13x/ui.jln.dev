@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 
 import { CopyButton } from "@/client/components/copy-button";
@@ -113,7 +113,7 @@ const Generate = () => {
         <Feedback name="info" />
         <div className="grid w-full grid-cols-4 gap-4">
           <div className="col-start-4">
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-2">
               <Button
                 className="w-full"
                 variant="secondary"
@@ -164,96 +164,103 @@ const Generate = () => {
 const Examples = () => {
   const theme = useResolvedTheme();
   const { setColors } = useColors();
+  const [open, setOpen] = useState(false);
 
-  const examples = useMemo(() => {
+  const createExamples = () => {
     if (!theme) return null;
-    return range(0, 500).map(() => {
-      const destructive = {
-        light: generate(ranges.destructive.light),
-        dark: generate(ranges.destructive.dark),
-      };
-
-      const success = {
-        light: generate(ranges.success.light),
-        dark: generate(ranges.success.dark),
-      };
-
-      const warning = {
-        light: generate(ranges.warning.light),
-        dark: generate(ranges.warning.dark),
-      };
-
-      const info = {
-        light: generate(ranges.info.light),
-        dark: generate(ranges.info.dark),
-      };
-
-      return {
-        destructive,
-        success,
-        warning,
-        info,
-      };
+    return range(0, 100).map(() => {
+      return randomizeAll();
     });
-  }, [theme]);
+  };
+  const [examples, setExamples] = useState(createExamples());
 
   if (!examples || !theme) return null;
 
   return (
-    <div className="flex flex-wrap justify-center gap-4 py-8">
-      {examples.map((example, index) => (
-        <button
-          className="flex h-16 items-center rounded-lg px-4 py-2 hover:bg-accent"
-          key={index}
-          onClick={() => {
-            setColors({
-              destructive: {
-                colors: example.destructive,
-                isLocked: false,
-              },
-              success: {
-                colors: example.success,
-                isLocked: false,
-              },
-              warning: {
-                colors: example.warning,
-                isLocked: false,
-              },
-              info: {
-                colors: example.info,
-                isLocked: false,
-              },
-            });
-          }}
-        >
-          <div
-            className="h-full w-8 flex-1 rounded border"
-            style={{
-              backgroundColor: hslToCssValue(
-                example.destructive[theme].background,
-              ),
-            }}
-          ></div>
-          <div
-            className="h-full w-8 flex-1 rounded border"
-            style={{
-              backgroundColor: hslToCssValue(example.success[theme].background),
-            }}
-          ></div>
-          <div
-            className="h-full w-8 flex-1 rounded border"
-            style={{
-              backgroundColor: hslToCssValue(example.warning[theme].background),
-            }}
-          ></div>
-          <div
-            className="h-full w-8 flex-1 rounded border"
-            style={{
-              backgroundColor: hslToCssValue(example.info[theme].background),
-            }}
-          />
-        </button>
-      ))}
+    <div className="flex flex-col gap-4 py-8">
+      <div className="flex flex-col items-center justify-center gap-2">
+        <div className="text-lg font-bold">Need inspiration? I got you!</div>
+        {!open ? (
+          <Button onClick={() => setOpen(true)}>Show 100 examples</Button>
+        ) : (
+          <div className="flex items-center gap-2">
+            <Button
+              onClick={() => {
+                setExamples(createExamples());
+              }}
+            >
+              Generate 100 new examples
+            </Button>
+
+            <Button onClick={() => setOpen(false)}>Hide examples</Button>
+          </div>
+        )}
+      </div>
+      {open && (
+        <div className="rounded-lg border bg-muted/40">
+          <div className="flex h-[600px] flex-wrap justify-center gap-4 overflow-y-auto py-8 scrollbar-thin">
+            {examples.map((example, index) => (
+              <button
+                className="flex h-16 items-center rounded-lg px-4 py-2 hover:bg-accent"
+                key={index}
+                onClick={() => {
+                  setColors({
+                    destructive: {
+                      colors: example.destructive,
+                      isLocked: false,
+                    },
+                    success: {
+                      colors: example.success,
+                      isLocked: false,
+                    },
+                    warning: {
+                      colors: example.warning,
+                      isLocked: false,
+                    },
+                    info: {
+                      colors: example.info,
+                      isLocked: false,
+                    },
+                  });
+                }}
+              >
+                <div
+                  className="h-full w-8 flex-1 rounded border"
+                  style={{
+                    backgroundColor: hslToCssValue(
+                      example.destructive[theme].background,
+                    ),
+                  }}
+                ></div>
+                <div
+                  className="h-full w-8 flex-1 rounded border"
+                  style={{
+                    backgroundColor: hslToCssValue(
+                      example.success[theme].background,
+                    ),
+                  }}
+                ></div>
+                <div
+                  className="h-full w-8 flex-1 rounded border"
+                  style={{
+                    backgroundColor: hslToCssValue(
+                      example.warning[theme].background,
+                    ),
+                  }}
+                ></div>
+                <div
+                  className="h-full w-8 flex-1 rounded border"
+                  style={{
+                    backgroundColor: hslToCssValue(
+                      example.info[theme].background,
+                    ),
+                  }}
+                />
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
