@@ -10,6 +10,7 @@ import { Alert as MyAlert } from "@/client/components/ui/alert";
 import { Badge } from "@/client/components/ui/badge";
 import { Button } from "@/client/components/ui/button";
 import { Label } from "@/client/components/ui/label";
+import { Skeleton } from "@/client/components/ui/skeleton";
 import { Switch } from "@/client/components/ui/switch";
 import {
   Tabs,
@@ -37,7 +38,7 @@ import { Info } from "lucide-react";
 import { keys, mapValues, range } from "remeda";
 
 export const Generate = () => {
-  const theme = useResolvedTheme() ?? "dark";
+  const theme = useResolvedTheme();
   const { setColors } = useColors();
   const styles = useStyles();
 
@@ -53,86 +54,96 @@ export const Generate = () => {
         <CopyButton value={styles} />
       </div>
 
-      <div className="flex w-full flex-col gap-2 lg:gap-4">
-        <Feedback name="success" />
-        <Feedback name="destructive" />
-        <Feedback name="warning" />
-        <Feedback name="info" />
-        <div className="flex flex-col gap-2 pt-6">
-          <div className="flex items-center gap-1">
-            <Switch
-              id="randomize-all"
-              checked={checked}
-              onCheckedChange={setChecked}
-            />
-            <Label htmlFor="randomize-all">
-              Overwrite {oppositeTheme} theme
-            </Label>
-          </div>
-          <Button
-            className="w-full"
-            variant="secondary"
-            size="lg"
-            onClick={() => {
-              const randomColors = randomizeAll();
+      {theme ? (
+        <div>
+          <div className="flex w-full flex-col gap-2 lg:gap-4">
+            <Feedback name="success" />
+            <Feedback name="destructive" />
+            <Feedback name="warning" />
+            <Feedback name="info" />
+            <div className="flex flex-col gap-2 pt-6">
+              <div className="flex items-center gap-1">
+                <Switch
+                  id="randomize-all"
+                  checked={checked}
+                  onCheckedChange={setChecked}
+                />
+                <Label htmlFor="randomize-all">
+                  Overwrite {oppositeTheme} theme
+                </Label>
+              </div>
+              <Button
+                className="w-full"
+                variant="secondary"
+                size="lg"
+                onClick={() => {
+                  const randomColors = randomizeAll();
 
-              // @ts-expect-error idc
-              setColors((colors) => {
-                return {
-                  destructive: colors.destructive.isLocked
-                    ? colors.destructive
-                    : {
-                        colors: {
-                          [theme]: randomColors.destructive[theme],
-                          [oppositeTheme]: checked
-                            ? randomColors.destructive[oppositeTheme]
-                            : colors.destructive.colors[oppositeTheme],
-                        },
-                        isLocked: false,
-                      },
-                  success: colors.success.isLocked
-                    ? colors.success
-                    : {
-                        colors: {
-                          [theme]: randomColors.success[theme],
-                          [oppositeTheme]: checked
-                            ? randomColors.success[oppositeTheme]
-                            : colors.success.colors[oppositeTheme],
-                        },
-                        isLocked: false,
-                      },
-                  warning: colors.warning.isLocked
-                    ? colors.warning
-                    : {
-                        colors: {
-                          [theme]: randomColors.warning[theme],
-                          [oppositeTheme]: checked
-                            ? randomColors.warning[oppositeTheme]
-                            : colors.warning.colors[oppositeTheme],
-                        },
-                        isLocked: false,
-                      },
-                  info: colors.info.isLocked
-                    ? colors.info
-                    : {
-                        colors: {
-                          [theme]: randomColors.info[theme],
-                          [oppositeTheme]: checked
-                            ? randomColors.info[oppositeTheme]
-                            : colors.info.colors[oppositeTheme],
-                        },
-                        isLocked: false,
-                      },
-                };
-              });
-            }}
-          >
-            <Icons.Dices className="mr-2 size-4" />
-            Randomize All
-          </Button>
+                  // @ts-expect-error idc
+                  setColors((colors) => {
+                    return {
+                      destructive: colors.destructive.isLocked
+                        ? colors.destructive
+                        : {
+                            colors: {
+                              [theme]: randomColors.destructive[theme],
+                              [oppositeTheme]: checked
+                                ? randomColors.destructive[oppositeTheme]
+                                : colors.destructive.colors[oppositeTheme],
+                            },
+                            isLocked: false,
+                          },
+                      success: colors.success.isLocked
+                        ? colors.success
+                        : {
+                            colors: {
+                              [theme]: randomColors.success[theme],
+                              [oppositeTheme]: checked
+                                ? randomColors.success[oppositeTheme]
+                                : colors.success.colors[oppositeTheme],
+                            },
+                            isLocked: false,
+                          },
+                      warning: colors.warning.isLocked
+                        ? colors.warning
+                        : {
+                            colors: {
+                              [theme]: randomColors.warning[theme],
+                              [oppositeTheme]: checked
+                                ? randomColors.warning[oppositeTheme]
+                                : colors.warning.colors[oppositeTheme],
+                            },
+                            isLocked: false,
+                          },
+                      info: colors.info.isLocked
+                        ? colors.info
+                        : {
+                            colors: {
+                              [theme]: randomColors.info[theme],
+                              [oppositeTheme]: checked
+                                ? randomColors.info[oppositeTheme]
+                                : colors.info.colors[oppositeTheme],
+                            },
+                            isLocked: false,
+                          },
+                    };
+                  });
+                }}
+              >
+                <Icons.Dices className="mr-2 size-4" />
+                Randomize All
+              </Button>
+            </div>
+          </div>
+          <Examples />
         </div>
-      </div>
-      <Examples />
+      ) : (
+        <div className="flex flex-col gap-4">
+          {range(0, 4).map((i) => (
+            <Skeleton key={i} className="h-16" />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

@@ -3,6 +3,7 @@ import "@/client/styles/globals.css";
 import { type Metadata } from "next";
 
 import { ClientProviders } from "@/client/components/client-providers";
+import { ThemeProvider } from "@/client/components/theme-provider";
 import { auth } from "@/server/auth/auth";
 import { TRPCReactProvider } from "@/trpc/react";
 
@@ -54,15 +55,26 @@ export default async function RootLayout({
   const session = await auth();
 
   return (
-    <html lang="en" className={`${GeistSans.className} dark`}>
-      <body className="flex min-h-screen flex-col overflow-hidden overflow-y-auto scrollbar-thin scrollbar-track-background scrollbar-thumb-accent">
-        <SessionProvider session={session}>
-          <TRPCReactProvider>
-            <ClientProviders>{children}</ClientProviders>
-          </TRPCReactProvider>
-        </SessionProvider>
-        <Analytics />
-      </body>
+    <html
+      lang="en"
+      className={`${GeistSans.className} dark`}
+      suppressHydrationWarning
+    >
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
+        <body className="flex min-h-screen flex-col overflow-hidden overflow-y-auto scrollbar-thin scrollbar-track-background scrollbar-thumb-accent">
+          <SessionProvider session={session}>
+            <TRPCReactProvider>
+              <ClientProviders>{children}</ClientProviders>
+            </TRPCReactProvider>
+          </SessionProvider>
+          <Analytics />
+        </body>
+      </ThemeProvider>
     </html>
   );
 }
