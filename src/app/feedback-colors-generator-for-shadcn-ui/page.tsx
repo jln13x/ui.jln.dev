@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import { type Metadata } from "next";
 import Link from "next/link";
 
 import { Support } from "@/client/components/headline";
@@ -11,8 +11,10 @@ import {
   Variants,
 } from "@/app/feedback-colors-generator-for-shadcn-ui/generator";
 
-const title = "Unlimited Feedback Colors for shadcn/ui - Color Generator";
-const description = "Generate unlimited feedback colors for shadcn/ui.";
+const title =
+  "Generate Success, Error, Warning and Info Colors for shadcn/ui - Color Generator";
+const description =
+  "Generate success, error, warning and info colors for shadcn/ui.";
 
 const ogUrl = "/_static/feedback/og.png";
 
