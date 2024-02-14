@@ -65,7 +65,7 @@ const Page = () => {
           </Link>
         </div>
       </div>
-      <div className="container pb-40 pt-6">
+      <div className="container pb-40 pt-12">
         <div className="flex flex-col items-center gap-6">
           <Logo className="size-10" />
           <h1
