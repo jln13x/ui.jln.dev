@@ -1,13 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 
 import { CopyButton } from "@/client/components/copy-button";
 import { Alert } from "@/client/components/customizable/alert";
-import { Support } from "@/client/components/headline";
 import * as Icons from "@/client/components/icons";
-import { Logo } from "@/client/components/logo";
 import { ThemeSwitch } from "@/client/components/theme-switch";
 import { Alert as MyAlert } from "@/client/components/ui/alert";
 import { Badge } from "@/client/components/ui/badge";
@@ -39,55 +36,7 @@ import { atomWithStorage } from "jotai/utils";
 import { Info } from "lucide-react";
 import { keys, mapValues, range } from "remeda";
 
-const Page = () => {
-  return (
-    <div>
-      <div className="border-b bg-muted py-3 text-muted-foreground">
-        <div className="container flex items-center justify-center gap-2 text-center text-sm">
-          <p>
-            Over <span className="font-medium">{" 10000 Themes "}</span>
-            for shadcn/ui available.
-          </p>
-          <Link
-            href="/"
-            className="rounded-lg bg-accent px-3 py-0.5 text-accent-foreground hover:bg-accent/80"
-          >
-            Explore themes
-          </Link>
-        </div>
-      </div>
-      <div className="container py-12">
-        <div className="flex flex-col items-center gap-6">
-          <Logo className="size-10" />
-          <h1
-            className={cn(
-              "relative flex flex-wrap items-center justify-center gap-2 text-lg font-bold max-lg:text-center lg:text-5xl",
-            )}
-          >
-            Generate
-            <span className="rounded-lg bg-primary px-2 py-1  tabular-nums text-primary-foreground lg:px-4 lg:py-2">
-              Feedback Colors
-            </span>
-            for shadcn/ui
-          </h1>
-
-          <div className="pt-6">
-            <Support />
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-20">
-          <Generate />
-          <Tailwind />
-          <Styles />
-          <Variants />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const Generate = () => {
+export const Generate = () => {
   const theme = useResolvedTheme();
   const { setColors } = useColors();
   const styles = useStyles();
@@ -106,54 +55,90 @@ const Generate = () => {
         <CopyButton value={styles} />
       </div>
 
-      <div className="flex w-full flex-col gap-4">
+      <div className="flex w-full flex-col gap-2 lg:gap-4">
         <Feedback name="success" />
         <Feedback name="destructive" />
         <Feedback name="warning" />
         <Feedback name="info" />
-        <div className="grid w-full grid-cols-4 gap-4">
-          <div className="col-start-4">
-            <div className="flex flex-col gap-2">
-              <Button
-                className="w-full"
-                variant="secondary"
-                onClick={() => {
-                  const colors = randomizeAll();
-
-                  setColors(() => ({
-                    destructive: {
-                      colors: colors.destructive,
-                      isLocked: false,
-                    },
-                    success: {
-                      colors: colors.success,
-                      isLocked: false,
-                    },
-                    warning: {
-                      colors: colors.warning,
-                      isLocked: false,
-                    },
-                    info: {
-                      colors: colors.info,
-                      isLocked: false,
-                    },
-                  }));
-                }}
-              >
-                Randomize All
-              </Button>
-              <div className="flex items-center gap-1">
-                <Switch
-                  id="randomize-all"
-                  checked={checked}
-                  onCheckedChange={setChecked}
-                />
-                <Label htmlFor="randomize-all">
-                  Overwrite {oppositeTheme} theme
-                </Label>
-              </div>
-            </div>
+        <div className="flex flex-col gap-2 pt-6">
+          <div className="flex items-center gap-1">
+            <Switch
+              id="randomize-all"
+              checked={checked}
+              onCheckedChange={setChecked}
+            />
+            <Label htmlFor="randomize-all">
+              Overwrite {oppositeTheme} theme
+            </Label>
           </div>
+          <Button
+            className="w-full"
+            variant="secondary"
+            size="lg"
+            onClick={() => {
+              const randomColors = randomizeAll();
+
+              setColors((colors) => {
+                return {
+                  destructive: colors.destructive.isLocked
+                    ? colors.destructive
+                    : {
+                        colors: {
+                          light: checked
+                            ? randomColors.destructive.light
+                            : colors.destructive.colors.light,
+                          dark: checked
+                            ? randomColors.destructive.dark
+                            : colors.destructive.colors.dark,
+                        },
+                        isLocked: false,
+                      },
+                  success: colors.success.isLocked
+                    ? colors.success
+                    : {
+                        colors: {
+                          light: checked
+                            ? randomColors.success.light
+                            : colors.success.colors.light,
+                          dark: checked
+                            ? randomColors.success.dark
+                            : colors.success.colors.dark,
+                        },
+                        isLocked: false,
+                      },
+                  warning: colors.warning.isLocked
+                    ? colors.warning
+                    : {
+                        colors: {
+                          light: checked
+                            ? randomColors.warning.light
+                            : colors.warning.colors.light,
+                          dark: checked
+                            ? randomColors.warning.dark
+                            : colors.warning.colors.dark,
+                        },
+                        isLocked: false,
+                      },
+                  info: colors.info.isLocked
+                    ? colors.info
+                    : {
+                        colors: {
+                          light: checked
+                            ? randomColors.info.light
+                            : colors.info.colors.light,
+                          dark: checked
+                            ? randomColors.info.dark
+                            : colors.info.colors.dark,
+                        },
+                        isLocked: false,
+                      },
+                };
+              });
+            }}
+          >
+            <Icons.Dices className="mr-2 size-4" />
+            Randomize All
+          </Button>
         </div>
       </div>
       <Examples />
@@ -177,28 +162,31 @@ const Examples = () => {
   if (!examples || !theme) return null;
 
   return (
-    <div className="flex flex-col gap-4 py-8">
+    <div className="flex flex-col gap-4 py-20">
       <div className="flex flex-col items-center justify-center gap-2">
         <div className="text-lg font-bold">Need inspiration? I got you!</div>
         {!open ? (
           <Button onClick={() => setOpen(true)}>Show 100 examples</Button>
         ) : (
-          <div className="flex items-center gap-2">
+          <div className="flex  gap-2 max-sm:flex-col sm:items-center">
             <Button
               onClick={() => {
                 setExamples(createExamples());
               }}
+              size="sm"
             >
               Generate 100 new examples
             </Button>
 
-            <Button onClick={() => setOpen(false)}>Hide examples</Button>
+            <Button size="sm" onClick={() => setOpen(false)} variant="outline">
+              Hide examples
+            </Button>
           </div>
         )}
       </div>
       {open && (
         <div className="rounded-lg border bg-muted/40">
-          <div className="flex h-[600px] flex-wrap justify-center gap-4 overflow-y-auto py-8 scrollbar-thin">
+          <div className="flex h-[600px] max-h-[50vh] flex-wrap justify-center gap-4 overflow-y-auto py-8 scrollbar-thin">
             {examples.map((example, index) => (
               <button
                 className="flex h-16 items-center rounded-lg px-4 py-2 hover:bg-accent"
@@ -265,7 +253,7 @@ const Examples = () => {
   );
 };
 
-const Tailwind = () => {
+export const Tailwind = () => {
   const codeString = `destructive: {
   DEFAULT: "hsl(var(--destructive))",
   foreground: "hsl(var(--destructive-foreground))",
@@ -303,7 +291,7 @@ info: {
         </MyAlert>
       </div>
 
-      <p className="pb-4 pt-6">
+      <p className="pb-4 pt-6 text-sm lg:text-base">
         Add the colors to your config file. (Nested under theme ➡︎ extend ➡︎
         colors). Just search for{" "}
         <span className="font-medium">destructive</span> in your current config
@@ -314,20 +302,13 @@ info: {
           tailwind.config.js
         </p>
 
-        <pre>
-          <code className="relative block max-h-[800px] rounded bg-muted px-2 py-3 font-mono text-xs lg:text-sm">
-            {codeString}
-            <div className="absolute right-2 top-2">
-              <CopyButton value={codeString} />
-            </div>
-          </code>
-        </pre>
+        <CodeBlock code={codeString} />
       </div>
     </div>
   );
 };
 
-const Styles = () => {
+export const Styles = () => {
   const codeString = useStyles();
 
   return (
@@ -349,7 +330,7 @@ const Styles = () => {
   );
 };
 
-const Variants = () => {
+export const Variants = () => {
   const variantKeys = keys.strict(variants);
 
   return (
@@ -410,7 +391,7 @@ const CodeBlock = ({ code }: { code: string }) => {
   return (
     <pre>
       <code className="relative block max-h-[800px] rounded bg-muted px-2 py-3 font-mono text-xs lg:text-sm">
-        {code}
+        <div className="h-full w-full overflow-scroll">{code}</div>
         <div className="absolute right-2 top-2">
           <CopyButton value={code} />
         </div>
@@ -496,34 +477,33 @@ const Feedback = ({ name }: { name: Feedback }) => {
   const pair = colors[name].colors[theme];
   const locked = colors[name].isLocked;
 
+  const contrast = colord(pair.background).contrast(colord(pair.foreground));
+
   return (
     <div>
-      <div className="grid grid-cols-4 gap-4">
+      <div className="flex h-full w-full flex-wrap justify-between gap-1">
         <Alert
-          className="col-span-3 bg-[hsl(var(--bg))] capitalize text-[hsl(var(--fg))]"
+          className="min-w-[200px] flex-1 bg-[hsl(var(--bg))] capitalize text-[hsl(var(--fg))]"
           style={{
             // @ts-expect-error idc
             "--bg": hslToVariableValue(pair.background),
             "--fg": hslToVariableValue(pair.foreground),
           }}
         >
-          {name}
-        </Alert>
-        <div className="flex w-full items-center gap-2">
-          <Button
-            variant="secondary"
-            className="h-full w-full gap-2 rounded-lg border text-foreground"
-            onClick={() => generate(name)}
-            disabled={locked}
-          >
-            Randomize
+          <div className="flex justify-between gap-4">
+            {name}
             <Tooltip>
               <TooltipTrigger>
                 <Badge
                   variant="outline"
                   className="flex items-center gap-2 bg-muted text-muted-foreground"
                 >
-                  {colord(pair.background).contrast(colord(pair.foreground))}
+                  {contrast > 4.5 ? (
+                    <Icons.Check className="size-3 text-success-foreground" />
+                  ) : (
+                    <Icons.X className="size-3 text-destructive-foreground" />
+                  )}
+                  {contrast.toFixed(2)}
                   <Info className="size-3" />
                 </Badge>
               </TooltipTrigger>
@@ -532,6 +512,17 @@ const Feedback = ({ name }: { name: Feedback }) => {
                 {colord(pair.background).contrast(colord(pair.foreground))}
               </TooltipContent>
             </Tooltip>
+          </div>
+        </Alert>
+        <div className="flex flex-shrink-0  gap-2">
+          <Button
+            variant="secondary"
+            className="h-auto flex-1 rounded-lg border text-foreground"
+            onClick={() => generate(name)}
+            disabled={locked}
+          >
+            <span className="sr-only">Randomize</span>
+            <Icons.Dices className="size-4" />
           </Button>
 
           <Tooltip>
@@ -541,8 +532,9 @@ const Feedback = ({ name }: { name: Feedback }) => {
                   lock(name);
                 }}
                 variant="outline"
-                className={cn("aspect-square h-full", {
-                  "border border-r-primary": locked,
+                className={cn("h-full flex-1 flex-shrink-0", {
+                  "border border-warning-border bg-warning text-warning-foreground":
+                    locked,
                 })}
               >
                 {locked ? (
@@ -564,38 +556,34 @@ function randomNumberInRange(min: number, max: number) {
   return Math.random() * (max - min) + min;
 }
 
-const des = generate({
-  h: { min: 0, max: 15 },
-  s: { min: 40, max: 100 },
-  l: { min: 20, max: 45 },
-});
+const random = randomizeAll();
 
 const atom = atomWithStorage("colors", {
   destructive: {
     colors: {
-      light: des,
-      dark: des,
+      light: random.destructive.light,
+      dark: random.destructive.dark,
     },
     isLocked: false,
   },
   success: {
     colors: {
-      light: des,
-      dark: des,
+      light: random.success.light,
+      dark: random.success.dark,
     },
     isLocked: false,
   },
   warning: {
     colors: {
-      light: des,
-      dark: des,
+      light: random.warning.light,
+      dark: random.warning.dark,
     },
     isLocked: false,
   },
   info: {
     colors: {
-      light: des,
-      dark: des,
+      light: random.info.light,
+      dark: random.info.dark,
     },
     isLocked: false,
   },
@@ -680,7 +668,7 @@ function randomizeAll() {
     destructive.dark.l.max,
   );
 
-  return mapValues(ranges, (value, key) => {
+  return mapValues(ranges, (value) => {
     const light = colord({
       h: randomNumberInRange(value.light.h.min, value.light.h.max),
       s: lightBaseSaturation,
@@ -755,5 +743,3 @@ ${dark}
 
   return codeString;
 };
-
-export default Page;
