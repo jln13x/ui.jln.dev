@@ -9,6 +9,15 @@ import { ThemeSwitch } from "@/client/components/theme-switch";
 import { Alert as MyAlert } from "@/client/components/ui/alert";
 import { Badge } from "@/client/components/ui/badge";
 import { Button } from "@/client/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/client/components/ui/dropdown-menu";
 import { Label } from "@/client/components/ui/label";
 import { Skeleton } from "@/client/components/ui/skeleton";
 import { Switch } from "@/client/components/ui/switch";
@@ -31,11 +40,13 @@ import {
 } from "@/client/lib/hsl-to-variable-value";
 import { useResolvedTheme } from "@/client/lib/use-resolved-theme";
 
+import { useCopyToClipboard } from "@jlns/hooks";
 import { colord, type HslaColor } from "colord";
 import { useAtom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { Info } from "lucide-react";
 import { keys, mapValues, range } from "remeda";
+import { toast } from "sonner";
 
 export const Generate = () => {
   const theme = useResolvedTheme();
@@ -483,6 +494,7 @@ type Feedback = keyof typeof ranges;
 
 const Feedback = ({ name }: { name: Feedback }) => {
   const theme = useResolvedTheme();
+  const { copy } = useCopyToClipboard();
 
   const { colors, generateColor: generate, lock } = useColors();
 
@@ -560,6 +572,88 @@ const Feedback = ({ name }: { name: Feedback }) => {
             </TooltipTrigger>
             <TooltipContent>{locked ? "Unlock" : "Lock"}</TooltipContent>
           </Tooltip>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="outline"
+                className="h-full flex-1 flex-shrink-0 max-lg:hidden"
+              >
+                <Icons.Copy className="size-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>Background</DropdownMenuSubTrigger>
+                <DropdownMenuSubContent>
+                  <DropdownMenuItem
+                    onClick={() => {
+                      const variable = hslToVariableValue(pair.background);
+                      copy(`--${name}: ${variable};`);
+                      toast("Copied to clipboard");
+                    }}
+                  >
+                    Variable
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => {
+                      const hex = colord(pair.background).toHex();
+
+                      copy(hex);
+                      toast("Copied to clipboard");
+                    }}
+                  >
+                    Hex
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => {
+                      const hsl = colord(pair.background).toHslString();
+
+                      copy(hsl);
+                      toast("Copied to clipboard");
+                    }}
+                  >
+                    HSL
+                  </DropdownMenuItem>
+                </DropdownMenuSubContent>
+              </DropdownMenuSub>
+
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>Foreground</DropdownMenuSubTrigger>
+                <DropdownMenuSubContent>
+                  <DropdownMenuItem
+                    onClick={() => {
+                      const variable = hslToVariableValue(pair.foreground);
+                      copy(`--${name}-foreground: ${variable};`);
+                      toast("Copied to clipboard");
+                    }}
+                  >
+                    Variable
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => {
+                      const hex = colord(pair.foreground).toHex();
+
+                      copy(hex);
+                      toast("Copied to clipboard");
+                    }}
+                  >
+                    Hex
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => {
+                      const hsl = colord(pair.foreground).toHslString();
+
+                      copy(hsl);
+                      toast("Copied to clipboard");
+                    }}
+                  >
+                    HSL
+                  </DropdownMenuItem>
+                </DropdownMenuSubContent>
+              </DropdownMenuSub>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </div>
