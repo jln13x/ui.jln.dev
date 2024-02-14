@@ -9,7 +9,7 @@ import {
   Styles,
   Tailwind,
   Variants,
-} from "@/app/feedback-colors-generator-for-shadcn/generator";
+} from "@/app/feedback-colors-generator-for-shadcn-ui/generator";
 
 const title = "Unlimited Feedback Colors for shadcn/ui - Color Generator";
 const description = "Generate unlimited feedback colors for shadcn/ui.";

@@ -37,13 +37,11 @@ import { Info } from "lucide-react";
 import { keys, mapValues, range } from "remeda";
 
 export const Generate = () => {
-  const theme = useResolvedTheme();
+  const theme = useResolvedTheme() ?? "dark";
   const { setColors } = useColors();
   const styles = useStyles();
 
   const [checked, setChecked] = useState(true);
-
-  if (!theme) return null;
 
   const oppositeTheme = theme === "light" ? "dark" : "light";
 
@@ -78,18 +76,17 @@ export const Generate = () => {
             onClick={() => {
               const randomColors = randomizeAll();
 
+              // @ts-expect-error idc
               setColors((colors) => {
                 return {
                   destructive: colors.destructive.isLocked
                     ? colors.destructive
                     : {
                         colors: {
-                          light: checked
-                            ? randomColors.destructive.light
-                            : colors.destructive.colors.light,
-                          dark: checked
-                            ? randomColors.destructive.dark
-                            : colors.destructive.colors.dark,
+                          [theme]: randomColors.destructive[theme],
+                          [oppositeTheme]: checked
+                            ? randomColors.destructive[oppositeTheme]
+                            : colors.destructive.colors[oppositeTheme],
                         },
                         isLocked: false,
                       },
@@ -97,12 +94,10 @@ export const Generate = () => {
                     ? colors.success
                     : {
                         colors: {
-                          light: checked
-                            ? randomColors.success.light
-                            : colors.success.colors.light,
-                          dark: checked
-                            ? randomColors.success.dark
-                            : colors.success.colors.dark,
+                          [theme]: randomColors.success[theme],
+                          [oppositeTheme]: checked
+                            ? randomColors.success[oppositeTheme]
+                            : colors.success.colors[oppositeTheme],
                         },
                         isLocked: false,
                       },
@@ -110,12 +105,10 @@ export const Generate = () => {
                     ? colors.warning
                     : {
                         colors: {
-                          light: checked
-                            ? randomColors.warning.light
-                            : colors.warning.colors.light,
-                          dark: checked
-                            ? randomColors.warning.dark
-                            : colors.warning.colors.dark,
+                          [theme]: randomColors.warning[theme],
+                          [oppositeTheme]: checked
+                            ? randomColors.warning[oppositeTheme]
+                            : colors.warning.colors[oppositeTheme],
                         },
                         isLocked: false,
                       },
@@ -123,12 +116,10 @@ export const Generate = () => {
                     ? colors.info
                     : {
                         colors: {
-                          light: checked
-                            ? randomColors.info.light
-                            : colors.info.colors.light,
-                          dark: checked
-                            ? randomColors.info.dark
-                            : colors.info.colors.dark,
+                          [theme]: randomColors.info[theme],
+                          [oppositeTheme]: checked
+                            ? randomColors.info[oppositeTheme]
+                            : colors.info.colors[oppositeTheme],
                         },
                         isLocked: false,
                       },
@@ -416,7 +407,7 @@ const ranges = {
     light: {
       h: { min: 0, max: 15 },
       s: { min: 40, max: 100 },
-      l: { min: 20, max: 90 },
+      l: { min: 40, max: 90 },
     },
     dark: {
       h: { min: 0, max: 15 },
@@ -659,10 +650,8 @@ function randomizeAll() {
     destructive.light.l.max,
   );
 
-  const darkBaseSaturation = randomNumberInRange(
-    destructive.dark.s.min,
-    destructive.dark.s.max,
-  );
+  const darkBaseSaturation = lightBaseSaturation;
+
   const darkBaseLightness = randomNumberInRange(
     destructive.dark.l.min,
     destructive.dark.l.max,

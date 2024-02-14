@@ -8,7 +8,7 @@ import { pathToRegexp } from "path-to-regexp";
 const publicRoutes: string[] = [
   routes.signin,
   "/",
-  "/feedback-colors-generator-for-shadcn",
+  "/feedback-colors-generator-for-shadcn-ui",
   "/theme/(.*)",
   "/legal/(.*)",
   "/api/trpc/(.*)",
