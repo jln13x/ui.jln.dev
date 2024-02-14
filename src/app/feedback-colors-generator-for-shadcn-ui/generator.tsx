@@ -80,7 +80,7 @@ export const Generate = () => {
                   onCheckedChange={setChecked}
                 />
                 <Label htmlFor="randomize-all">
-                  Overwrite {oppositeTheme} theme
+                 Randomize both themes
                 </Label>
               </div>
               <Button
