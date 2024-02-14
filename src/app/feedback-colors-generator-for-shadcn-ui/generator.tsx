@@ -57,8 +57,8 @@ export const Generate = () => {
       {theme ? (
         <div>
           <div className="flex w-full flex-col gap-2 lg:gap-4">
-            <Feedback name="success" />
             <Feedback name="destructive" />
+            <Feedback name="success" />
             <Feedback name="warning" />
             <Feedback name="info" />
             <div className="flex flex-col gap-2 pt-6">
@@ -191,7 +191,7 @@ const Examples = () => {
           <div className="flex h-[600px] max-h-[50vh] flex-wrap justify-center gap-4 overflow-y-auto py-8 scrollbar-thin">
             {examples.map((example, index) => (
               <button
-                className="flex h-16 items-center rounded-lg px-4 py-2 hover:bg-accent"
+                className="flex h-16 items-center gap-0.5 rounded-lg px-4 py-2 hover:bg-accent"
                 key={index}
                 onClick={() => {
                   setColors({
@@ -215,37 +215,49 @@ const Examples = () => {
                 }}
               >
                 <div
-                  className="h-full w-8 flex-1 rounded border"
+                  className="grid h-full w-8 flex-1 flex-shrink-0 place-items-center rounded border"
                   style={{
                     backgroundColor: hslToCssValue(
                       example.destructive[theme].background,
                     ),
+                    color: hslToCssValue(example.destructive[theme].foreground),
                   }}
-                ></div>
+                >
+                  D
+                </div>
                 <div
-                  className="h-full w-8 flex-1 rounded border"
+                  className="grid h-full w-8 flex-1 flex-shrink-0 place-items-center rounded border"
                   style={{
                     backgroundColor: hslToCssValue(
                       example.success[theme].background,
                     ),
+                    color: hslToCssValue(example.success[theme].foreground),
                   }}
-                ></div>
+                >
+                  S
+                </div>
                 <div
-                  className="h-full w-8 flex-1 rounded border"
+                  className="grid h-full w-8 flex-1 flex-shrink-0 place-items-center rounded border"
                   style={{
                     backgroundColor: hslToCssValue(
                       example.warning[theme].background,
                     ),
+                    color: hslToCssValue(example.warning[theme].foreground),
                   }}
-                ></div>
+                >
+                  W
+                </div>
                 <div
-                  className="h-full w-8 flex-1 rounded border"
+                  className="grid h-full w-8 flex-1 flex-shrink-0 place-items-center rounded border"
                   style={{
                     backgroundColor: hslToCssValue(
                       example.info[theme].background,
                     ),
+                    color: hslToCssValue(example.info[theme].foreground),
                   }}
-                />
+                >
+                  I
+                </div>
               </button>
             ))}
           </div>
