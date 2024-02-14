@@ -14,7 +14,7 @@ export const Headline = () => {
   return (
     <div>
       <div className="border-b bg-muted py-3 text-muted-foreground">
-        <div className="container flex items-center justify-center gap-2 text-center text-sm max-sm:flex-col">
+        <div className="container flex items-center justify-center gap-2 text-center text-xs max-sm:flex-col sm:text-sm">
           <p>
             Generate feedback colors (success, warning, error, and info) for
             shadcn/ui
