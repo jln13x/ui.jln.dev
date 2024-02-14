@@ -1,6 +1,7 @@
 import { type Metadata } from "next";
 import { redirect } from "next/navigation";
 
+import { Headline } from "@/client/components/headline";
 import { HydrateTheme } from "@/client/components/hydrate-theme";
 import { ThemePage } from "@/client/components/theme-page";
 import { db } from "@/server/db";
@@ -78,6 +79,7 @@ const Page = async (props: Props) => {
 
   return (
     <div className="relative">
+      <Headline />
       <ThemePage />
       {theme && <HydrateTheme theme={theme} />}
     </div>
