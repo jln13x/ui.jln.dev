@@ -589,7 +589,7 @@ const Feedback = ({ name }: { name: Feedback }) => {
                   <DropdownMenuItem
                     onClick={() => {
                       const variable = hslToVariableValue(pair.background);
-                      copy(`--${name}: ${variable};`);
+                      void copy(`--${name}: ${variable};`);
                       toast("Copied to clipboard");
                     }}
                   >
@@ -599,7 +599,7 @@ const Feedback = ({ name }: { name: Feedback }) => {
                     onClick={() => {
                       const hex = colord(pair.background).toHex();
 
-                      copy(hex);
+                      void copy(hex);
                       toast("Copied to clipboard");
                     }}
                   >
@@ -609,7 +609,7 @@ const Feedback = ({ name }: { name: Feedback }) => {
                     onClick={() => {
                       const hsl = colord(pair.background).toHslString();
 
-                      copy(hsl);
+                      void copy(hsl);
                       toast("Copied to clipboard");
                     }}
                   >
@@ -624,7 +624,7 @@ const Feedback = ({ name }: { name: Feedback }) => {
                   <DropdownMenuItem
                     onClick={() => {
                       const variable = hslToVariableValue(pair.foreground);
-                      copy(`--${name}-foreground: ${variable};`);
+                      void copy(`--${name}-foreground: ${variable};`);
                       toast("Copied to clipboard");
                     }}
                   >
@@ -634,7 +634,7 @@ const Feedback = ({ name }: { name: Feedback }) => {
                     onClick={() => {
                       const hex = colord(pair.foreground).toHex();
 
-                      copy(hex);
+                      void copy(hex);
                       toast("Copied to clipboard");
                     }}
                   >
@@ -644,7 +644,7 @@ const Feedback = ({ name }: { name: Feedback }) => {
                     onClick={() => {
                       const hsl = colord(pair.foreground).toHslString();
 
-                      copy(hsl);
+                      void copy(hsl);
                       toast("Copied to clipboard");
                     }}
                   >
