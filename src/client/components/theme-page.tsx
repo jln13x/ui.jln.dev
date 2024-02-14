@@ -2,7 +2,6 @@ import { Suspense } from "react";
 import Link from "next/link";
 
 import { Cards } from "@/client/components/examples/pages/cards/cards";
-import { Headline } from "@/client/components/headline";
 import { StyleProvider } from "@/client/components/style-provider";
 import { Button } from "@/client/components/ui/button";
 import { VSCodeThemes } from "@/client/components/vscode-themes";
@@ -38,7 +37,7 @@ export const ThemePage = () => {
             .
           </p>
 
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense>
             <VSCodeThemes />
           </Suspense>
 
