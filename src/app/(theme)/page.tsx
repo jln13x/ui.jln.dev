@@ -5,7 +5,9 @@ const Page = async () => {
   return (
     <div className="relative">
       <Headline />
-      <ThemePage />
+      <div className="pt-10>
+        <ThemePage />
+      </div>
     </div>
   );
 };
