@@ -32,7 +32,7 @@ export const GoBack = () => {
         scroll={false}
       >
         <Icons.Previous className="size-4" />
-        <span>Previous</span>
+        <span className="max-lg:sr-only">Previous</span>
       </Link>
     </MenuButton>
   );
