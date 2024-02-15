@@ -11,6 +11,7 @@ import {
   IconCopy,
 } from "@tabler/icons-react";
 import {
+  ArrowBigLeftDashIcon,
   ArrowLeftIcon,
   ArrowRightIcon,
   BellIcon,
@@ -119,6 +120,7 @@ const Reset = RotateCcwIcon;
 const Star = StarIcon;
 const Share = ShareIcon;
 const Dices = DicesIcon;
+const Previous = ArrowBigLeftDashIcon;
 
 export {
   Apple,
@@ -160,6 +162,7 @@ export {
   Palette,
   Paypal,
   Plus,
+  Previous,
   Reset,
   Rocket,
   Save,

@@ -206,10 +206,13 @@ const ThemeValue = ({
       [key]: value,
     };
 
-    setConfig((prev) => ({
-      ...prev,
-      [appTheme]: newActiveThemeConfig,
-    }));
+    setConfig(
+      (prev) => ({
+        ...prev,
+        [appTheme]: newActiveThemeConfig,
+      }),
+      false,
+    );
   };
 
   return (
@@ -236,6 +239,14 @@ const PasteTheme = () => {
   const handlePaste = useCallback(
     (text: string) => {
       const theme = cssToTheme(text);
+
+      if (
+        Object.values(theme.light).length === 0 ||
+        Object.values(theme.dark).length === 0
+      ) {
+        toast.error("Invalid theme pasted.");
+        return;
+      }
 
       setThemeConfig((prev) => ({
         dark: {

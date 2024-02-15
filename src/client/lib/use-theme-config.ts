@@ -52,13 +52,35 @@ export const defaultConfig: ThemeConfig = {
 };
 
 export const themeConfigAtom = atom<ThemeConfig>(createThemeConfig());
+export const themeStackAtom = atom<ThemeConfig[]>([]);
+
+const STACK_MAX_SIZE = 50;
 
 export const useThemeConfig = () => {
   return useAtomValue(themeConfigAtom);
 };
 
 export const useSetThemeConfig = () => {
-  return useSetAtom(themeConfigAtom);
+  const activeThemeConfig = useThemeConfig();
+  const setThemeConfig = useSetAtom(themeConfigAtom);
+  const setStack = useSetAtom(themeStackAtom);
+
+  const set = (
+    value: ThemeConfig | ((v: ThemeConfig) => ThemeConfig),
+    addToStack = true,
+  ) => {
+    setThemeConfig(value);
+
+    if (activeThemeConfig && addToStack) {
+      setStack((stack) =>
+        stack.length < STACK_MAX_SIZE
+          ? [activeThemeConfig, ...stack]
+          : [activeThemeConfig, ...stack.slice(0, STACK_MAX_SIZE - 1)],
+      );
+    }
+  };
+
+  return set;
 };
 
 export const useActiveTheme = () => {

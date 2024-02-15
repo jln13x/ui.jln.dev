@@ -7,18 +7,17 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/client/components/ui/tooltip";
-import { cn } from "@/client/lib/cn";
 import { useSelectedThemeId } from "@/client/lib/use-selected-theme";
 import { useSetThemeConfig } from "@/client/lib/use-theme-config";
 
-export const Random = ({ className }: { className?: string }) => {
+export const Random = () => {
   const setThemeConfig = useSetThemeConfig();
   const [, setSelectedThemeId] = useSelectedThemeId();
 
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <MenuButton asChild className={cn(className)}>
+        <MenuButton asChild>
           <Link
             href="/"
             onClick={async () => {
@@ -29,11 +28,11 @@ export const Random = ({ className }: { className?: string }) => {
               setThemeConfig(createThemeConfig());
               setSelectedThemeId(undefined);
             }}
-            className="flex items-center gap-2"
+            className="flex h-8 items-center gap-2 px-6 py-1.5 text-xs"
             scroll={false}
           >
             <Icons.Dices className="size-4" />
-            Random Theme
+            Randomize
           </Link>
         </MenuButton>
       </TooltipTrigger>
