@@ -80,7 +80,9 @@ const Page = async (props: Props) => {
   return (
     <div className="relative">
       <Headline />
-      <ThemePage />
+      <div className="pt-10">
+        <ThemePage />
+      </div>
       {theme && <HydrateTheme theme={theme} />}
     </div>
   );
