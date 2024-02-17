@@ -6,7 +6,6 @@ import { ColorPicker } from "@/client/components/color-picker";
 import * as Icons from "@/client/components/icons";
 import { MenuButton } from "@/client/components/menu/menu-button";
 import { ThemeSwitch } from "@/client/components/theme-switch";
-import { Alert } from "@/client/components/ui/alert";
 import { Button } from "@/client/components/ui/button";
 import {
   Drawer,
@@ -76,10 +75,6 @@ const Content = () => {
       <p className="pb-4 text-lg font-semibold leading-none tracking-tight">
         Customize Theme
       </p>
-      <Alert variant="info" size="sm">
-        <p className="font-bold">Color Picker doesn&apos;t work?</p>
-        <p className="text-xs">Toggle between Light and Dark mode to fix it.</p>
-      </Alert>
       <div className="flex justify-center py-6">
         <ThemeSwitch />
       </div>
@@ -272,7 +267,7 @@ const PasteTheme = () => {
     const handler = (e: ClipboardEvent) => {
       const pastedData = e?.clipboardData?.getData("text");
 
-      if (pastedData && (!document.activeElement || !document.activeElement.matches('div[data-radix-popper-content-wrapper] input'))) {
+      if (pastedData && document.activeElement?.tagName !== "INPUT") {
         handlePaste(pastedData);
       }
     };
