@@ -272,9 +272,9 @@ const PasteTheme = () => {
     const handler = (e: ClipboardEvent) => {
       const pastedData = e?.clipboardData?.getData("text");
 
-      if (!pastedData) return;
-
-      handlePaste(pastedData);
+      if (pastedData && (!document.activeElement || !document.activeElement.matches('div[data-radix-popper-content-wrapper] input'))) {
+        handlePaste(pastedData);
+      }
     };
 
     window.addEventListener("paste", handler);
