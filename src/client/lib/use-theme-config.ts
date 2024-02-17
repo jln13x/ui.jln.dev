@@ -74,8 +74,8 @@ export const useSetThemeConfig = () => {
     if (activeThemeConfig && addToStack) {
       setStack((stack) =>
         stack.length < STACK_MAX_SIZE
-          ? [activeThemeConfig, ...stack]
-          : [activeThemeConfig, ...stack.slice(0, STACK_MAX_SIZE - 1)],
+          ? [...stack, activeThemeConfig]
+          : [...stack.slice(0, STACK_MAX_SIZE - 1), activeThemeConfig],
       );
     }
   };
