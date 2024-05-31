@@ -3,10 +3,11 @@ import { z } from "zod";
 
 export const env = createEnv({
   server: {
-    DATABASE_URL: z.string().url(),
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
+    TURSO_CONNECTION_URL: z.string(),
+    TURSO_AUTH_TOKEN: z.string(),
     DISCORD_CLIENT_ID: z.string(),
     DISCORD_CLIENT_SECRET: z.string(),
     GITHUB_CLIENT_ID: z.string(),
@@ -28,8 +29,10 @@ export const env = createEnv({
    * middlewares) or client-side so we need to destruct manually.
    */
   runtimeEnv: {
-    DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
+
+    TURSO_CONNECTION_URL: process.env.TURSO_CONNECTION_URL,
+    TURSO_AUTH_TOKEN: process.env.TURSO_AUTH_TOKEN,
 
     DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
     DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,

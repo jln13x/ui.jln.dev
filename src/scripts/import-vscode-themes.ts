@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import { db } from "@/server/db";
 import { themes, vscodeThemes } from "@/server/db/schema";
 import { createId } from "@/server/db/utils/create-id";
@@ -21,9 +24,9 @@ import {
 } from "remeda";
 import { z } from "zod";
 
-extend([a11yPlugin, labPlugin]);
+throw new Error("Might include errors - Wont be used anymore");
 
-// await db.delete(vscodeThemes).execute();
+extend([a11yPlugin, labPlugin]);
 
 for (const extension of Object.values(extensions)) {
   const promises = Object.entries(extension.themes).map(

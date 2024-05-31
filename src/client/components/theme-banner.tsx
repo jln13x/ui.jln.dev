@@ -37,7 +37,7 @@ export const ThemeBanner = () => {
           <p className="truncate text-sm font-bold lg:text-xl">{theme.name}</p>
 
           <div className="flex items-center gap-2">
-            {sesh.data?.user.id === theme.userId ? (
+            {sesh.data?.user?.id === theme.userId ? (
               <div className="flex items-center gap-2 px-2 py-1">
                 <Star />
                 <Badge variant="info">{theme.stars}</Badge>
@@ -97,7 +97,7 @@ export const ThemeBanner = () => {
           </div>
         </div>
       </div>
-      {sesh.data?.user.id === theme.userId && (
+      {sesh.data?.user?.id === theme.userId && (
         <div className="border-b border-info-foreground/20 bg-info/80 py-1 text-info-foreground">
           <div className="container flex items-center justify-between gap-6">
             <p className="text-xs font-bold">This is your theme.</p>

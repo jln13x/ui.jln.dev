@@ -2,39 +2,27 @@ import { createId } from "@/server/db/utils/create-id";
 import { type ThemeConfig } from "@/shared/theme-config";
 import { type VscodeTheme } from "@/shared/vscode";
 
-import { type AdapterAccount } from "@auth/core/adapters";
+import type { AdapterAccount } from "@auth/core/adapters";
 import { relations, sql } from "drizzle-orm";
 import {
-  boolean,
   index,
-  int,
-  json,
-  mysqlTableCreator,
+  integer,
+  numeric,
   primaryKey,
+  sqliteTableCreator,
   text,
-  timestamp,
-  varchar,
-} from "drizzle-orm/mysql-core";
+} from "drizzle-orm/sqlite-core";
 import { TABLE_NAME } from "project.config";
 
-export const mysqlTable = mysqlTableCreator((name) => `${TABLE_NAME}_${name}`);
+export const table = sqliteTableCreator((name) => `${TABLE_NAME}_${name}`);
 
-export const users = mysqlTable("user", {
-  id: varchar("id", { length: 255 })
-    .notNull()
-    .primaryKey()
-    .$defaultFn(() => createId()),
-  name: varchar("name", { length: 255 }),
-  email: varchar("email", { length: 255 }).notNull(),
-  emailVerified: timestamp("emailVerified", {
-    mode: "date",
-    fsp: 3,
-  }).default(sql`CURRENT_TIMESTAMP(3)`),
-  image: varchar("image", { length: 255 }),
-  createdAt: timestamp("created_at", {
-    mode: "date",
-    fsp: 3,
-  }).default(sql`CURRENT_TIMESTAMP(3)`),
+export const users = table("user", {
+  id: text("id", { length: 255 }).primaryKey().notNull().$defaultFn(createId),
+  name: text("name", { length: 255 }).notNull().default(""),
+  email: text("email", { length: 255 }).notNull(),
+  emailVerified: numeric("emailVerified").default(sql`(CURRENT_TIMESTAMP)`),
+  image: text("image", { length: 255 }).default("sql`(NULL)`"),
+  created_at: numeric("created_at").default(sql`(CURRENT_TIMESTAMP)`),
 });
 
 export const usersRelations = relations(users, ({ many }) => ({
@@ -44,90 +32,65 @@ export const usersRelations = relations(users, ({ many }) => ({
   stars: many(stars),
 }));
 
-export const accounts = mysqlTable(
+export const accounts = table(
   "account",
   {
-    userId: varchar("userId", { length: 255 }).notNull(),
-    type: varchar("type", { length: 255 })
-      .$type<AdapterAccount["type"]>()
-      .notNull(),
-    provider: varchar("provider", { length: 255 }).notNull(),
-    providerAccountId: varchar("providerAccountId", { length: 255 }).notNull(),
+    userId: text("userId")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    type: text("type").$type<AdapterAccount["type"]>().notNull(),
+    provider: text("provider").notNull(),
+    providerAccountId: text("providerAccountId").notNull(),
     refresh_token: text("refresh_token"),
     access_token: text("access_token"),
-    expires_at: int("expires_at"),
-    token_type: varchar("token_type", { length: 255 }),
-    scope: varchar("scope", { length: 255 }),
+    expires_at: integer("expires_at"),
+    token_type: text("token_type"),
+    scope: text("scope"),
     id_token: text("id_token"),
-    session_state: varchar("session_state", { length: 255 }),
+    session_state: text("session_state"),
   },
   (account) => ({
-    compoundKey: primaryKey(account.provider, account.providerAccountId),
-    userIdIdx: index("userId_idx").on(account.userId),
+    compoundKey: primaryKey({
+      columns: [account.provider, account.providerAccountId],
+    }),
   }),
 );
+
+export const sessions = table("session", {
+  sessionToken: text("sessionToken").primaryKey(),
+  userId: text("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  expires: integer("expires", { mode: "timestamp_ms" }).notNull(),
+});
 
 export const accountsRelations = relations(accounts, ({ one }) => ({
   user: one(users, { fields: [accounts.userId], references: [users.id] }),
 }));
 
-export const sessions = mysqlTable(
-  "session",
-  {
-    sessionToken: varchar("sessionToken", { length: 255 })
-      .notNull()
-      .primaryKey(),
-    userId: varchar("userId", { length: 255 }).notNull(),
-    expires: timestamp("expires", { mode: "date" }).notNull(),
-  },
-  (session) => ({
-    userIdIdx: index("userId_idx").on(session.userId),
-  }),
-);
-
 export const sessionsRelations = relations(sessions, ({ one }) => ({
   user: one(users, { fields: [sessions.userId], references: [users.id] }),
 }));
 
-export const verificationTokens = mysqlTable(
-  "verificationToken",
-  {
-    identifier: varchar("identifier", { length: 255 }).notNull(),
-    token: varchar("token", { length: 255 }).notNull(),
-    expires: timestamp("expires", { mode: "date" }).notNull(),
-  },
-  (vt) => ({
-    compoundKey: primaryKey(vt.identifier, vt.token),
-  }),
-);
-
-export const themes = mysqlTable(
+export const themes = table(
   "themes",
   {
-    id: varchar("id", { length: 255 })
-      .notNull()
-      .primaryKey()
-      .$defaultFn(() => createId()),
-    userId: varchar("userId", { length: 255 }).notNull(),
-    name: varchar("name", { length: 255 }).notNull(),
-    config: json("config").$type<ThemeConfig>().notNull(),
-    createdAt: timestamp("created_at", {
-      mode: "date",
-      fsp: 3,
-    })
-      .default(sql`CURRENT_TIMESTAMP(3)`)
+    id: text("id", { length: 255 }).primaryKey().notNull().$defaultFn(createId),
+    name: text("name", { length: 255 }).notNull().default(""),
+    config: text("config", { mode: "json" }).$type<ThemeConfig>().notNull(),
+    createdAt: numeric("created_at")
+      .default(sql`(CURRENT_TIMESTAMP)`)
       .notNull(),
-    isPublic: boolean("isPublic").default(true).notNull(),
+    userId: text("userId", { length: 255 }).notNull(),
+    isPublic: integer("isPublic", { mode: "boolean" }).default(true).notNull(),
   },
   (theme) => ({
-    nameIdx: index("name_idx").on(theme.name),
-    userIdIdx: index("userId_idx").on(theme.userId),
-    isPublicIdx: index("isPublic_idx").on(theme.isPublic),
-    userIdIsPublicCreatedAtIdx: index("userId_isPublic_createdAt_idx").on(
-      theme.userId,
-      theme.isPublic,
-      theme.createdAt,
-    ),
+    nameIdx: index("themes_name_idx").on(theme.name),
+    userIdIdx: index("themes_userId_idx").on(theme.userId),
+    isPublicIdx: index("themes_isPublic_idx").on(theme.isPublic),
+    userIdIsPublicCreatedAtIdx: index(
+      "themes_userId_isPublic_createdAt_idx",
+    ).on(theme.userId, theme.isPublic, theme.createdAt),
   }),
 );
 
@@ -141,17 +104,21 @@ export const themeRelations = relations(themes, ({ one, many }) => ({
   stars: many(stars),
 }));
 
-export const stars = mysqlTable(
+export const stars = table(
   "stars",
   {
-    userId: varchar("userId", { length: 255 }).notNull(),
-    themeId: varchar("themeId", { length: 255 }).notNull(),
+    userId: text("userId", { length: 255 }).notNull(),
+    themeId: text("themeId", { length: 255 }).notNull(),
   },
-  (star) => ({
-    compoundKey: primaryKey(star.userId, star.themeId),
-    themeIdIdx: index("themeId_idx").on(star.themeId),
-    userIdIdx: index("userId_idx").on(star.userId),
-  }),
+  (table) => {
+    return {
+      themeIdIdx: index("stars_themeId_idx").on(table.themeId),
+      userIdIdx: index("stars_userId_idx").on(table.userId),
+      compoundKey: primaryKey({
+        columns: [table.themeId, table.userId],
+      }),
+    };
+  },
 );
 
 export const starsRelations = relations(stars, ({ one }) => ({
@@ -159,13 +126,9 @@ export const starsRelations = relations(stars, ({ one }) => ({
   theme: one(themes, { fields: [stars.themeId], references: [themes.id] }),
 }));
 
-export const vscodeThemes = mysqlTable("vscodeThemes", {
-  id: varchar("id", { length: 255 })
-    .notNull()
-    .primaryKey()
-    .$defaultFn(() => createId()),
-
-  installs: int("installs").notNull(),
-  themeId: varchar("themeId", { length: 255 }).notNull(),
-  metadata: json("metadata").notNull().$type<VscodeTheme>(),
+export const vscodeThemes = table("vscodeThemes", {
+  id: text("id", { length: 255 }).primaryKey().notNull(),
+  themeId: text("themeId", { length: 255 }).notNull(),
+  metadata: text("metadata", { mode: "json" }).notNull().$type<VscodeTheme>(),
+  installs: integer("installs").notNull(),
 });
