@@ -8,7 +8,7 @@ export const Pitch = () => {
     <div className="flex items-center gap-2 rounded-lg border bg-muted px-4 py-2 max-sm:flex-col max-sm:text-center max-sm:text-sm">
       <Badge variant="success">New</Badge>
 
-      <p>Lets work together on your next project.</p>
+      <p>Lets talk about your next project.</p>
 
       <div className="flex items-center gap-1">
         <Button className="whitespace-nowrap" size="xs" asChild>
