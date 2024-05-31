@@ -79,9 +79,7 @@ export const Generate = () => {
                   checked={checked}
                   onCheckedChange={setChecked}
                 />
-                <Label htmlFor="randomize-all">
-                 Randomize both themes
-                </Label>
+                <Label htmlFor="randomize-all">Randomize both themes</Label>
               </div>
               <Button
                 className="w-full"
@@ -177,7 +175,7 @@ const Examples = () => {
   return (
     <div className="flex flex-col gap-4 py-20">
       <div className="flex flex-col items-center justify-center gap-2">
-        <div className="text-lg font-bold">Need inspiration? I got you!</div>
+        <div className="text-lg font-bold">Need some inspiration?</div>
         {!open ? (
           <Button onClick={() => setOpen(true)}>Show 100 examples</Button>
         ) : (
