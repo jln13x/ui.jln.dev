@@ -19,8 +19,7 @@ Create a `.env` File and copy the values from `.env.example`.
 
 ### DATABASE_URL
 
-- Create a [PlanetScale](https://planetscale.com/) Database and use that URL.
-- Make sure it matches that format: "mysql://\*\*\*:\*\*\*@aws.connect.psdb.cloud/\*\*\*?ssl={"rejectUnauthorized":true}"
+- Check out how to set up Turso with Drizzle [here](https://orm.drizzle.team/learn/tutorials/drizzle-with-turso)
 
 ### DISCORD_CLIENT_ID / DISCORD_CLIENT_SECRET
 
@@ -29,10 +28,6 @@ Create a `.env` File and copy the values from `.env.example`.
 ### GITHUB_CLIENT_ID / GITHUB_CLIENT_SECRET
 
 [Creating an OAuth app](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app)
-
-### NEXTAUTH_SECRET / NEXTAUTH_URL
-
-Keep it as it is
 
 ### UPSTASH_REDIS_REST_TOKEN / UPSTASH_REDIS_REST_URL
 

@@ -78,7 +78,7 @@ export const themeRouter = router({
             eq(themes.id, input.id),
             or(
               eq(themes.isPublic, true),
-              ctx.session?.user
+              ctx.session?.user?.id
                 ? eq(themes.userId, ctx.session?.user.id)
                 : undefined,
             ),
@@ -86,7 +86,7 @@ export const themeRouter = router({
         )
         .groupBy(themes.id);
 
-      const starredByUserQuery = getStarredByUserQuery(ctx.session?.user.id);
+      const starredByUserQuery = getStarredByUserQuery(ctx.session?.user?.id);
 
       const [theme, starredByUser] = await Promise.all([
         themeQuery.at(0),
@@ -98,7 +98,7 @@ export const themeRouter = router({
       return {
         ...theme,
         starred:
-          ctx.session?.user.id && starredByUser
+          ctx.session?.user?.id && starredByUser
             ? starredByUser.includes(`${theme.id}___${ctx.session.user.id}`)
             : false,
       };
@@ -204,7 +204,7 @@ export const themeRouter = router({
         )
         .groupBy(themes.id);
 
-      const starredByUserQuery = getStarredByUserQuery(ctx.session?.user.id);
+      const starredByUserQuery = getStarredByUserQuery(ctx.session?.user?.id);
 
       const [publicThemes, starredByUser] = await Promise.all([
         publicThemesQuery,
@@ -215,7 +215,7 @@ export const themeRouter = router({
         themes: publicThemes.map((theme) => ({
           ...theme,
           starred:
-            ctx.session?.user.id && starredByUser
+            ctx.session?.user?.id && starredByUser
               ? starredByUser.includes(`${theme.id}___${ctx.session.user.id}`)
               : false,
         })),
