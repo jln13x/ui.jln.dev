@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { Support } from "@/client/components/headline";
 import { Logo } from "@/client/components/logo";
+import { Pitch } from "@/client/components/pitch";
 import { cn } from "@/client/lib/cn";
 import {
   Generate,
@@ -69,6 +70,7 @@ const Page = () => {
       </div>
       <div className="container pb-40 pt-12">
         <div className="flex flex-col items-center gap-6">
+          <Pitch />
           <Logo className="size-10" />
           <h1
             className={cn(
