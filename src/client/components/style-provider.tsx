@@ -7,7 +7,7 @@ import { Skeleton } from "@/client/components/ui/skeleton";
 import { themeToStyles } from "@/client/lib/theme-to-styles";
 import { useActiveTheme } from "@/client/lib/use-theme-config";
 
-import * as Portal from "@radix-ui/react-portal";
+import { createPortal } from "react-dom";
 import { range } from "remeda";
 
 export const StyleProvider = ({ children }: { children: ReactNode }) => {
@@ -27,9 +27,7 @@ export const StyleProvider = ({ children }: { children: ReactNode }) => {
   return (
     <div style={style} className="h-full w-full bg-background text-foreground">
       {children}
-      <Portal.Root asChild>
-        <ThemeStyleSheet />
-      </Portal.Root>
+      {createPortal(<ThemeStyleSheet />, document.head)}
     </div>
   );
 };
