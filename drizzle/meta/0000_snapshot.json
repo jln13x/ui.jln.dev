@@ -1,0 +1,418 @@
+{
+  "id": "00000000-0000-0000-0000-000000000000",
+  "prevId": "",
+  "version": "6",
+  "dialect": "sqlite",
+  "tables": {
+    "shadcn_themes_account": {
+      "name": "shadcn_themes_account",
+      "columns": {
+        "userId": {
+          "autoincrement": false,
+          "name": "userId",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "type": {
+          "autoincrement": false,
+          "name": "type",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "provider": {
+          "autoincrement": false,
+          "name": "provider",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "providerAccountId": {
+          "autoincrement": false,
+          "name": "providerAccountId",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "refresh_token": {
+          "autoincrement": false,
+          "name": "refresh_token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "access_token": {
+          "autoincrement": false,
+          "name": "access_token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "expires_at": {
+          "default": "(NULL)",
+          "autoincrement": false,
+          "name": "expires_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "token_type": {
+          "default": "(NULL)",
+          "autoincrement": false,
+          "name": "token_type",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "scope": {
+          "default": "(NULL)",
+          "autoincrement": false,
+          "name": "scope",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_token": {
+          "autoincrement": false,
+          "name": "id_token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "session_state": {
+          "default": "(NULL)",
+          "autoincrement": false,
+          "name": "session_state",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "shadcn_themes_account_provider_providerAccountId_pk": {
+          "columns": [
+            "provider",
+            "providerAccountId"
+          ],
+          "name": "shadcn_themes_account_provider_providerAccountId_pk"
+        }
+      },
+      "indexes": {
+        "idx_shadcn_themes_account_userId_idx": {
+          "name": "idx_shadcn_themes_account_userId_idx",
+          "columns": [
+            "userId"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "uniqueConstraints": {}
+    },
+    "shadcn_themes_session": {
+      "name": "shadcn_themes_session",
+      "columns": {
+        "sessionToken": {
+          "autoincrement": false,
+          "name": "sessionToken",
+          "type": "text(255)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "userId": {
+          "autoincrement": false,
+          "name": "userId",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "expires": {
+          "autoincrement": false,
+          "name": "expires",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "compositePrimaryKeys": {},
+      "indexes": {
+        "idx_shadcn_themes_session_userId_idx": {
+          "name": "idx_shadcn_themes_session_userId_idx",
+          "columns": [
+            "userId"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "uniqueConstraints": {}
+    },
+    "shadcn_themes_stars": {
+      "name": "shadcn_themes_stars",
+      "columns": {
+        "userId": {
+          "autoincrement": false,
+          "name": "userId",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "themeId": {
+          "autoincrement": false,
+          "name": "themeId",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "compositePrimaryKeys": {
+        "shadcn_themes_stars_themeId_userId_pk": {
+          "columns": [
+            "themeId",
+            "userId"
+          ],
+          "name": "shadcn_themes_stars_themeId_userId_pk"
+        }
+      },
+      "indexes": {
+        "idx_shadcn_themes_stars_userId_idx": {
+          "name": "idx_shadcn_themes_stars_userId_idx",
+          "columns": [
+            "userId"
+          ],
+          "isUnique": false
+        },
+        "idx_shadcn_themes_stars_themeId_idx": {
+          "name": "idx_shadcn_themes_stars_themeId_idx",
+          "columns": [
+            "themeId"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "uniqueConstraints": {}
+    },
+    "shadcn_themes_themes": {
+      "name": "shadcn_themes_themes",
+      "columns": {
+        "id": {
+          "autoincrement": false,
+          "name": "id",
+          "type": "text(255)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "autoincrement": false,
+          "name": "name",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "config": {
+          "autoincrement": false,
+          "name": "config",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "default": "(timestamp)",
+          "autoincrement": false,
+          "name": "created_at",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "userId": {
+          "autoincrement": false,
+          "name": "userId",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "isPublic": {
+          "default": "'1'",
+          "autoincrement": false,
+          "name": "isPublic",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "compositePrimaryKeys": {},
+      "indexes": {
+        "idx_shadcn_themes_themes_userId_isPublic_createdAt_idx": {
+          "name": "idx_shadcn_themes_themes_userId_isPublic_createdAt_idx",
+          "columns": [
+            "userId",
+            "isPublic",
+            "created_at"
+          ],
+          "isUnique": false
+        },
+        "idx_shadcn_themes_themes_isPublic_idx": {
+          "name": "idx_shadcn_themes_themes_isPublic_idx",
+          "columns": [
+            "isPublic"
+          ],
+          "isUnique": false
+        },
+        "idx_shadcn_themes_themes_userId_idx": {
+          "name": "idx_shadcn_themes_themes_userId_idx",
+          "columns": [
+            "userId"
+          ],
+          "isUnique": false
+        },
+        "idx_shadcn_themes_themes_name_idx": {
+          "name": "idx_shadcn_themes_themes_name_idx",
+          "columns": [
+            "name"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "uniqueConstraints": {}
+    },
+    "shadcn_themes_user": {
+      "name": "shadcn_themes_user",
+      "columns": {
+        "id": {
+          "autoincrement": false,
+          "name": "id",
+          "type": "text(255)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "default": "(NULL)",
+          "autoincrement": false,
+          "name": "name",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "email": {
+          "autoincrement": false,
+          "name": "email",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "emailVerified": {
+          "default": "(timestamp)",
+          "autoincrement": false,
+          "name": "emailVerified",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "image": {
+          "default": "(NULL)",
+          "autoincrement": false,
+          "name": "image",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "default": "(timestamp)",
+          "autoincrement": false,
+          "name": "created_at",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {},
+      "indexes": {},
+      "foreignKeys": {},
+      "uniqueConstraints": {}
+    },
+    "shadcn_themes_verificationToken": {
+      "name": "shadcn_themes_verificationToken",
+      "columns": {
+        "identifier": {
+          "autoincrement": false,
+          "name": "identifier",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "token": {
+          "autoincrement": false,
+          "name": "token",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "expires": {
+          "autoincrement": false,
+          "name": "expires",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "compositePrimaryKeys": {
+        "shadcn_themes_verificationToken_identifier_token_pk": {
+          "columns": [
+            "identifier",
+            "token"
+          ],
+          "name": "shadcn_themes_verificationToken_identifier_token_pk"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "uniqueConstraints": {}
+    },
+    "shadcn_themes_vscodeThemes": {
+      "name": "shadcn_themes_vscodeThemes",
+      "columns": {
+        "id": {
+          "autoincrement": false,
+          "name": "id",
+          "type": "text(255)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "themeId": {
+          "autoincrement": false,
+          "name": "themeId",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "metadata": {
+          "autoincrement": false,
+          "name": "metadata",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "installs": {
+          "autoincrement": false,
+          "name": "installs",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "compositePrimaryKeys": {},
+      "indexes": {},
+      "foreignKeys": {},
+      "uniqueConstraints": {}
+    }
+  },
+  "enums": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  }
+}

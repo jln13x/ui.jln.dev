@@ -83,6 +83,7 @@ export const themes = table(
       .notNull(),
     userId: text("userId", { length: 255 }).notNull(),
     isPublic: integer("isPublic", { mode: "boolean" }).default(true).notNull(),
+    starsCount: integer("stars_count").default(0),
   },
   (theme) => ({
     nameIdx: index("themes_name_idx").on(theme.name),
