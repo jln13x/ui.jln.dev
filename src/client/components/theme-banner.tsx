@@ -40,12 +40,12 @@ export const ThemeBanner = () => {
             {sesh.data?.user?.id === theme.userId ? (
               <div className="flex items-center gap-2 px-2 py-1">
                 <Star />
-                <Badge variant="info">{theme.stars}</Badge>
+                <Badge variant="info">{theme.starsCount}</Badge>
               </div>
             ) : (
               <StarTheme
                 themeId={theme.id}
-                count={theme.stars}
+                count={theme.starsCount ?? 0}
                 starred={theme.starred}
               />
             )}
@@ -126,10 +126,12 @@ const StarTheme = ({
     utils.theme.byId.setData({ id: themeId }, (theme) => {
       if (!theme) return undefined;
 
+      const cnt = theme.starsCount ?? 0;
+
       return {
         ...theme,
         starred: !theme.starred,
-        stars: theme.starred ? theme.stars - 1 : theme.stars + 1,
+        starsCount: Math.max(theme.starred ? cnt - 1 : cnt + 1, 0),
       };
     });
   };
@@ -142,6 +144,8 @@ const StarTheme = ({
     onSuccess: () => {
       void utils.theme.byId.invalidate({ id: themeId });
       void utils.theme.allStarredFromUser.invalidate();
+      void utils.theme.allPublic.invalidate();
+      void utils.theme.allPublicVscodeThemes.invalidate();
     },
     onError: (error) => {
       if (error.data?.code === "TOO_MANY_REQUESTS") {

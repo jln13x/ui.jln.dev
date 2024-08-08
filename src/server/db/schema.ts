@@ -83,7 +83,7 @@ export const themes = table(
       .notNull(),
     userId: text("userId", { length: 255 }).notNull(),
     isPublic: integer("isPublic", { mode: "boolean" }).default(true).notNull(),
-    starsCount: integer("stars_count").default(0),
+    starsCount: integer("stars_count").default(0).notNull(),
   },
   (theme) => ({
     nameIdx: index("themes_name_idx").on(theme.name),
@@ -96,7 +96,6 @@ export const themes = table(
 );
 
 export type DatabaseTheme = typeof themes.$inferSelect & {
-  stars: number;
   starred: boolean;
 };
 

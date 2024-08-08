@@ -11,6 +11,7 @@
     "db:studio": "dotenv drizzle-kit studio",
     "db:studio:prod": "USE_PROD_DB=true drizzle-kit studio",
     "db:seed": "bun ./src/scripts/seed.ts",
+    "db:update-star-count": "bun ./src/scripts/update-star-count.ts",
     "dev": "next dev",
     "lint": "next lint",
     "lint:fix": "next lint --fix",

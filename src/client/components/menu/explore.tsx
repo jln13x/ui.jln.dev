@@ -306,8 +306,8 @@ const VSCodeThemes = () => {
                 <ThemeLink
                   theme={{
                     ...theme,
-                    stars: undefined,
-                    starred: false,
+                    starsCount: theme.starsCount ?? 0,
+                    starred: theme.starred,
                   }}
                   key={`${theme.id}-${idx}`}
                 />

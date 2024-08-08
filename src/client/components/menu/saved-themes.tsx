@@ -202,7 +202,7 @@ const StarredThemes = () => {
               <ThemeLink
                 theme={{
                   ...theme,
-                  stars: undefined,
+                  starsCount: theme.starsCount ?? 0,
                 }}
                 key={theme.id}
               />
