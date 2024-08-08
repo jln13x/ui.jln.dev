@@ -13,8 +13,7 @@ import { SaveThemeSchema } from "@/shared/save-theme-schema";
 import { ThemeConfigSchema } from "@/shared/theme-config";
 
 import { TRPCError } from "@trpc/server";
-import { and, count, desc, eq, ne, or, sql } from "drizzle-orm";
-import { omit } from "remeda";
+import { and, desc, eq, ne, or, sql } from "drizzle-orm";
 import { z } from "zod";
 
 const themeSelect = {
@@ -24,7 +23,7 @@ const themeSelect = {
   config: themes.config,
   createdAt: themes.createdAt,
   isPublic: themes.isPublic,
-  stars: count(stars.themeId).as("stars"),
+  starsCount: themes.starsCount,
 };
 
 export const themeRouter = router({
@@ -72,7 +71,6 @@ export const themeRouter = router({
       const themeQuery = await ctx.db
         .select(themeSelect)
         .from(themes)
-        .leftJoin(stars, and(eq(stars.themeId, themes.id)))
         .where(
           and(
             eq(themes.id, input.id),
@@ -117,7 +115,6 @@ export const themeRouter = router({
       const themesFromUser = await ctx.db
         .select(themeSelect)
         .from(themes)
-        .leftJoin(stars, eq(stars.themeId, themes.id))
         .where(eq(themes.userId, ctx.session.user.id))
         .limit(limit)
         .offset(offset)
@@ -143,7 +140,7 @@ export const themeRouter = router({
       const offset = input.cursor ?? 0;
 
       const themesFromUser = await ctx.db
-        .select(omit(themeSelect, ["stars"]))
+        .select(themeSelect)
         .from(themes)
         .innerJoin(
           stars,
@@ -193,14 +190,15 @@ export const themeRouter = router({
       const publicThemesQuery = ctx.db
         .select(themeSelect)
         .from(themes)
-        .leftJoin(stars, eq(stars.themeId, themes.id))
         .where(
           and(eq(themes.isPublic, true), ne(themes.userId, "system-vscode")),
         )
         .limit(limit)
         .offset(offset)
         .orderBy(
-          input.sortBy === "stars" ? desc(sql`stars`) : desc(themes.createdAt),
+          input.sortBy === "stars"
+            ? desc(sql`stars_count`)
+            : desc(themes.createdAt),
         )
         .groupBy(themes.id);
 
@@ -239,6 +237,14 @@ export const themeRouter = router({
         });
       }
 
+      const theme = await ctx.db.query.themes.findFirst({
+        where: eq(themes.id, input.themeId),
+      });
+
+      if (!theme) return;
+
+      const cnt = Math.max(theme.starsCount ?? 0, 0);
+
       if (!input.starred) {
         await ctx.db
           .delete(stars)
@@ -248,6 +254,12 @@ export const themeRouter = router({
               eq(stars.userId, ctx.session.user.id),
             ),
           );
+
+        await ctx.db
+          .update(themes)
+          .set({ starsCount: Math.max(cnt - 1, 0) })
+          .where(eq(themes.id, input.themeId));
+
         return;
       }
 
@@ -255,6 +267,11 @@ export const themeRouter = router({
         themeId: input.themeId,
         userId: ctx.session.user.id,
       });
+
+      await ctx.db
+        .update(themes)
+        .set({ starsCount: Math.max(cnt + 1, 0) })
+        .where(eq(themes.id, input.themeId));
     }),
 
   changeVisiblity: protectedProcedure
@@ -308,7 +325,7 @@ export const themeRouter = router({
         cursor: z.number().nullish(),
       }),
     )
-    .query(async ({ input }) => {
+    .query(async ({ input, ctx }) => {
       const limit = 50;
       const offset = input.cursor ?? 0;
       const allPublicVscodeThemes = await getVscodeThemes({
@@ -317,8 +334,20 @@ export const themeRouter = router({
         query: input.query,
       });
 
+      const starredByUserQuery = await getStarredByUserQuery(
+        ctx.session?.user?.id,
+      );
+
       return {
-        themes: allPublicVscodeThemes,
+        themes: allPublicVscodeThemes.map((theme) => ({
+          ...theme,
+          starred:
+            ctx.session?.user?.id && starredByUserQuery
+              ? starredByUserQuery.includes(
+                  `${theme.id}___${ctx.session.user.id}`,
+                )
+              : false,
+        })),
         nextCursor:
           allPublicVscodeThemes.length === limit ? offset + limit : null,
       };

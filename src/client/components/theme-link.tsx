@@ -14,11 +14,7 @@ import { api } from "@/trpc/react";
 
 import { isDefined } from "remeda";
 
-export const ThemeLink = ({
-  theme,
-}: {
-  theme: Omit<DatabaseTheme, "stars"> & { stars?: number };
-}) => {
+export const ThemeLink = ({ theme }: { theme: DatabaseTheme }) => {
   const utils = api.useUtils();
   const [, setSelectedThemeId] = useSelectedThemeId();
 
@@ -26,21 +22,24 @@ export const ThemeLink = ({
     <ThemeButton
       config={theme.config}
       name={theme.name}
-      onClick={() => {
+      onClick={async () => {
         setSelectedThemeId(theme.id);
         utils.theme.byId.setData(
           { id: theme.id },
           {
             ...theme,
-            stars: theme.stars ?? 0,
+            starsCount: theme.starsCount ?? 0,
           },
         );
+
+        await utils.theme.byId.invalidate({ id: theme.id });
       }}
     >
-      {isDefined(theme.stars) && (
+      {isDefined(theme.starsCount) && (
         <div className="flex w-full justify-center">
           <span className="flex items-center gap-1 text-sm text-muted-foreground">
-            {theme.stars} <Star filled={theme.starred} className="size-3" />
+            {theme.starsCount}{" "}
+            <Star filled={theme.starred} className="size-3" />
           </span>
         </div>
       )}
