@@ -1,11 +1,11 @@
 import { Headline } from "@/client/components/headline";
 import { ThemePage } from "@/client/components/theme-page";
 
-const Page = async () => {
+const Page = () => {
   return (
-    <div className="relative">
+    <div className="relative flex flex-col items-center gap-8">
       <Headline />
-      <div className="pt-10">
+      <div className="rounded-lg border bg-transparent p-1 shadow-inner shadow-border">
         <ThemePage />
       </div>
     </div>

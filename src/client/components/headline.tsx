@@ -11,7 +11,7 @@ import { Coffee } from "lucide-react";
 
 export const Headline = () => {
   return (
-    <div>
+    <div className="w-full">
       <div className="border-b bg-muted py-3 text-muted-foreground">
         <div className="container flex items-center justify-center gap-2 text-center text-xs max-sm:flex-col sm:text-sm">
           <p>

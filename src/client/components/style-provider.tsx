@@ -25,7 +25,10 @@ export const StyleProvider = ({ children }: { children: ReactNode }) => {
   const style = themeToStyles(activeTheme);
 
   return (
-    <div style={style} className="h-full w-full bg-background text-foreground">
+    <div
+      style={style}
+      className="h-full w-full rounded-sm bg-background text-foreground"
+    >
       {children}
       <Portal.Root asChild>
         <ThemeStyleSheet />
