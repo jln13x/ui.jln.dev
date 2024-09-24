@@ -12,7 +12,7 @@ https://github.com/Cauatn/ui.jln.dev/assets/39890456/16f15160-3ac2-4b59-8628-a4b
 
 ## Updates
 
-- Over 1000 VS Code Themes have been as shadcn/ui Themes
+- Over 1000 VS Code Themes have been added as shadcn/ui Themes
 
 ## Contributing
 
