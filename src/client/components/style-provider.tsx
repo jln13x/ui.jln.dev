@@ -17,7 +17,7 @@ export const StyleProvider = ({ children }: { children: ReactNode }) => {
     return (
       <div className="container grid gap-12 py-24 lg:grid-cols-3 lg:py-40">
         {range(0, 9).map((i) => (
-          <Skeleton key={i} className="h-60" />
+          <Skeleton key={i} className="h-80" />
         ))}
       </div>
     );

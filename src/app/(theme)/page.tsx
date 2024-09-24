@@ -5,7 +5,7 @@ const Page = () => {
   return (
     <div className="relative flex flex-col items-center gap-8">
       <Headline />
-      <div className="rounded-lg border bg-transparent p-1 shadow-inner shadow-border">
+      <div className="w-full max-w-screen-2xl rounded-lg border bg-transparent p-1 shadow-inner shadow-border">
         <ThemePage />
       </div>
     </div>

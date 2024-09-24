@@ -20,7 +20,6 @@ import { cn } from "@/client/lib/cn";
 export const Cards = () => {
   return (
     <div>
-      <div className="mx-auto flex max-w-screen-md flex-col gap-2 pb-8 text-center text-sm"></div>
       <div className="items-start gap-6 md:grid lg:grid-cols-2 xl:grid-cols-3">
         <div className="flex flex-col gap-6">
           <DemoContainer>
