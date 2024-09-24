@@ -1,7 +1,6 @@
 import { type Metadata } from "next";
 import Link from "next/link";
 
-import { Support } from "@/client/components/headline";
 import { Logo } from "@/client/components/logo";
 import { Pitch } from "@/client/components/pitch";
 import { cn } from "@/client/lib/cn";
@@ -70,21 +69,20 @@ const Page = () => {
       </div>
       <div className="container pb-40 pt-12">
         <div className="flex flex-col items-center gap-6">
-          <Pitch />
           <Logo className="size-10" />
           <h1
             className={cn(
               "relative flex flex-wrap items-center justify-center gap-2 text-lg font-bold max-lg:text-center lg:text-5xl",
             )}
           >
-            <span className="rounded-lg bg-primary px-2 py-1  tabular-nums text-primary-foreground lg:px-4 lg:py-2">
+            <span className="rounded-lg px-2 py-1  tabular-nums lg:px-4 lg:py-2">
               Feedback Colors
             </span>
             for shadcn/ui
           </h1>
 
           <div className="pt-6">
-            <Support />
+            <Pitch />
           </div>
         </div>
 

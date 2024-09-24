@@ -28,9 +28,7 @@ export const Headline = () => {
       </div>
 
       <div className="flex flex-col items-center gap-2 pt-8">
-        <div className="pb-4">
-          <Pitch />
-        </div>
+        <div className="pb-4"></div>
 
         <Logo className="size-10" />
 
@@ -39,14 +37,14 @@ export const Headline = () => {
             "animate relative flex flex-wrap items-center justify-center gap-2 text-lg font-bold max-lg:text-center lg:text-5xl",
           )}
         >
-          <span className="rounded-lg bg-primary px-2 py-1  tabular-nums text-primary-foreground lg:px-4 lg:py-2">
+          <span className="rounded-lg bg-background px-2 py-1  tabular-nums text-foreground lg:px-4 lg:py-2">
             10000+
           </span>
           Themes for shadcn/ui
         </h1>
 
         <div className="pt-6">
-          <Support />
+          <Pitch />
         </div>
       </div>
     </div>
