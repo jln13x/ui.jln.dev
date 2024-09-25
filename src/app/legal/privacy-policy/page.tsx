@@ -291,11 +291,36 @@ const Page = () => {
         consent, we take steps to remove that information from our servers.
       </p>
 
+      <h2>Communication and Marketing</h2>
+      <p>
+        By using our Service and authenticating through Discord or Google, you
+        provide us with your email address. We may use this to communicate with
+        you about:
+      </p>
+      <ul>
+        <li>Your account and important service updates</li>
+        <li>New features or changes to our services</li>
+        <li>Marketing information about our services</li>
+        <li>Other services or events we think may interest you</li>
+      </ul>
+      <p>
+        We use your contact information to provide, maintain, and improve our
+        Service, as well as to send you relevant information and marketing
+        communications.
+      </p>
+      <p>
+        You can opt out of marketing communications at any time by clicking the
+        "unsubscribe" link in our emails or by contacting us at {EMAIL}. You'll
+        still receive essential service-related messages even if you opt out of
+        marketing communications.
+      </p>
+
       <h2>Changes to This Privacy Policy</h2>
 
       <p>
         We may update our Privacy Policy from time to time. We will notify you
-        of any changes by posting the new Privacy Policy on this page.
+        of any changes by posting the new Privacy Policy on this page. Please
+        check this page again for any changes to our Privacy Policy.
       </p>
 
       <h2>Contact</h2>
