@@ -4,6 +4,7 @@ import { type Metadata } from "next";
 
 import { ClientProviders } from "@/client/components/client-providers";
 import { ThemeProvider } from "@/client/components/theme-provider";
+import { Umami } from "@/client/components/umami";
 import { auth } from "@/server/auth/auth";
 import { TRPCReactProvider } from "@/trpc/react";
 
@@ -60,6 +61,7 @@ export default async function RootLayout({
       className={`${GeistSans.className} dark`}
       suppressHydrationWarning
     >
+      <Umami />
       <ThemeProvider
         attribute="class"
         defaultTheme="system"

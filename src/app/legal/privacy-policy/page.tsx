@@ -325,6 +325,22 @@ const Page = () => {
 
       <h2>Contact</h2>
       <p>If you have questions or comments, you may email us at {EMAIL}</p>
+
+      <h2>Analytics</h2>
+      <p>
+        We use a privacy-friendly analytics tool to improve the usage of our
+        website. This tool works without cookies and does not store any personal
+        data.
+      </p>
+
+      <p>The following information, among others, is collected:</p>
+      <ul>
+        <li>Page views</li>
+        <li>Referrers</li>
+        <li>Device type</li>
+        <li>Browser</li>
+        <li>Approximate location (country)</li>
+      </ul>
     </div>
   );
 };
