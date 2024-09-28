@@ -16,7 +16,9 @@ export const VSCodeThemes = async () => {
         {vscodeThemes.map((theme) => {
           return (
             <li key={theme.id} className="line-clamp-1 text-xs">
-              <a href={routes.theme(theme.id)}>{theme.name}</a>
+              <a href={routes.theme(theme.id)}>
+                {theme.name} theme for shadcn/ui
+              </a>
             </li>
           );
         })}
