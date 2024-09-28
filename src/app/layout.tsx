@@ -61,7 +61,9 @@ export default async function RootLayout({
       className={`${GeistSans.className} dark`}
       suppressHydrationWarning
     >
-      <Umami />
+      <head>
+        <Umami />
+      </head>
       <ThemeProvider
         attribute="class"
         defaultTheme="system"
