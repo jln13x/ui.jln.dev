@@ -4,7 +4,15 @@ import { themes, vscodeThemes } from "@/server/db/schema";
 import { and, desc, eq, isNotNull, sql } from "drizzle-orm";
 import { filter, isDefined, map, pipe } from "remeda";
 
-export const getVscodeThemes = async (input: {
+export const getStaticVscodeThemes = async () => {
+  const vscodeThemesJson = (await import("./vscode-themes.json")) as Record<
+    number,
+    unknown
+  >;
+  return Object.values(vscodeThemesJson) as Array<{ id: string; name: string }>;
+};
+
+export const getVscodeThemesFromDb = async (input: {
   limit: number;
   offset: number;
   query?: string;

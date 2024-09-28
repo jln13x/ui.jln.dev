@@ -3,7 +3,7 @@ import { publicProcedure, router } from "@/server/api/trpc";
 import { db } from "@/server/db";
 import { stars, themes } from "@/server/db/schema";
 import { createId } from "@/server/db/utils/create-id";
-import { getVscodeThemes } from "@/server/get-vscode-themes";
+import { getVscodeThemesFromDb } from "@/server/get-vscode-themes";
 import {
   changeVisiblityRateLimit,
   saveThemePublicRateLimit,
@@ -328,7 +328,7 @@ export const themeRouter = router({
     .query(async ({ input, ctx }) => {
       const limit = 50;
       const offset = input.cursor ?? 0;
-      const allPublicVscodeThemes = await getVscodeThemes({
+      const allPublicVscodeThemes = await getVscodeThemesFromDb({
         limit,
         offset,
         query: input.query,

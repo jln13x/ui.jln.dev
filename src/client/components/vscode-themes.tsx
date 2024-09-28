@@ -1,11 +1,8 @@
-import { getVscodeThemes } from "@/server/get-vscode-themes";
+import { getStaticVscodeThemes } from "@/server/get-vscode-themes";
 import { routes } from "@/shared/routes";
 
 export const VSCodeThemes = async () => {
-  const vscodeThemes = await getVscodeThemes({
-    limit: 9_999,
-    offset: 0,
-  });
+  const vscodeThemes = await getStaticVscodeThemes();
 
   return (
     <div className="sr-only">
@@ -17,7 +14,7 @@ export const VSCodeThemes = async () => {
           return (
             <li key={theme.id} className="line-clamp-1 text-xs">
               <a href={routes.theme(theme.id)}>
-                {theme.name} theme for shadcn/ui
+                {theme.name} vscode theme for shadcn/ui
               </a>
             </li>
           );
