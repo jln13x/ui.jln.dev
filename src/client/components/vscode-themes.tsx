@@ -12,7 +12,7 @@ export const VSCodeThemes = async () => {
       <ul className="grid grid-cols-2 gap-2 lg:grid-cols-6">
         {vscodeThemes.map((theme) => {
           return (
-            <li key={theme.id} className="line-clamp-1 text-xs">
+            <li key={theme.id}>
               <a href={routes.theme(theme.id)}>
                 {theme.name + " vscode theme for shadcn/ui"}
               </a>
