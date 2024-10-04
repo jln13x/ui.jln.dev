@@ -5,6 +5,7 @@ import Link from "next/link";
 import * as Icons from "@/client/components/icons";
 import { Logo } from "@/client/components/logo";
 import { Pitch } from "@/client/components/pitch";
+import { Sponsor } from "@/client/components/sponsor";
 import { cn } from "@/client/lib/cn";
 
 import { Coffee } from "lucide-react";
@@ -43,8 +44,9 @@ export const Headline = () => {
           Themes for shadcn/ui
         </h1>
 
-        <div className="pt-6">
+        <div className="flex flex-col gap-2 pt-6">
           <Pitch />
+          <Sponsor />
         </div>
       </div>
     </div>

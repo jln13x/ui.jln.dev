@@ -1,6 +1,8 @@
 import Script from "next/script";
 
 export const Umami = () => {
+  if (process.env.NODE_ENV === "development") return null;
+
   return (
     <Script
       async
