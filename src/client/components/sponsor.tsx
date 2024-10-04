@@ -1,3 +1,4 @@
+import * as Icons from "@/client/components/icons";
 import { Button } from "@/client/components/ui/button";
 
 const url = "https://www.shadcnblocks.com?utm_source=ui.jln.dev";
@@ -6,7 +7,7 @@ export const Sponsor = () => {
     <div>
       <a
         href={url}
-        className="flex items-center justify-between rounded-lg border px-2 py-4 text-sm hover:bg-accent/20"
+        className="flex items-center justify-between gap-4 rounded-lg border px-2 py-4 text-sm hover:bg-accent/20"
         onClick={async (e) => {
           e.preventDefault();
           try {
@@ -25,7 +26,8 @@ export const Sponsor = () => {
         </div>
 
         <Button size="xs" variant="secondary">
-          Explore
+          <Icons.ChevronRight className="size-4 sm:hidden" />
+          <span className="max-sm:sr-only">Explore</span>
         </Button>
       </a>
 
