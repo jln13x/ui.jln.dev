@@ -341,6 +341,57 @@ const Page = () => {
         <li>Browser</li>
         <li>Approximate location (country)</li>
       </ul>
+
+      <h2>Sponsored Links</h2>
+      <p>
+        We may include sponsored links or affiliate content on our website.
+        These are links to products, services, or websites of third parties that
+        may compensate us for traffic or sales generated from referrals.
+      </p>
+
+      <p>
+        For information about data we collect related to site usage, including
+        interactions with sponsored content, please refer to our Analytics
+        section.
+      </p>
+
+      <h3>Third-Party Websites</h3>
+      <p>
+        Sponsored links will direct you to third-party websites. Please note:
+      </p>
+      <ul>
+        <li>
+          These websites have their own privacy policies and terms of service.
+        </li>
+        <li>
+          We are not responsible for the privacy practices of these third-party
+          sites.
+        </li>
+        <li>
+          We encourage you to read the privacy policies of any third-party sites
+          you visit.
+        </li>
+      </ul>
+
+      <h3>Transparency</h3>
+      <p>
+        All sponsored content and affiliate links on our site are clearly
+        labeled as "Sponsored" to ensure transparency.
+      </p>
+
+      <h3>Your Choice</h3>
+      <p>
+        You have the choice not to click on sponsored links. Your use of our
+        service will not be affected if you choose not to interact with
+        sponsored content.
+      </p>
+
+      <h3>Data Collection</h3>
+      <p>
+        We may collect non-personally identifiable data about interactions with
+        sponsored links for internal analytics and to fulfill our obligations to
+        sponsors. This data is always aggregated and anonymized.
+      </p>
     </div>
   );
 };
