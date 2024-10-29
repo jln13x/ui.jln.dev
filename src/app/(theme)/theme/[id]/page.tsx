@@ -41,6 +41,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title,
     description,
     metadataBase: new URL("https://ui.jln.dev"),
+    alternates: {
+      canonical: "https://ui.jln.dev/theme/" + themeId,
+    },
     openGraph: {
       description,
       title,

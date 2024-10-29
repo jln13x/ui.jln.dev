@@ -34,6 +34,9 @@ export const metadata: Metadata = {
       type: "website",
     },
   },
+  alternates: {
+    canonical: "https://ui.jln.dev/feedback-colors-generator-for-shadcn-ui",
+  },
   twitter: {
     card: "summary_large_image",
     title,

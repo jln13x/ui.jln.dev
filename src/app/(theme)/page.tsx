@@ -1,5 +1,13 @@
+import { type Metadata } from "next";
+
 import { Headline } from "@/client/components/headline";
 import { ThemePage } from "@/client/components/theme-page";
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "https://ui.jln.dev",
+  },
+};
 
 const Page = () => {
   return (
