@@ -15,6 +15,12 @@ type Props = {
   };
 };
 
+export const dynamic = "force-static";
+
+export const generateStaticParams = async () => {
+  return [];
+};
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const themeId = params.id;
 
