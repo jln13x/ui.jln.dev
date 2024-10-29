@@ -21,7 +21,7 @@ export const Sponsor = () => {
           <ShadcnBlocksLogo />
           <div className="flex flex-col">
             <p className="text-xs text-muted-foreground">Shadcnblocks.com</p>
-            <p className="font-medium">180+ Premium blocks for shadcn/ui</p>
+            <p className="font-medium">250+ Premium blocks for shadcn/ui</p>
           </div>
         </div>
 
