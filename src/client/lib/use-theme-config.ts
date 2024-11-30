@@ -27,6 +27,11 @@ export const defaultConfig: ThemeConfig = {
     border: { h: 220, s: 13, l: 91 },
     input: { h: 220, s: 13, l: 91 },
     ring: { h: 262.1, s: 83.3, l: 57.8 },
+    "chart-1": { h: 262.1, s: 83.3, l: 57.8 },
+    "chart-2": { h: 220, s: 14.3, l: 95.9 },
+    "chart-3": { h: 220, s: 14.3, l: 95.9 },
+    "chart-4": { h: 220, s: 14.3, l: 98.9 },
+    "chart-5": { h: 220, s: 17.3, l: 95.9 },
   },
   dark: {
     background: { h: 224, s: 71.4, l: 4.1 },
@@ -48,13 +53,18 @@ export const defaultConfig: ThemeConfig = {
     border: { h: 215, s: 27.9, l: 16.9 },
     input: { h: 215, s: 27.9, l: 16.9 },
     ring: { h: 263.4, s: 70, l: 50.4 },
+    "chart-1": { h: 263.4, s: 70, l: 50.4 },
+    "chart-2": { h: 215, s: 27.9, l: 16.9 },
+    "chart-3": { h: 215, s: 27.9, l: 16.9 },
+    "chart-4": { h: 215, s: 27.9, l: 19.9 },
+    "chart-5": { h: 215, s: 30.9, l: 16.9 },
   },
 };
 
 export const themeConfigAtom = atom<ThemeConfig>(createThemeConfig());
 export const themeStackAtom = atom<ThemeConfig[]>([]);
 
-const STACK_MAX_SIZE = 50;
+const STACK_MAX_SIZE = 100;
 
 export const useThemeConfig = () => {
   return useAtomValue(themeConfigAtom);

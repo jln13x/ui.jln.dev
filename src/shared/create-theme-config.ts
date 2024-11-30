@@ -360,6 +360,30 @@ export const createThemeConfig = (primaryColor?: Hsl) => {
     l: faker.number.int({ min: 10, max: 15 }),
   };
 
+  const chartLight4 = {
+    h: secondaryLight.h,
+    s: secondaryLight.s,
+    l: 3 + secondaryLight.l,
+  };
+
+  const chartLight5 = {
+    h: primaryLight.h,
+    s: 3 + primaryLight.s,
+    l: primaryLight.l,
+  };
+
+  const chartDark4 = {
+    h: secondaryDark.h,
+    s: secondaryDark.s,
+    l: 3 + secondaryDark.l,
+  };
+
+  const chartDark5 = {
+    h: primaryDark.h,
+    s: 3 + primaryDark.s,
+    l: primaryDark.l,
+  };
+
   return {
     light: {
       background: backgroundLight,
@@ -381,6 +405,11 @@ export const createThemeConfig = (primaryColor?: Hsl) => {
       border: borderLight,
       input: borderLight,
       ring: primaryLight,
+      "chart-1": primaryLight,
+      "chart-2": secondaryLight,
+      "chart-3": accentLight,
+      "chart-4": chartLight4,
+      "chart-5": chartLight5,
     },
     dark: {
       background: backgroundDark,
@@ -402,6 +431,11 @@ export const createThemeConfig = (primaryColor?: Hsl) => {
       border: borderDark,
       input: borderDark,
       ring: primaryDark,
+      "chart-1": primaryDark,
+      "chart-2": secondaryDark,
+      "chart-3": accentDark,
+      "chart-4": chartDark4,
+      "chart-5": chartDark5,
     },
   };
 };

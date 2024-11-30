@@ -172,6 +172,26 @@ const changeableThemeValues: Array<{ label: string; themeKey: keyof Theme }> = [
     label: "Ring",
     themeKey: "ring",
   },
+  {
+    label: "Chart 1",
+    themeKey: "chart-1",
+  },
+  {
+    label: "Chart 2",
+    themeKey: "chart-2",
+  },
+  {
+    label: "Chart 3",
+    themeKey: "chart-3",
+  },
+  {
+    label: "Chart 4",
+    themeKey: "chart-4",
+  },
+  {
+    label: "Chart 5",
+    themeKey: "chart-5",
+  },
 ];
 
 const ThemeValue = ({

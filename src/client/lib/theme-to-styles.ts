@@ -23,6 +23,11 @@ const variables: Record<keyof Theme, string> = {
   destructive: "destructive",
   destructiveForeground: "destructive-foreground",
   ring: "ring",
+  "chart-1": "chart-1",
+  "chart-2": "chart-2",
+  "chart-3": "chart-3",
+  "chart-4": "chart-4",
+  "chart-5": "chart-5",
 };
 
 export const themeToStyles = (theme: Theme) => {

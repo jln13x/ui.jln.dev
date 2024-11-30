@@ -3,6 +3,7 @@
 import { BadgeDemo } from "@/client/components/examples/badge";
 import { ButtonsDemo } from "@/client/components/examples/buttons";
 import { CommandDemo } from "@/client/components/examples/command";
+import { ChartCards } from "@/client/components/examples/pages/cards/chart-cards";
 import { Chat } from "@/client/components/examples/pages/cards/chat";
 import { CookieSettings } from "@/client/components/examples/pages/cards/cookie-settings";
 import { CreateAccount } from "@/client/components/examples/pages/cards/create-account";
@@ -73,6 +74,9 @@ export const Cards = () => {
             <Invoices />
           </DemoContainer>
         </div>
+      </div>
+      <div>
+        <ChartCards />
       </div>
     </div>
   );

@@ -28,6 +28,11 @@ export const ThemeSchema = z.object({
   border: HslSchema,
   input: HslSchema,
   ring: HslSchema,
+  "chart-1": HslSchema,
+  "chart-2": HslSchema,
+  "chart-3": HslSchema,
+  "chart-4": HslSchema,
+  "chart-5": HslSchema,
 });
 
 export type Theme = z.infer<typeof ThemeSchema>;
