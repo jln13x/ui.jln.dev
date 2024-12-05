@@ -32,9 +32,10 @@ const chartConfig = {
     color: "hsl(var(--chart-2))",
   },
 } satisfies ChartConfig;
-
 export default function Component() {
-  const totalVisitors = chartData[0].desktop + chartData[0].mobile;
+  const totalVisitors =
+    // @ts-expect-error
+    chartData.length > 0 ? chartData[0]?.desktop + chartData[0]?.mobile : 0;
 
   return (
     <Card className="flex flex-col">

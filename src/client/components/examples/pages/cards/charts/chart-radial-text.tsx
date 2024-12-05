@@ -81,7 +81,7 @@ export default function Component() {
                           y={viewBox.cy}
                           className="fill-foreground text-4xl font-bold"
                         >
-                          {chartData[0].visitors.toLocaleString()}
+                          {chartData[0]?.visitors?.toLocaleString()}
                         </tspan>
                         <tspan
                           x={viewBox.cx}

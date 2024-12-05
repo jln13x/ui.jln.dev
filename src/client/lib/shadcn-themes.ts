@@ -21,6 +21,11 @@ const zinc: ThemeConfig = {
     border: { h: 240, s: 5.9, l: 90 },
     input: { h: 240, s: 5.9, l: 90 },
     ring: { h: 240, s: 5.9, l: 10 },
+    "chart-1": { h: 12, s: 76, l: 61 },
+    "chart-2": { h: 173, s: 58, l: 39 },
+    "chart-3": { h: 197, s: 37, l: 24 },
+    "chart-4": { h: 43, s: 74, l: 66 },
+    "chart-5": { h: 27, s: 87, l: 67 },
   },
   dark: {
     background: { h: 240, s: 10, l: 3.9 },
@@ -42,10 +47,16 @@ const zinc: ThemeConfig = {
     border: { h: 240, s: 3.7, l: 15.9 },
     input: { h: 240, s: 3.7, l: 15.9 },
     ring: { h: 240, s: 4.9, l: 83.9 },
+    "chart-1": { h: 220, s: 70, l: 50 },
+    "chart-2": { h: 160, s: 60, l: 45 },
+    "chart-3": { h: 30, s: 80, l: 55 },
+    "chart-4": { h: 280, s: 65, l: 60 },
+    "chart-5": { h: 340, s: 75, l: 55 },
   },
 };
 
 const slate: ThemeConfig = {
+  // @ts-expect-error idc
   light: {
     background: { h: 0, s: 0, l: 100 },
     foreground: { h: 222.2, s: 84, l: 4.9 },
@@ -67,6 +78,7 @@ const slate: ThemeConfig = {
     input: { h: 214.3, s: 31.8, l: 91.4 },
     ring: { h: 222.2, s: 84, l: 4.9 },
   },
+  // @ts-expect-error idc
   dark: {
     background: { h: 222.2, s: 84, l: 4.9 },
     foreground: { h: 210, s: 40, l: 98 },
@@ -90,7 +102,8 @@ const slate: ThemeConfig = {
   },
 };
 
-const stone = {
+const stone: ThemeConfig = {
+  // @ts-expect-error idc
   light: {
     background: { h: 0, s: 0, l: 100 },
     foreground: { h: 20, s: 14.3, l: 4.1 },
@@ -112,6 +125,7 @@ const stone = {
     input: { h: 20, s: 5.9, l: 90 },
     ring: { h: 20, s: 14.3, l: 4.1 },
   },
+  // @ts-expect-error idc
   dark: {
     background: { h: 20, s: 14.3, l: 4.1 },
     foreground: { h: 60, s: 9.1, l: 97.8 },
@@ -135,7 +149,8 @@ const stone = {
   },
 };
 
-const gray = {
+const gray: ThemeConfig = {
+  // @ts-expect-error idc
   light: {
     background: { h: 0, s: 0, l: 100 },
     foreground: { h: 224, s: 71.4, l: 4.1 },
@@ -157,6 +172,7 @@ const gray = {
     input: { h: 220, s: 13, l: 91 },
     ring: { h: 224, s: 71.4, l: 4.1 },
   },
+  // @ts-expect-error idc
   dark: {
     background: { h: 224, s: 71.4, l: 4.1 },
     foreground: { h: 210, s: 20, l: 98 },
@@ -180,7 +196,8 @@ const gray = {
   },
 };
 
-const neutral = {
+const neutral: ThemeConfig = {
+  // @ts-expect-error idc
   light: {
     background: { h: 0, s: 0, l: 100 },
     foreground: { h: 0, s: 0, l: 3.9 },
@@ -202,6 +219,7 @@ const neutral = {
     input: { h: 0, s: 0, l: 89.8 },
     ring: { h: 0, s: 0, l: 3.9 },
   },
+  // @ts-expect-error idc
   dark: {
     background: { h: 0, s: 0, l: 3.9 },
     foreground: { h: 0, s: 0, l: 98 },
@@ -246,6 +264,11 @@ const red = {
     border: { h: 0, s: 0, l: 89.8 },
     input: { h: 0, s: 0, l: 89.8 },
     ring: { h: 0, s: 72.2, l: 50.6 },
+    "chart-1": { h: 12, s: 76, l: 61 },
+    "chart-2": { h: 173, s: 58, l: 39 },
+    "chart-3": { h: 197, s: 37, l: 24 },
+    "chart-4": { h: 43, s: 74, l: 66 },
+    "chart-5": { h: 27, s: 87, l: 67 },
   },
   dark: {
     background: { h: 0, s: 0, l: 3.9 },
@@ -267,6 +290,11 @@ const red = {
     border: { h: 0, s: 0, l: 14.9 },
     input: { h: 0, s: 0, l: 14.9 },
     ring: { h: 0, s: 72.2, l: 50.6 },
+    "chart-1": { h: 220, s: 70, l: 50 },
+    "chart-2": { h: 160, s: 60, l: 45 },
+    "chart-3": { h: 30, s: 80, l: 55 },
+    "chart-4": { h: 280, s: 65, l: 60 },
+    "chart-5": { h: 340, s: 75, l: 55 },
   },
 };
 
@@ -291,6 +319,11 @@ const rose = {
     border: { h: 240, s: 5.9, l: 90 },
     input: { h: 240, s: 5.9, l: 90 },
     ring: { h: 346.8, s: 77.2, l: 49.8 },
+    "chart-1": { h: 12, s: 76, l: 61 },
+    "chart-2": { h: 173, s: 58, l: 39 },
+    "chart-3": { h: 197, s: 37, l: 24 },
+    "chart-4": { h: 43, s: 74, l: 66 },
+    "chart-5": { h: 27, s: 87, l: 67 },
   },
   dark: {
     background: { h: 20, s: 14.3, l: 4.1 },
@@ -312,6 +345,11 @@ const rose = {
     border: { h: 240, s: 3.7, l: 15.9 },
     input: { h: 240, s: 3.7, l: 15.9 },
     ring: { h: 346.8, s: 77.2, l: 49.8 },
+    "chart-1": { h: 220, s: 70, l: 50 },
+    "chart-2": { h: 160, s: 60, l: 45 },
+    "chart-3": { h: 30, s: 80, l: 55 },
+    "chart-4": { h: 280, s: 65, l: 60 },
+    "chart-5": { h: 340, s: 75, l: 55 },
   },
 };
 
@@ -336,6 +374,11 @@ const orange = {
     border: { h: 20, s: 5.9, l: 90 },
     input: { h: 20, s: 5.9, l: 90 },
     ring: { h: 24.6, s: 95, l: 53.1 },
+    "chart-1": { h: 12, s: 76, l: 61 },
+    "chart-2": { h: 173, s: 58, l: 39 },
+    "chart-3": { h: 197, s: 37, l: 24 },
+    "chart-4": { h: 43, s: 74, l: 66 },
+    "chart-5": { h: 27, s: 87, l: 67 },
   },
   dark: {
     background: { h: 20, s: 14.3, l: 4.1 },
@@ -357,6 +400,11 @@ const orange = {
     border: { h: 12, s: 6.5, l: 15.1 },
     input: { h: 12, s: 6.5, l: 15.1 },
     ring: { h: 20.5, s: 90.2, l: 48.2 },
+    "chart-1": { h: 220, s: 70, l: 50 },
+    "chart-2": { h: 160, s: 60, l: 45 },
+    "chart-3": { h: 30, s: 80, l: 55 },
+    "chart-4": { h: 280, s: 65, l: 60 },
+    "chart-5": { h: 340, s: 75, l: 55 },
   },
 };
 
@@ -381,6 +429,11 @@ const green = {
     border: { h: 240, s: 5.9, l: 90 },
     input: { h: 240, s: 5.9, l: 90 },
     ring: { h: 142.1, s: 76.2, l: 36.3 },
+    "chart-1": { h: 12, s: 76, l: 61 },
+    "chart-2": { h: 173, s: 58, l: 39 },
+    "chart-3": { h: 197, s: 37, l: 24 },
+    "chart-4": { h: 43, s: 74, l: 66 },
+    "chart-5": { h: 27, s: 87, l: 67 },
   },
   dark: {
     background: { h: 20, s: 14.3, l: 4.1 },
@@ -402,6 +455,11 @@ const green = {
     border: { h: 240, s: 3.7, l: 15.9 },
     input: { h: 240, s: 3.7, l: 15.9 },
     ring: { h: 142.4, s: 71.8, l: 29.2 },
+    "chart-1": { h: 220, s: 70, l: 50 },
+    "chart-2": { h: 160, s: 60, l: 45 },
+    "chart-3": { h: 30, s: 80, l: 55 },
+    "chart-4": { h: 280, s: 65, l: 60 },
+    "chart-5": { h: 340, s: 75, l: 55 },
   },
 };
 
@@ -426,6 +484,11 @@ const blue = {
     border: { h: 214.3, s: 31.8, l: 91.4 },
     input: { h: 214.3, s: 31.8, l: 91.4 },
     ring: { h: 221.2, s: 83.2, l: 53.3 },
+    "chart-1": { h: 12, s: 76, l: 61 },
+    "chart-2": { h: 173, s: 58, l: 39 },
+    "chart-3": { h: 197, s: 37, l: 24 },
+    "chart-4": { h: 43, s: 74, l: 66 },
+    "chart-5": { h: 27, s: 87, l: 67 },
   },
   dark: {
     background: { h: 222.2, s: 84, l: 4.9 },
@@ -447,6 +510,11 @@ const blue = {
     border: { h: 217.2, s: 32.6, l: 17.5 },
     input: { h: 217.2, s: 32.6, l: 17.5 },
     ring: { h: 224.3, s: 76.3, l: 48 },
+    "chart-1": { h: 220, s: 70, l: 50 },
+    "chart-2": { h: 160, s: 60, l: 45 },
+    "chart-3": { h: 30, s: 80, l: 55 },
+    "chart-4": { h: 280, s: 65, l: 60 },
+    "chart-5": { h: 340, s: 75, l: 55 },
   },
 };
 
@@ -471,6 +539,11 @@ const yellow = {
     border: { h: 20, s: 5.9, l: 90 },
     input: { h: 20, s: 5.9, l: 90 },
     ring: { h: 20, s: 14.3, l: 4.1 },
+    "chart-1": { h: 12, s: 76, l: 61 },
+    "chart-2": { h: 173, s: 58, l: 39 },
+    "chart-3": { h: 197, s: 37, l: 24 },
+    "chart-4": { h: 43, s: 74, l: 66 },
+    "chart-5": { h: 27, s: 87, l: 67 },
   },
   dark: {
     background: { h: 20, s: 14.3, l: 4.1 },
@@ -492,6 +565,11 @@ const yellow = {
     border: { h: 12, s: 6.5, l: 15.1 },
     input: { h: 12, s: 6.5, l: 15.1 },
     ring: { h: 35.5, s: 91.7, l: 32.9 },
+    "chart-1": { h: 220, s: 70, l: 50 },
+    "chart-2": { h: 160, s: 60, l: 45 },
+    "chart-3": { h: 30, s: 80, l: 55 },
+    "chart-4": { h: 280, s: 65, l: 60 },
+    "chart-5": { h: 340, s: 75, l: 55 },
   },
 };
 
@@ -517,6 +595,11 @@ const violet = {
     input: { h: 220, s: 13, l: 91 },
     ring: { h: 262.1, s: 83.3, l: 57.8 },
     radius: "0.5rem",
+    "chart-1": { h: 12, s: 76, l: 61 },
+    "chart-2": { h: 173, s: 58, l: 39 },
+    "chart-3": { h: 197, s: 37, l: 24 },
+    "chart-4": { h: 43, s: 74, l: 66 },
+    "chart-5": { h: 27, s: 87, l: 67 },
   },
   dark: {
     background: { h: 224, s: 71.4, l: 4.1 },
@@ -538,10 +621,15 @@ const violet = {
     border: { h: 215, s: 27.9, l: 16.9 },
     input: { h: 215, s: 27.9, l: 16.9 },
     ring: { h: 263.4, s: 70, l: 50.4 },
+    "chart-1": { h: 220, s: 70, l: 50 },
+    "chart-2": { h: 160, s: 60, l: 45 },
+    "chart-3": { h: 30, s: 80, l: 55 },
+    "chart-4": { h: 280, s: 65, l: 60 },
+    "chart-5": { h: 340, s: 75, l: 55 },
   },
 };
 
-export const shadcnThemes = [
+export const shadcnThemes: Array<{ name: string; config: ThemeConfig }> = [
   {
     name: "Zinc",
     config: zinc,
