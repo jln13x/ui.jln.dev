@@ -1,4 +1,4 @@
-import { type Hsl } from "@/shared/theme-config";
+import { type Hsl, type Theme } from "@/shared/theme-config";
 
 import { Colord, extend } from "colord";
 import a11yPlugin from "colord/plugins/a11y";
@@ -360,6 +360,18 @@ export const createThemeConfig = (primaryColor?: Hsl) => {
     l: faker.number.int({ min: 10, max: 15 }),
   };
 
+  const chartLight = buildChartTheme({
+    secondary: secondaryLight,
+    primary: primaryLight,
+    accent: accentLight,
+  });
+
+  const chartDark = buildChartTheme({
+    secondary: secondaryDark,
+    primary: primaryDark,
+    accent: accentDark,
+  });
+
   return {
     light: {
       background: backgroundLight,
@@ -381,6 +393,7 @@ export const createThemeConfig = (primaryColor?: Hsl) => {
       border: borderLight,
       input: borderLight,
       ring: primaryLight,
+      ...chartLight,
     },
     dark: {
       background: backgroundDark,
@@ -402,6 +415,44 @@ export const createThemeConfig = (primaryColor?: Hsl) => {
       border: borderDark,
       input: borderDark,
       ring: primaryDark,
+      ...chartDark,
     },
+  };
+};
+
+const buildChartTheme = (
+  theme: Pick<Theme, "secondary" | "primary" | "accent">,
+) => {
+  const chart4 = {
+    h: theme.secondary.h,
+    s: theme.secondary.s,
+    l: 3 + theme.secondary.l,
+  };
+
+  const chart5 = {
+    h: theme.primary.h,
+    s: 3 + theme.primary.s,
+    l: theme.primary.l,
+  };
+
+  return {
+    "chart-1": theme.primary,
+    "chart-2": theme.secondary,
+    "chart-3": theme.accent,
+    "chart-4": chart4,
+    "chart-5": chart5,
+  };
+};
+
+export const backfillCharts = (theme: Theme) => {
+  const chart = buildChartTheme({
+    secondary: theme.secondary,
+    primary: theme.primary,
+    accent: theme.accent,
+  });
+
+  return {
+    ...theme,
+    ...chart,
   };
 };

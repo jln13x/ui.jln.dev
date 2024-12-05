@@ -1,4 +1,5 @@
 import { hslToVariableValue } from "@/client/lib/hsl-to-variable-value";
+import { backfillCharts } from "@/shared/create-theme-config";
 import { type Hsl, type Theme } from "@/shared/theme-config";
 
 import { fromPairs, invert, keys } from "remeda";
@@ -23,13 +24,23 @@ const variables: Record<keyof Theme, string> = {
   destructive: "destructive",
   destructiveForeground: "destructive-foreground",
   ring: "ring",
+  "chart-1": "chart-1",
+  "chart-2": "chart-2",
+  "chart-3": "chart-3",
+  "chart-4": "chart-4",
+  "chart-5": "chart-5",
 };
 
 export const themeToStyles = (theme: Theme) => {
   const order = keys.strict(variables);
 
+  const themeWithCharts = backfillCharts(theme);
+
   const ordered = order.map((key) => {
-    return [`--${variables[key]}`, hslToVariableValue(theme[key])] as const;
+    return [
+      `--${variables[key]}`,
+      hslToVariableValue(themeWithCharts[key]),
+    ] as const;
   });
 
   return fromPairs.strict(ordered);

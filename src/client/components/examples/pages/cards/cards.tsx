@@ -3,6 +3,7 @@
 import { BadgeDemo } from "@/client/components/examples/badge";
 import { ButtonsDemo } from "@/client/components/examples/buttons";
 import { CommandDemo } from "@/client/components/examples/command";
+import * as Charts from "@/client/components/examples/pages/cards/charts/charts";
 import { Chat } from "@/client/components/examples/pages/cards/chat";
 import { CookieSettings } from "@/client/components/examples/pages/cards/cookie-settings";
 import { CreateAccount } from "@/client/components/examples/pages/cards/create-account";
@@ -37,6 +38,9 @@ export const Cards = () => {
           <DemoContainer>
             <CreateAccount />
           </DemoContainer>
+          <DemoContainer>
+            <Charts.ChartAreaStacked />
+          </DemoContainer>
         </div>
 
         <div className="flex flex-col gap-6">
@@ -55,6 +59,9 @@ export const Cards = () => {
           <DemoContainer className="py-12">
             <PopoverDemo />
           </DemoContainer>
+          <DemoContainer>
+            <Charts.ChartBarMultiple />
+          </DemoContainer>
         </div>
         <div className="flex flex-col gap-6">
           <DemoContainer>
@@ -71,6 +78,9 @@ export const Cards = () => {
           </DemoContainer>
           <DemoContainer>
             <Invoices />
+          </DemoContainer>
+          <DemoContainer>
+            <Charts.ChartPieDonutText />
           </DemoContainer>
         </div>
       </div>

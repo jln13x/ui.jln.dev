@@ -1,8 +1,8 @@
 import { Suspense } from "react";
 import Link from "next/link";
 
-import { Cards } from "@/client/components/examples/pages/cards/cards";
 import { StyleProvider } from "@/client/components/style-provider";
+import { ThemeComponents } from "@/client/components/theme-components";
 import { Button } from "@/client/components/ui/button";
 import { VSCodeThemes } from "@/client/components/vscode-themes";
 import { routes } from "@/shared/routes";
@@ -10,8 +10,9 @@ import { routes } from "@/shared/routes";
 export const ThemePage = () => {
   return (
     <StyleProvider>
-      <div className="container min-h-screen pt-6 lg:pt-20">
-        <Cards />
+      <div className="container min-h-screen pt-6 lg:pt-10">
+        <ThemeComponents />
+
         <footer>
           <p className="pt-24 text-center">
             This project is heavily inspired by{" "}
