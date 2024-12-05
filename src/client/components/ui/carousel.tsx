@@ -1,16 +1,14 @@
 import * as React from "react";
 
+import * as Icons from "@/client/components/icons";
 import { Button } from "@/client/components/ui/button";
 import { cn } from "@/client/lib/cn";
-
-import * as Icons from "@/client/components/icons";
 
 import {
   type EmblaCarouselType as CarouselApi,
   type EmblaOptionsType as CarouselOptions,
   type EmblaPluginType as CarouselPlugin,
 } from "embla-carousel";
-
 import useEmblaCarousel from "embla-carousel-react";
 
 type CarouselProps = {

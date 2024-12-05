@@ -2,9 +2,9 @@
 
 import * as React from "react";
 
+import * as Icons from "@/client/components/icons";
 import { cn } from "@/client/lib/cn";
 
-import * as Icons from "@/client/components/icons";
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
 
 const Accordion = AccordionPrimitive.Root;

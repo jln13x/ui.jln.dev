@@ -9,12 +9,12 @@ import {
   CardTitle,
 } from "@/client/components/customizable/card";
 import {
-  ChartConfig,
   ChartContainer,
   ChartLegend,
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
+  type ChartConfig,
 } from "@/client/components/customizable/chart";
 
 import { ArrowDownFromLine, ArrowUpFromLine, TrendingUp } from "lucide-react";

@@ -1,8 +1,8 @@
 import * as React from "react";
 
+import * as Icons from "@/client/components/icons";
 import { cn } from "@/client/lib/cn";
 
-import * as Icons from "@/client/components/icons";
 import * as NavigationMenuPrimitive from "@radix-ui/react-navigation-menu";
 import { cva } from "class-variance-authority";
 

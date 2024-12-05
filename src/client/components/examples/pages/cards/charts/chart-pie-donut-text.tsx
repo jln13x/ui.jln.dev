@@ -11,10 +11,10 @@ import {
   CardTitle,
 } from "@/client/components/customizable/card";
 import {
-  ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
+  type ChartConfig,
 } from "@/client/components/customizable/chart";
 
 import { TrendingUp } from "lucide-react";

@@ -1,6 +1,5 @@
 // Big shoutout to https://x.com/shadcn/ for creating this component or is the inspiration for this component
 
-
 import {
   Card,
   CardContent,

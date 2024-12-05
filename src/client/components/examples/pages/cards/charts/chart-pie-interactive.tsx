@@ -10,11 +10,11 @@ import {
   CardTitle,
 } from "@/client/components/customizable/card";
 import {
-  ChartConfig,
   ChartContainer,
   ChartStyle,
   ChartTooltip,
   ChartTooltipContent,
+  type ChartConfig,
 } from "@/client/components/customizable/chart";
 import {
   Select,
@@ -25,7 +25,7 @@ import {
 } from "@/client/components/customizable/select";
 
 import { Label, Pie, PieChart, Sector } from "recharts";
-import { PieSectorDataItem } from "recharts/types/polar/Pie";
+import { type PieSectorDataItem } from "recharts/types/polar/Pie";
 
 export const description = "An interactive pie chart";
 
@@ -71,7 +71,7 @@ const chartConfig = {
 
 export default function Component() {
   const id = "pie-interactive";
-  const [activeMonth, setActiveMonth] = React.useState(desktopData[0].month);
+  const [activeMonth, setActiveMonth] = React.useState(desktopData[0]?.month);
 
   const activeIndex = React.useMemo(
     () => desktopData.findIndex((item) => item.month === activeMonth),
@@ -170,7 +170,7 @@ export default function Component() {
                           y={viewBox.cy}
                           className="fill-foreground text-3xl font-bold"
                         >
-                          {desktopData[activeIndex].desktop.toLocaleString()}
+                          {desktopData[activeIndex]?.desktop?.toLocaleString()}
                         </tspan>
                         <tspan
                           x={viewBox.cx}

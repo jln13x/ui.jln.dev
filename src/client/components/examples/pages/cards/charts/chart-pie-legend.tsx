@@ -8,10 +8,10 @@ import {
   CardTitle,
 } from "@/client/components/customizable/card";
 import {
-  ChartConfig,
   ChartContainer,
   ChartLegend,
   ChartLegendContent,
+  type ChartConfig,
 } from "@/client/components/customizable/chart";
 
 import { Pie, PieChart } from "recharts";

@@ -9,15 +9,15 @@ import {
   CardTitle,
 } from "@/client/components/customizable/card";
 import {
-  ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
+  type ChartConfig,
 } from "@/client/components/customizable/chart";
 
 import { TrendingUp } from "lucide-react";
 import { Pie, PieChart, Sector } from "recharts";
-import { PieSectorDataItem } from "recharts/types/polar/Pie";
+import { type PieSectorDataItem } from "recharts/types/polar/Pie";
 
 export const description = "A donut chart with an active sector";
 

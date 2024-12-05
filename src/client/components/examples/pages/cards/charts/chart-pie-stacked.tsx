@@ -9,10 +9,10 @@ import {
   CardTitle,
 } from "@/client/components/customizable/card";
 import {
-  ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
+  type ChartConfig,
 } from "@/client/components/customizable/chart";
 
 import { TrendingUp } from "lucide-react";
@@ -87,10 +87,12 @@ export default function Component() {
                   labelKey="visitors"
                   nameKey="month"
                   indicator="line"
-                  labelFormatter={(_, payload) => {
-                    return chartConfig[
-                      payload?.[0].dataKey as keyof typeof chartConfig
-                    ].label;
+                  labelFormatter={(payload) => {
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+                    const dataKey = payload?.[0].dataKey;
+                    return dataKey
+                      ? chartConfig[dataKey as keyof typeof chartConfig].label
+                      : "";
                   }}
                 />
               }

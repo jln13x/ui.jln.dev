@@ -3,8 +3,8 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { Logo } from "@/client/components/logo";
-import { routes } from "@/shared/routes";
 import { auth } from "@/server/auth/auth";
+import { routes } from "@/shared/routes";
 import { Providers } from "@/app/(auth)/providers";
 
 export const metadata: Metadata = {

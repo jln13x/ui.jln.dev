@@ -68,6 +68,7 @@ const config = {
     React: "writable",
   },
   ignorePatterns: [
+    "**/examples/**/charts/*",
     "**/.eslintrc.cjs",
     "**/*.config.js",
     "**/*.config.cjs",
