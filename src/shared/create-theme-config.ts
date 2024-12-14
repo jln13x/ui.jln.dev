@@ -1,4 +1,4 @@
-import { type Hsl, type Theme } from "@/shared/theme-config";
+import { ChartKeys, type Hsl, type Theme } from "@/shared/theme-config";
 
 import { Colord, extend } from "colord";
 import a11yPlugin from "colord/plugins/a11y";
@@ -444,7 +444,17 @@ const buildChartTheme = (
   };
 };
 
-export const backfillCharts = (theme: Theme) => {
+export const hasKeysInTheme = (
+  theme: Theme,
+  chartKeys: ChartKeys[],
+): boolean => {
+  return chartKeys.every((key) => key in theme);
+};
+
+export const backfillCharts = (theme: Theme, chartKeys?: ChartKeys[]) => {
+  if (chartKeys && hasKeysInTheme(theme, chartKeys)) {
+    return theme;
+  }
   const chart = buildChartTheme({
     secondary: theme.secondary,
     primary: theme.primary,
