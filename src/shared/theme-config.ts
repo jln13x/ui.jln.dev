@@ -8,6 +8,24 @@ const HslSchema = z.object({
 
 export type Hsl = z.infer<typeof HslSchema>;
 
+export const chartKeys = [
+  "chart-1",
+  "chart-2",
+  "chart-3",
+  "chart-4",
+  "chart-5",
+] as const;
+
+export type ChartKeys = (typeof chartKeys)[number];
+
+const chartSchemas = chartKeys.reduce(
+  (acc, key) => {
+    acc[key] = HslSchema;
+    return acc;
+  },
+  {} as Record<ChartKeys, typeof HslSchema>,
+);
+
 export const ThemeSchema = z.object({
   background: HslSchema,
   foreground: HslSchema,
@@ -28,11 +46,7 @@ export const ThemeSchema = z.object({
   border: HslSchema,
   input: HslSchema,
   ring: HslSchema,
-  "chart-1": HslSchema,
-  "chart-2": HslSchema,
-  "chart-3": HslSchema,
-  "chart-4": HslSchema,
-  "chart-5": HslSchema,
+  ...chartSchemas,
 });
 
 export type Theme = z.infer<typeof ThemeSchema>;
