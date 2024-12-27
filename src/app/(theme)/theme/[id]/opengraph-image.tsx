@@ -18,14 +18,15 @@ export const size = {
 export const contentType = "image/png";
 
 type Props = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
 // Image generation
 export default async function Image(props: Props) {
-  const themeId = props.params.id;
+  const params = await props.params;
+  const themeId = params.id;
 
   const theme = await api.theme.byId({
     id: themeId,

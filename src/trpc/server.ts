@@ -7,7 +7,8 @@ import { createCaller } from "@/server/api/root";
 import { createTRPCContext } from "@/server/api/trpc";
 
 const createContext = cache(async () => {
-  const heads = new Headers(headers());
+  const hdrs = await headers();
+  const heads = new Headers(hdrs);
   heads.set("x-trpc-source", "rsc");
 
   return createTRPCContext({

@@ -10,18 +10,22 @@ import { api } from "@/trpc/server";
 import { Colord } from "colord";
 
 type Props = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
 export const dynamic = "force-static";
+export const revalidate = 31536000; // 1 year in seconds
 
 export const generateStaticParams = async () => {
   return [];
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params: unwrapParams,
+}: Props): Promise<Metadata> {
+  const params = await unwrapParams;
   const themeId = params.id;
 
   const theme = await api.theme.byId({
@@ -63,7 +67,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 const Page = async (props: Props) => {
-  const themeId = props.params.id;
+  const params = await props.params;
+  const themeId = params.id;
 
   const theme = await api.theme.byId({
     id: themeId,
