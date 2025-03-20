@@ -24,7 +24,13 @@ export const Pitch = () => {
 
         <Button size="sm" variant="secondary">
           <a href="https://dm.new/jln" target="_blank" rel="noreferrer">
-            Write me
+            Dm me
+          </a>
+        </Button>
+
+        <Button size="sm" variant="secondary">
+          <a href="mailto:ui@jln.dev" target="_blank" rel="noreferrer">
+            E-Mail
           </a>
         </Button>
       </div>

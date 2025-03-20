@@ -1,6 +1,6 @@
 <h1 align="center">10,000+ Themes for shadcn/ui</h1>
 
-> Lets discuss your next project and other work. <a href="https://cal.com/jlndev/intro"> 🗓️ Book a Call</a> or <a href="https://dm.new/jln">✏️ Write me</a>
+> Lets discuss your next project and other work. <a href="https://cal.com/jlndev/intro"> 🗓️ Book a Call</a> or <a href="https://dm.new/jln">✏️ Write me on X</a> or an <a href="mailto:ui@jln.dev">E-Mail</a>
 
 <p>
   
