@@ -5,7 +5,7 @@ import Link from "next/link";
 import * as Icons from "@/client/components/icons";
 import { Logo } from "@/client/components/logo";
 import { Pitch } from "@/client/components/pitch";
-import { Sponsor } from "@/client/components/sponsor";
+import { Sponsor, SponsorContact } from "@/client/components/sponsor";
 import { cn } from "@/client/lib/cn";
 
 import { Coffee } from "lucide-react";
@@ -35,7 +35,7 @@ export const Headline = () => {
 
         <h1
           className={cn(
-            "animate relative flex flex-wrap items-center justify-center gap-2 text-lg font-bold max-lg:text-center lg:text-5xl",
+            "animate relative flex flex-wrap items-center justify-center gap-2 text-xl font-bold max-lg:text-center lg:text-5xl",
           )}
         >
           <span className="rounded-lg bg-background px-2 py-1  tabular-nums text-foreground lg:px-4 lg:py-2">
@@ -44,9 +44,12 @@ export const Headline = () => {
           Themes for shadcn/ui
         </h1>
 
-        <div className="flex flex-col gap-2 pt-6">
+        <div className="flex flex-col gap-2 px-2 pt-6">
           <Pitch />
-          <Sponsor />
+          <div className="flex flex-col gap-2 lg:flex-row">
+            <Sponsor />
+            <SponsorContact />
+          </div>
         </div>
       </div>
     </div>
