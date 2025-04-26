@@ -46,7 +46,7 @@ export const Sponsor = () => {
             await umami.track("ShadcnBlocks Affiliate Click");
           } catch (error) {}
 
-          window.location.href = contactUrl;
+          window.location.href = affiliateUrl;
         }}
       >
         <div className="flex items-center gap-2">
