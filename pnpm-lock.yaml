@@ -180,7 +180,7 @@ importers:
         specifier: ^0.32.2
         version: 0.32.2(@libsql/client@0.8.1)(@planetscale/database@1.19.0)(@types/react@18.3.27)(mysql2@3.15.3)(react@19.0.0)
       embla-carousel-react:
-        specifier: ^8.0.0-rc17
+        specifier: ^8.6.0
         version: 8.6.0(react@19.0.0)
       framer-motion:
         specifier: ^10.17.9
