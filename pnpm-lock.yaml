@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@auth/core':
+        specifier: ^0.34.3
+        version: 0.34.3
       '@auth/drizzle-adapter':
         specifier: ^0.9.0
         version: 0.9.0
@@ -80,6 +83,9 @@ importers:
       '@radix-ui/react-popover':
         specifier: ^1.0.7
         version: 1.1.15(@types/react-dom@18.3.7(@types/react@18.3.27))(@types/react@18.3.27)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      '@radix-ui/react-portal':
+        specifier: ^1.0.4
+        version: 1.1.9(@types/react-dom@18.3.7(@types/react@18.3.27))(@types/react@18.3.27)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@radix-ui/react-progress':
         specifier: ^1.0.3
         version: 1.1.8(@types/react-dom@18.3.7(@types/react@18.3.27))(@types/react@18.3.27)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -379,6 +385,20 @@ packages:
       '@simplewebauthn/browser': ^9.0.1
       '@simplewebauthn/server': ^9.0.2
       nodemailer: ^6.8.0
+    peerDependenciesMeta:
+      '@simplewebauthn/browser':
+        optional: true
+      '@simplewebauthn/server':
+        optional: true
+      nodemailer:
+        optional: true
+
+  '@auth/core@0.34.3':
+    resolution: {integrity: sha512-jMjY/S0doZnWYNV90x0jmU3B+UcrsfGYnukxYrRbj0CVvGI/MX3JbHsxSrx2d4mbnXaUsqJmAcDfoQWA6r0lOw==}
+    peerDependencies:
+      '@simplewebauthn/browser': ^9.0.1
+      '@simplewebauthn/server': ^9.0.2
+      nodemailer: ^7
     peerDependenciesMeta:
       '@simplewebauthn/browser':
         optional: true
@@ -4504,6 +4524,16 @@ snapshots:
   '@alloc/quick-lru@5.2.0': {}
 
   '@auth/core@0.29.0':
+    dependencies:
+      '@panva/hkdf': 1.2.1
+      '@types/cookie': 0.6.0
+      cookie: 0.6.0
+      jose: 5.10.0
+      oauth4webapi: 2.17.0
+      preact: 10.11.3
+      preact-render-to-string: 5.2.3(preact@10.11.3)
+
+  '@auth/core@0.34.3':
     dependencies:
       '@panva/hkdf': 1.2.1
       '@types/cookie': 0.6.0
