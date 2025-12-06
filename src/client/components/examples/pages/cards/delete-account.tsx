@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 // Big shoutout to https://x.com/shadcn/ for creating this component or is the inspiration for this component
 
