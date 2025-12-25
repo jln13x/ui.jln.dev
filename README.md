@@ -14,8 +14,14 @@ https://github.com/Cauatn/ui.jln.dev/assets/39890456/16f15160-3ac2-4b59-8628-a4b
 
 Thanks to our sponsors for supporting this project!
 
-- [Shadcnstudio.com](https://shadcnstudio.com/?utm_source=uijlndev&utm_medium=banner&utm_campaign=sponsor) – shadcn blocks & templates
-- [Shadcnblocks.com](https://www.shadcnblocks.com?via=uijlndev) – 500+ Premium blocks for shadcn/ui
+<a href="https://shadcnstudio.com/?utm_source=uijlndev&utm_medium=banner&utm_campaign=github">
+  <picture>
+    <img src="https://ts-assets.b-cdn.net/ss-assets/logo/logo.svg" alt="Shadcn Studio" height="64" />
+  </picture>
+  <br />
+  <strong>Shadcn Studio</strong> – shadcn blocks & templates
+</a>
+
 
 ## Contributing
 
