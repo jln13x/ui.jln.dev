@@ -130,68 +130,55 @@ export const ShadcnStudio = () => {
 const ShadcnStudioLogo = () => {
   return (
     <svg
-      width="1em"
-      height="1em"
-      viewBox="0 0 328 329"
+      width="33"
+      height="33"
+      viewBox="0 0 33 33"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className="size-8"
     >
-      <rect
-        y="0.5"
-        width="328"
-        height="328"
-        rx="164"
-        fill="black"
-        className="dark:fill-white"
+      <rect x="0.5" y="0.5" width="32" height="32" rx="16" fill="black" />
+      <path
+        d="M16.5993 7.50488V13.4044C16.5993 15.3441 15.0268 16.9166 13.0871 16.9166H7.35156"
+        stroke="white"
+        strokeWidth="1.95122"
       />
       <path
-        d="M165.018 72.3008V132.771C165.018 152.653 148.9 168.771 129.018 168.771H70.2288"
+        d="M16.7562 26.3286L16.7562 20.4291C16.7562 18.4893 18.3286 16.9169 20.2684 16.9169L26.0039 16.9169"
         stroke="white"
-        strokeWidth="20"
-        className="dark:stroke-black"
-      />
-      <path
-        d="M166.627 265.241L166.627 204.771C166.627 184.889 182.744 168.771 202.627 168.771L261.416 168.771"
-        stroke="white"
-        strokeWidth="20"
-        className="dark:stroke-black"
+        strokeWidth="1.95122"
       />
       <line
-        x1="238.136"
-        y1="98.8184"
-        x2="196.76"
-        y2="139.707"
+        x1="23.7326"
+        y1="10.0919"
+        x2="19.696"
+        y2="14.081"
         stroke="white"
-        strokeWidth="20"
-        className="dark:stroke-black"
+        strokeWidth="1.95122"
       />
       <line
-        x1="135.688"
-        y1="200.957"
-        x2="94.3128"
-        y2="241.845"
+        x1="13.7385"
+        y1="20.0567"
+        x2="9.70187"
+        y2="24.0459"
         stroke="white"
-        strokeWidth="20"
-        className="dark:stroke-black"
+        strokeWidth="1.95122"
       />
       <line
-        x1="133.689"
-        y1="137.524"
-        x2="92.5566"
-        y2="96.3914"
+        x1="13.5426"
+        y1="13.8681"
+        x2="9.52961"
+        y2="9.85513"
         stroke="white"
-        strokeWidth="20"
-        className="dark:stroke-black"
+        strokeWidth="1.95122"
       />
       <line
-        x1="237.679"
-        y1="241.803"
-        x2="196.547"
-        y2="200.671"
+        x1="23.689"
+        y1="24.0419"
+        x2="19.6761"
+        y2="20.029"
         stroke="white"
-        strokeWidth="20"
-        className="dark:stroke-black"
+        strokeWidth="1.95122"
       />
     </svg>
   );
