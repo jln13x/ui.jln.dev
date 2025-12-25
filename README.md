@@ -10,9 +10,12 @@
 
 https://github.com/Cauatn/ui.jln.dev/assets/39890456/16f15160-3ac2-4b59-8628-a4b6d835453b
 
-## Updates
+## Sponsors
 
-- Over 1000 VS Code Themes have been added as shadcn/ui Themes
+Thanks to our sponsors for supporting this project!
+
+- [Shadcnstudio.com](https://shadcnstudio.com/?utm_source=uijlndev&utm_medium=banner&utm_campaign=sponsor) – shadcn blocks & templates
+- [Shadcnblocks.com](https://www.shadcnblocks.com?via=uijlndev) – 500+ Premium blocks for shadcn/ui
 
 ## Contributing
 
