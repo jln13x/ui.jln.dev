@@ -4,7 +4,6 @@ await import("./src/env.js");
 
 /** @type {import("next").NextConfig} */
 const config = {
-  eslint: { ignoreDuringBuilds: process.env.NODE_ENV !== "production" },
   typescript: { ignoreBuildErrors: process.env.NODE_ENV !== "production" },
   rewrites: async () => {
     return [
