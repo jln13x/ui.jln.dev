@@ -5,7 +5,10 @@ import Link from "next/link";
 import * as Icons from "@/client/components/icons";
 import { Logo } from "@/client/components/logo";
 import { Pitch } from "@/client/components/pitch";
-import { Sponsor, SponsorContact } from "@/client/components/sponsor";
+import {
+  ShadcnStudio,
+  Shadcnblocks
+} from "@/client/components/sponsor";
 import { cn } from "@/client/lib/cn";
 
 import { Coffee } from "lucide-react";
@@ -47,8 +50,8 @@ export const Headline = () => {
         <div className="flex flex-col gap-2 px-2 pt-6">
           <Pitch />
           <div className="flex flex-col gap-2 lg:flex-row">
-            <Sponsor />
-            <SponsorContact />
+            <ShadcnStudio />
+            <Shadcnblocks />
           </div>
         </div>
       </div>
