@@ -16,8 +16,9 @@ export const ChartCards = () => {
       <div className="mt-10 grid flex-1 gap-12">
         <h2 className="sr-only">Examples</h2>
 
-        <Tabs defaultValue="area-chart">
-          <TabsList className="mb-10 grid w-full grid-cols-7">
+        <Tabs defaultValue="area-chart" className="min-w-0">
+          <div className="w-full overflow-x-auto min-w-0">
+            <TabsList className="mb-10 flex w-max min-w-full">
             <TabsTrigger value="area-chart">Area Chart</TabsTrigger>
             <TabsTrigger value="bar-chart">Bar Chart</TabsTrigger>
             <TabsTrigger value="line-chart">Line Chart</TabsTrigger>
@@ -26,6 +27,7 @@ export const ChartCards = () => {
             <TabsTrigger value="radial-chart">Radial Chart</TabsTrigger>
             <TabsTrigger value="tooltip">Tooltip</TabsTrigger>
           </TabsList>
+          </div>
 
           <TabsContent value="area-chart">
             <div
