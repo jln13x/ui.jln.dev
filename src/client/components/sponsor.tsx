@@ -53,7 +53,7 @@ export const Shadcnblocks = () => {
           <ShadcnBlocksLogo />
           <div className="flex flex-col">
             <p className="text-xs text-muted-foreground">Shadcnblocks.com</p>
-            <p className="font-medium">500+ Premium blocks for shadcn/ui</p>
+            <p className="font-medium">1000+ Premium blocks for shadcn/ui</p>
           </div>
         </div>
 
