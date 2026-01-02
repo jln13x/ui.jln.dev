@@ -75,7 +75,7 @@ const ShadcnBlocksLogo = () => {
       version="1.1"
       viewBox="0 0 1200 1200"
       xmlns="http://www.w3.org/2000/svg"
-      className="size-8 invert"
+      className="size-8 dark:invert"
     >
       <g>
         <path d="m700.78 88.312-39.328-22.547v186.94l39.328 22.828z" />
