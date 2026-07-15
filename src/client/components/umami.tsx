@@ -6,7 +6,7 @@ export const Umami = () => {
   return (
     <Script
       async
-      data-website-id="ef03c35e-3c54-4306-bafd-53f208b3ad8e"
+      data-website-id="dfa86d8e-b2dd-4025-a09f-982fca6e0ef9"
       src="/u/script.js"
     />
   );
