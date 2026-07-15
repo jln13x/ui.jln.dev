@@ -9,7 +9,7 @@ const config = {
     return [
       {
         source: "/u/:path*",
-        destination: "https://u.jln.dev/:path*",
+        destination: "https://umami.jlnlabs.com/:path*",
       },
     ];
   },
