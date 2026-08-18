@@ -1,17 +1,17 @@
 // Big shoutout to https://x.com/shadcn/ for creating this component or is the inspiration for this component
 
+import { AccordionDemo } from "@/client/components/examples/accordion";
 import { BadgeDemo } from "@/client/components/examples/badge";
 import { ButtonsDemo } from "@/client/components/examples/buttons";
+import { CalendarDemo } from "@/client/components/examples/calendar";
 import { CommandDemo } from "@/client/components/examples/command";
 import * as Charts from "@/client/components/examples/pages/cards/charts/charts";
 import { Chat } from "@/client/components/examples/pages/cards/chat";
 import { CookieSettings } from "@/client/components/examples/pages/cards/cookie-settings";
-import { CreateAccount } from "@/client/components/examples/pages/cards/create-account";
 import { CreateProject } from "@/client/components/examples/pages/cards/create-project";
 import { DeleteAccount } from "@/client/components/examples/pages/cards/delete-account";
 import { Invoices } from "@/client/components/examples/pages/cards/invoices";
 import { Notifications } from "@/client/components/examples/pages/cards/notifications";
-import { PaymentMethod } from "@/client/components/examples/pages/cards/payment-method";
 import { ReportIssue } from "@/client/components/examples/pages/cards/report-issue";
 import { ShareDocument } from "@/client/components/examples/pages/cards/share-document";
 import { PopoverDemo } from "@/client/components/examples/popover";
@@ -36,7 +36,7 @@ export const Cards = () => {
             <DeleteAccount />
           </DemoContainer>
           <DemoContainer>
-            <CreateAccount />
+            <AccordionDemo />
           </DemoContainer>
           <DemoContainer>
             <Charts.ChartAreaStacked />
@@ -74,7 +74,7 @@ export const Cards = () => {
             <TabsDemo />
           </DemoContainer>
           <DemoContainer>
-            <PaymentMethod />
+            <CalendarDemo />
           </DemoContainer>
           <DemoContainer>
             <Invoices />
