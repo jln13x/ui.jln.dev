@@ -1,5 +1,5 @@
 import { db } from "@/server/db";
-import { table } from "@/server/db/schema";
+import { accounts, sessions, users } from "@/server/db/schema";
 import { routes } from "@/shared/routes";
 import { env } from "@/env";
 
@@ -12,7 +12,11 @@ export const {
   handlers: { GET, POST },
   auth,
 } = NextAuth({
-  adapter: DrizzleAdapter(db, table),
+  adapter: DrizzleAdapter(db, {
+    usersTable: users,
+    accountsTable: accounts,
+    sessionsTable: sessions,
+  }),
   pages: {
     signIn: routes.signin,
   },

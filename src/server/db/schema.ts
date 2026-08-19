@@ -20,7 +20,7 @@ export const users = table("user", {
   id: text("id", { length: 255 }).primaryKey().notNull().$defaultFn(createId),
   name: text("name", { length: 255 }).notNull().default(""),
   email: text("email", { length: 255 }).notNull(),
-  emailVerified: numeric("emailVerified").default(sql`(CURRENT_TIMESTAMP)`),
+  emailVerified: integer("emailVerified", { mode: "timestamp_ms" }),
   image: text("image", { length: 255 }).default("sql`(NULL)`"),
   created_at: numeric("created_at").default(sql`(CURRENT_TIMESTAMP)`),
 });

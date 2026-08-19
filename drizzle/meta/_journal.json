@@ -15,6 +15,13 @@
       "when": 1723112105015,
       "tag": "0001_curved_chamber",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1787131252242,
+      "tag": "0002_auth-email-verified-timestamp",
+      "breakpoints": true
     }
   ]
 }
