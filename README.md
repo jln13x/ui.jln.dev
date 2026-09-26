@@ -14,7 +14,7 @@ https://github.com/Cauatn/ui.jln.dev/assets/39890456/16f15160-3ac2-4b59-8628-a4b
 
 Thanks to our sponsors for supporting this project!
 
-<a href="https://shadcnstudio.com/?utm_source=uijlndev&utm_medium=banner&utm_campaign=github">
+<a href="https://shadcnstudio.com/?ref=iN2dNs">
   <picture>
     <img src="https://ts-assets.b-cdn.net/ss-assets/logo/logo.svg" alt="Shadcn Studio" height="64" />
   </picture>

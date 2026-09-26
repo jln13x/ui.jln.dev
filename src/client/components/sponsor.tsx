@@ -90,7 +90,7 @@ const ShadcnBlocksLogo = () => {
 };
 
 const shadcnStudioUrl =
-  "https://shadcnstudio.com/?utm_source=uijlndev&utm_medium=banner&utm_campaign=sponsor";
+  "https://shadcnstudio.com/?ref=iN2dNs";
 
 export const ShadcnStudio = () => {
   return (
