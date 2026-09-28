@@ -33,7 +33,7 @@ export const SponsorContact = () => {
   );
 };
 
-const affiliateUrl = "https://www.shadcnblocks.com?via=uijlndev";
+const affiliateUrl = "https://link.jln.dev/shadcnblocks";
 export const Shadcnblocks = () => {
   return (
     <div>
