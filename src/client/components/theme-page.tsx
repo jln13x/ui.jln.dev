@@ -1,13 +1,16 @@
-import { Suspense } from "react";
+"use client";
+
+import { type ReactNode } from "react";
 import Link from "next/link";
 
 import { StyleProvider } from "@/client/components/style-provider";
 import { ThemeComponents } from "@/client/components/theme-components";
 import { Button } from "@/client/components/ui/button";
-import { VSCodeThemes } from "@/client/components/vscode-themes";
 import { routes } from "@/shared/routes";
 
-export const ThemePage = () => {
+// Keep the shared demo tree inside this client boundary to avoid serializing it
+// into every theme's cached RSC response.
+export const ThemePage = ({ children }: { children?: ReactNode }) => {
   return (
     <StyleProvider>
       <div className="container min-h-screen pt-6 lg:pt-10">
@@ -38,9 +41,7 @@ export const ThemePage = () => {
             .
           </p>
 
-          <Suspense>
-            <VSCodeThemes />
-          </Suspense>
+          {children}
 
           <div className="flex justify-end gap-2 pb-40 pt-52 text-xs lg:pb-10">
             <Link href={routes.legal.terms}>Terms</Link>
