@@ -1,13 +1,13 @@
 import { type Metadata } from "next";
-import { redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 import { Headline } from "@/client/components/headline";
 import { HydrateTheme } from "@/client/components/hydrate-theme";
 import { ThemePage } from "@/client/components/theme-page";
-import { type Hsl } from "@/shared/theme-config";
+import { getMoreThemes } from "@/server/get-more-themes";
+import { describeTheme } from "@/shared/theme-insights";
+import { ThemeDetails } from "@/app/(theme)/theme/[id]/theme-details";
 import { api } from "@/trpc/server";
-
-import { Colord } from "colord";
 
 type Props = {
   params: Promise<{
@@ -32,20 +32,14 @@ export async function generateMetadata({
     id: themeId,
   });
 
+  // A real 404 instead of a redirect: private and deleted themes previously
+  // answered 200 with a meta refresh, which Google treats as a soft 404.
   if (!theme) {
-    return redirect("/");
+    notFound();
   }
 
-  const hslToHex = (hsl: Hsl) => {
-    return new Colord(hsl).toHex();
-  };
-
-  const primary = hslToHex(theme.config.light.primary);
-  const secondary = hslToHex(theme.config.light.secondary);
-  const accent = hslToHex(theme.config.light.accent);
-
   const title = `${theme.name} for shadcn/ui`;
-  const description = `${theme.name} is a theme for shadcn/ui. It consist of the colors ${primary}, ${secondary}, and ${accent}.`;
+  const description = describeTheme(theme.name, theme.config);
 
   return {
     title,
@@ -75,16 +69,26 @@ const Page = async (props: Props) => {
   });
 
   if (!theme) {
-    return redirect("/");
+    notFound();
   }
+
+  const moreThemes = await getMoreThemes(theme.id);
 
   return (
     <div className="relative">
       <Headline />
       <div className="pt-10">
-        <ThemePage />
+        <ThemePage
+          details={
+            <ThemeDetails
+              name={theme.name}
+              config={theme.config}
+              moreThemes={moreThemes}
+            />
+          }
+        />
       </div>
-      {theme && <HydrateTheme theme={theme} />}
+      <HydrateTheme theme={theme} />
     </div>
   );
 };
