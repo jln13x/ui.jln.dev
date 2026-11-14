@@ -2,7 +2,6 @@ import { type Metadata } from "next";
 import Link from "next/link";
 
 import { Logo } from "@/client/components/logo";
-import { Pitch } from "@/client/components/pitch";
 import { cn } from "@/client/lib/cn";
 import {
   Generate,
@@ -83,10 +82,6 @@ const Page = () => {
             </span>
             for shadcn/ui
           </h1>
-
-          <div className="pt-6">
-            <Pitch />
-          </div>
         </div>
 
         <div className="flex flex-col gap-20 py-12">

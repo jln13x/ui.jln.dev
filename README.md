@@ -10,19 +10,6 @@
 
 https://github.com/Cauatn/ui.jln.dev/assets/39890456/16f15160-3ac2-4b59-8628-a4b6d835453b
 
-## Sponsors
-
-Thanks to our sponsors for supporting this project!
-
-<a href="https://shadcnstudio.com/?ref=iN2dNs">
-  <picture>
-    <img src="https://ts-assets.b-cdn.net/ss-assets/logo/logo.svg" alt="Shadcn Studio" height="64" />
-  </picture>
-  <br />
-  <strong>Shadcn Studio</strong> – shadcn blocks & templates
-</a>
-
-
 ## Contributing
 
 Read the [contribution guidelines](https://github.com/jln13x/ui.jln.dev/blob/main/CONTRIBUTING.md) before contributing.

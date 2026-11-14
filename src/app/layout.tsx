@@ -3,6 +3,10 @@ import "@/client/styles/globals.css";
 import { type Metadata } from "next";
 
 import { ClientProviders } from "@/client/components/client-providers";
+import {
+  HireBanner,
+  HireBannerVariantScript,
+} from "@/client/components/hire-banner";
 import { ThemeProvider } from "@/client/components/theme-provider";
 import { Umami } from "@/client/components/umami";
 import { auth } from "@/server/auth/auth";
@@ -62,6 +66,7 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        <HireBannerVariantScript />
         <Umami />
       </head>
       <ThemeProvider
@@ -73,6 +78,7 @@ export default async function RootLayout({
         <body className="flex min-h-screen flex-col overflow-hidden overflow-y-auto scrollbar-thin scrollbar-track-background scrollbar-thumb-accent">
           <SessionProvider session={session}>
             <TRPCReactProvider>
+              <HireBanner />
               <ClientProviders>{children}</ClientProviders>
             </TRPCReactProvider>
           </SessionProvider>

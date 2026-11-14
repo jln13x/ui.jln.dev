@@ -76,7 +76,7 @@ const Page = async (props: Props) => {
 
   return (
     <div className="relative">
-      <Headline />
+      <Headline surface="theme-page" />
       <div className="pt-10">
         <ThemePage
           details={

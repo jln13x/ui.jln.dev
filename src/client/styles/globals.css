@@ -70,8 +70,11 @@
       "calt" 1;
   }
 
-  html {
-    scrollbar-gutter: stable;
+  /* Phones use overlay scrollbars; reserving a gutter there leaves an empty strip. */
+  @media (min-width: 768px) {
+    html {
+      scrollbar-gutter: stable;
+    }
   }
 
   /* Copied from sonner */
